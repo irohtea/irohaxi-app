@@ -1,6 +1,6 @@
 <template>
-    <div>
-        test
+    <div class="wrapper">
+        <router-view></router-view>
     </div>
 </template>
 

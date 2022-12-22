@@ -1,0 +1,86 @@
+.container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+}
+.form-login {
+    display: block;
+    margin: 0 auto;
+    
+    width: 30rem;
+    height: 20rem;
+    border: 1px solid red;
+}
+.move {
+    position: relative;
+}
+.login-photo {
+    position: absolute;
+    top: -3.5rem;
+    left: 11.5rem;
+    border: none;
+    width: 7rem;
+}
+
+
+.form-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 6rem;
+		&__email {
+            display: block;
+            width: 20rem;
+            height: 2rem;
+            margin: 10 0px 0px 0px;
+            padding: 0px 0px 0px 30px;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid black;
+		}
+
+		// .form-control__password
+
+		&__password {
+            display: block;
+            width: 20rem;
+            height: 2rem;
+            margin: 10px 0px 0px 0px;
+            padding: 0px 0px 0px 30px;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid black;
+		}
+
+		// .form-control__help
+
+		&__help {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 3rem;
+		}
+
+        &__help-checkbox {
+            
+        }
+
+        &__help-link {
+            // padding: 10px;
+        }
+}
+.checkbox {
+
+}
+.fpass {
+}
+.btn {
+    display: block;
+    position: absolute;;
+    top: 4.2rem;
+    left: 5rem;
+    width: 20rem;
+    height: 2rem;
+}
