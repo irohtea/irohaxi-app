@@ -1,13 +1,15 @@
 <template>
     <div class="container">
-        <form class="form-login">
+        <form class="form-login" @submit.prevent="onSubmit">
             <div class="move">
                 <img class="login-photo" src="../assets/img/userphoto2.png" alt="User photo">
             </div>
             <div class="form-control">
                 <div>
-                    <input class="form-control__email" type="text" id="email" placeholder="Email ID">
-                    <input class="form-control__password" type="text" id="Password" placeholder="Password">
+                    <input class="form-control__email" type="text" id="email" placeholder="Email ID" v-model="email" @blur="eBlur">
+                    <small v-if="eError">{{eError}}</small>
+                    <input class="form-control__password" type="text" id="Password" placeholder="Password" v-model="password" @blur="pBlur">
+                    <small i-if="pError">{{pError}}</small>
                 </div>
             </div>
             <div class="form-control__help">
@@ -27,8 +29,13 @@
 </template>
 
 <script>
+import {useAuthForm} from '../use/auth-form'
 export default {
-
+    setup() {
+        return {
+            ...useAuthForm()
+        }
+    }
 }
 </script>
 
