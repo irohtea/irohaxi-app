@@ -24,7 +24,7 @@ export function useAuthForm() {
     const onSubmit = handleSubmit( async (values) => {
         try {
             await store.dispatch('auth/login', values)
-            router.push('/')
+            router.push('/user')
         }catch(e) {
         }
     })

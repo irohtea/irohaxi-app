@@ -1,6 +1,7 @@
 <template>
     <div>
-        <h1>hoooome</h1>
+        <h1>Добро пожаловать!</h1>
+        <router-link to="/auth"><button class="btn">Авторизация</button></router-link>
     </div>
 </template>
 
