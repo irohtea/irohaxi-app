@@ -1,20 +1,18 @@
 <template>
-    <div class="user">
+    <div class="user-el">
         <div class="container-user">
-            <div class="use__icon">
-                <img src="#" alt="">
+            <div class="user__icon">
+                <img :src="userId.avatar" alt="">
             </div>
-            <div class="use__data-create">
-                <!-- <p>{{dataUser.email}}</p> -->
+            <div class="user__data-create">
             </div>
             <div class="user__first-name">
-                <p>asdasd</p>
+                <p>{{userId.id}}</p>
             </div>
             <div class="user__last-name">
-                <p>asdasdsa</p>
+                <p>{{userId.email}}</p>
             </div>
             <div class="user__email">
-                <p></p>
             </div>
             <button class="btn-logout" @click.prevent="logout">Logout</button>
         </div>
@@ -22,22 +20,28 @@
 </template>
 
 <script>
-import {useRouter} from 'vue-router' 
+import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
-// import {computed} from 'vue'
+import {onMounted, computed, ref} from 'vue'
+
 export default {
     setup() {
         const router = useRouter()
         const store = useStore()
+        const userId = ref({})
+        
+        onMounted( async () => {
+            userId.value = await store.dispatch('auth/toUser')
+        })
+        
+        console.log(userId);
 
-        const dataUser = store.state['auth/userData']
-        console.log(dataUser);
         return {
             logout: () => {
-                store.commit['auth/logout']
+                store.commit('auth/logout')
                 router.push('/auth')
             },
-            dataUser
+            userId
         }
     }
 }

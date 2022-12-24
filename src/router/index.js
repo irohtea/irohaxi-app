@@ -18,7 +18,7 @@ const routes = [
         component: () => import('../views/Auth.vue'),
         meta: {
             layout: 'auth',
-            auth: true
+            auth: false
         }
     },
     {
@@ -27,14 +27,26 @@ const routes = [
         component: () => import('../views/User.vue'),
         meta: {
             layout: 'user',
-            auth: false
+            auth: true
         }
-    },
+    }
 ]   
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+// router.beforeEach((to, from, next) => {
+//     const requiredAuth = to.meta.auth
+
+//     if(requiredAuth & store.getters['auth/isAuth']) {
+//         next()
+//     } else if( requiredAuth & !store.getters['auth/isAuth']) {
+//         next('/auth?message=auth')
+//     } else {
+//         next()
+//     }
+// })
 
 export default router
