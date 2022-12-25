@@ -22,7 +22,7 @@
             <h3 class="menu__title">Menu</h3>
             <nav class="menu__list">
                <router-link to="/">
-                  <div class="menu__link" >
+                  <div class="menu__link">
                      <div class="menu__icon">
                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8 17.5V11.5H12V17.5H17V9.5H20L10 0.5L0 9.5H3V17.5H8Z" fill="black"/>
