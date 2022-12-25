@@ -22,7 +22,7 @@
 <script>
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
-import {onMounted, computed, ref} from 'vue'
+import {onMounted, ref} from 'vue'
 
 export default {
     setup() {
