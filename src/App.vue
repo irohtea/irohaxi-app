@@ -4,7 +4,6 @@
     <my-sidebar></my-sidebar>
     <router-view />
   </div>
-    
 
 </template>
 <script>
@@ -22,5 +21,4 @@ export default {
 .app {
   display: flex;
 }
-<style lang="scss">
 </style>

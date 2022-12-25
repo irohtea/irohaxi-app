@@ -1,3 +1,4 @@
+import router from '@/router'
 import axios from 'axios'
 import store from '../index'
 
@@ -22,10 +23,10 @@ export default {
          state.token = token
          localStorage.setItem(TOKEN_KEY, token)
       },
-      logout(state) {
-         state.token = null
-         localStorage.removeItem(TOKEN_KEY)
-      },
+      // logout(state) {
+      //    state.token = null
+      //    localStorage.removeItem(TOKEN_KEY)
+      // },
    },
    actions: {
       async login({ commit }, payload) {
@@ -37,6 +38,8 @@ export default {
          } catch (e) {
             console.log('Error Login :', e);
          }
+         router.push('/user')
+            .then(() => { router.go() })
       },
       async toUser() {
          try {

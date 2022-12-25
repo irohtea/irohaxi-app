@@ -2,11 +2,11 @@
 import * as yup from 'yup'
 import { useField, useForm } from 'vee-validate'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
 
-export function useAuthForm() {
-   const router = useRouter()
+export function useRegForm() {
+   // const router = useRouter()
    const store = useStore()
 
    const { handleSubmit } = useForm()
@@ -21,13 +21,11 @@ export function useAuthForm() {
       yup.string().trim().required().min(3)
    )
 
-   const onSubmit = handleSubmit(async (values) => {
-      await store.dispatch('auth/login', values)
-      router.push('/user')
-         .then(() => { router.go() })
+   const register = handleSubmit(async (values) => {
+      await store.dispatch('reg/register', values)
    })
    return {
-      onSubmit,
+      register,
       email, eError, eBlur,
       password, pError, pBlur
    }

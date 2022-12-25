@@ -4,13 +4,10 @@ import axios from 'axios'
 import router from '@/router'
 
 const TOKEN_KEY = 'jwt_token'
-const IS_REG = false
 export default ({
    namespaced: true,
    state: {
-      // is_loading: false,
-      is_active: null,
-      is_reg: localStorage.getItem(IS_REG),
+      is_reg: false,
       token: localStorage.getItem(TOKEN_KEY),
    },
    getters: {
@@ -18,8 +15,6 @@ export default ({
    mutations: {
       CREATE_USER(state, is_reg) {
          state.is_reg = is_reg
-         localStorage.setItem(IS_REG, true)
-         // localStorage.setItem(TOKEN_KEY, token)
       },
       SET_TOKEN(state, token) {
          state.token = token
@@ -55,12 +50,15 @@ export default ({
          }
          commit('SET_TOKEN', token)
          router.push('/')
+            .then(() => { router.go() })
       },
       logout({ commit }) {
 
          commit('CLEAR_USER')
 
          router.push('/login')
+            .then(() => { router.go() })
+
       },
    },
    modules: {

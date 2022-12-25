@@ -1,55 +1,81 @@
 <template>
-  <section class="user">
-    <div class="user__"></div>
-  </section>
-  <div class="user-el">
-      <div class="container-user">
-          <div class="user__icon">
-              <img :src="userId.avatar" alt="">
+  <main class="user__page">
+    <section class="user__section">
+      <div class="user__container">
+        <div class="user__item">
+          <div class="user__avatar">
+            <div class="user__img">
+              <img :src="user.avatar" alt="user avatar">
+            </div>
+            <div class="user__info">
+              <div class="user__email">{{ user.email }}</div>
+              <div class="user__id"> {{  user.id }}</div>
+            </div>
           </div>
-          <div class="user__data-create">
-          </div>
-          <div class="user__first-name">
-              <p>{{userId.id}}</p>
-          </div>
-          <div class="user__last-name">
-              <p>{{userId.email}}</p>
-          </div>
-          <div class="user__email">
-          </div>
-          <button class="btn-logout" @click.prevent="logout">Logout</button>
+        </div>
       </div>
-  </div>
+
+    </section>
+  </main>
+  
 </template>
 
 <script>
-import {useRouter} from 'vue-router'
+// import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {onMounted, ref} from 'vue'
 
 export default {
   setup() {
-      const router = useRouter()
+    //   const router = useRouter()
       const store = useStore()
-      const userId = ref({})
+      const user = ref({})
       
       onMounted( async () => {
-          userId.value = await store.dispatch('auth/toUser')
+        user.value = await store.dispatch('auth/toUser')
       })
       
-      console.log(userId);
+      console.log(user);
 
       return {
-          logout: () => {
-              store.commit('auth/logout')
-              router.push('/auth')
-          },
-          userId
+        //   logout: () => {
+        //       store.commit('auth/logout')
+        //       router.push('/auth')
+        //   },
+          user
       }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.user {
+    // .user__page
+    &__page {}
+    // .user__section
+    &__section {}
+    // .user__container
+    &__container {}
+    // .user__item
+    &__item {
+      margin: 50px 0px;
+    }
+    // .user__avatar
+    &__avatar {
+      width: 100%;
+      img {
+        width: 300px;
+        object-fit: contain;
+        border-radius: 50%;
+      }
+    }
+    // .user__img
+    &__img {}
+    // .user__info
+    &__info {}
+    // .user__email
+    &__email {}
+    // .user__id
+    &__id {}
+}
 </style>
