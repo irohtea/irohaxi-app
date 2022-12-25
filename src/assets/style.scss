@@ -40,7 +40,6 @@ body {
   color: $white;
 }
 body{
-//   background-color: $backgroundColor;
 background: url('@/assets/img/bg.webp') left / cover no-repeat;
   &.lock {
 		overflow: hidden;
