@@ -1,67 +1,59 @@
-// import store from '../index'
-
 import axios from 'axios'
-import router from '@/router'
+import store from '../index'
 
 const TOKEN_KEY = 'jwt_token'
-const IS_REG = false
-export default ({
+
+export default {
+   namespaced: true,
    state: {
-      // is_loading: false,
-      is_active: null,
-      is_reg: localStorage.getItem(IS_REG),
-      jwt_token: localStorage.getItem(TOKEN_KEY),
+      token: localStorage.getItem(TOKEN_KEY),
    },
    getters: {
+      getToken(state) {
+         return state.token
+      },
+      isAuth(_, getters) {
+         return !!getters.token
+      }
+
    },
    mutations: {
-      CREATE_USER(state, is_reg) {
-         state.is_reg = is_reg
-         localStorage.setItem(IS_REG, true)
-         // localStorage.setItem(TOKEN_KEY, jwt_token)
+      setToken(state, token) {
+         state.token = token
+         localStorage.setItem(TOKEN_KEY, token)
       },
-      SET_TOKEN(state, jwt_token) {
-         state.jwt_token = jwt_token
-         localStorage.setItem(TOKEN_KEY, jwt_token)
-      },
-      CLEAR_USER(state) {
-         state.jwt_token = null
+      logout(state) {
+         state.token = null
          localStorage.removeItem(TOKEN_KEY)
-      }
+      },
    },
    actions: {
-      async register({ commit }, details) {
-         const { email, password } = details
+      async login({ commit }, payload) {
          try {
-            await axios.post(`https://irohaxi.site/api/v1/users/create/`,
-               {
-                  email: email,
-                  password: password
-               })
-         } catch (error) {
-            console.log(error);
+            const url = 'https://irohaxi.site/api/v1/token'
+            const { data } = await axios.post(url, { ...payload })
+            commit('setToken', data.access_token)
+            return data
+         } catch (e) {
+            console.log('Error Login :', e);
          }
-         commit('CREATE_USER', true)
       },
-      async activate({ commit }, details) {
-         const token = details
+      async toUser() {
          try {
-            await axios.post(`https://irohaxi.site/api/v1/user/email/activation/`, {
-               token: token
+            const url = 'https://irohaxi.site/api/v1/users/me/'
+            const { data } = await axios.get(url, {
+               headers: {
+                  Authorization: 'Bearer ' + store.getters['auth/getToken']
+               }
             })
-         } catch (error) {
-            console.log(error);
+            // console.log('daata', data);
+            return data
+         } catch (e) {
+            console.log(e);
          }
-         commit('SET_TOKEN', token)
-         router.push('/')
-      },
-      logout({ commit }) {
+      }
 
-         commit('CLEAR_USER')
-
-         router.push('/login')
-      },
    },
    modules: {
    }
-})
+}

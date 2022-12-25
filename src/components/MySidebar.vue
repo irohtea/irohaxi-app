@@ -8,6 +8,7 @@
          </router-link>
          <router-link to="/user">
             <div class="sidebar__user-icon" v-if="isTokenActive">
+               sdfsdf
             </div>
          </router-link>
          <div class="sidebar__menu menu">
@@ -21,7 +22,7 @@
             <h3 class="menu__title">Menu</h3>
             <nav class="menu__list">
                <router-link to="/">
-                  <div class="menu__link" >
+                  <div class="menu__link">
                      <div class="menu__icon">
                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8 17.5V11.5H12V17.5H17V9.5H20L10 0.5L0 9.5H3V17.5H8Z" fill="black"/>
@@ -52,7 +53,7 @@
                      <span class="menu__text">Sign out</span>
                   </div>
                </router-link>
-               <router-link  to="/login" v-else-if="isUserReg">
+               <!-- <router-link  to="/login" v-else-if="isUserReg">
                   <div class="menu__link" >
                      <div class="menu__icon">
                         <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +63,7 @@
                      </div>
                      <span class="menu__text">Login</span>
                   </div>
-               </router-link>
+               </router-link> -->
                <router-link to="/about">
                   <div class="menu__link">
                      <div class="menu__icon">
@@ -104,6 +105,7 @@ export default {
          isToggled.value = !isToggled.value
          localStorage.setItem('isToggled', isToggled.value)
       }
+      
       const logout = () => {
          store.dispatch('logout')
       }
@@ -113,7 +115,7 @@ export default {
          menuToggle,
          isTokenActive,
          isUserReg,
-         logout
+         logout,
       }
    }
 }
@@ -177,8 +179,8 @@ export default {
 //========================================================================================================================================================
 .menu {
    svg {
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
       path {
          fill: $blue;
          transition: all 0.2s ease-out 0s;
@@ -222,13 +224,15 @@ export default {
    &__link {
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 5px 0px 5px 16px;
+      gap: 10px;
+      padding: 20px 0px 20px 16px;
       text-decoration: none;
       transition: all 0.3s ease 0s;
       &:hover, &.router-link-exact-active {
          background-color: rgba(79, 103, 139, 0.16);
          border-right: 5px solid $light;
+         box-shadow: 0 0 2px $light;
+
          .menu__text {
             color: $light;
          }
@@ -247,6 +251,7 @@ export default {
    }
    // .menu__text
    &__text {
+      font-size: 20px;
       color: #fff;
       opacity: 0;
       transition: 0.2s ease-out 0s;
@@ -257,6 +262,7 @@ export default {
    .menu__link {
       background-color: rgba(79, 103, 139, 0.16);
       border-right: 5px solid $light;
+      box-shadow: 0 0 2px $light;
    }
 
 }
