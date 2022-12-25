@@ -19,6 +19,9 @@ input {
 li {
    list-style: none;
 }
+a {
+   text-decoration: none;
+}
 //Colors========================================================================================================================================================
 $backgroundColor: #221c36;
 $darkBlue: #191826;
@@ -37,7 +40,8 @@ body {
   color: $white;
 }
 body{
-  background-color: $backgroundColor;
+//   background-color: $backgroundColor;
+background: url('@/assets/img/bg.webp') left / cover no-repeat;
   &.lock {
 		overflow: hidden;
 		touch-action: none;

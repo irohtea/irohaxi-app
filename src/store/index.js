@@ -1,16 +1,26 @@
-import { createStore } from 'vuex'
-// import env from '@/env.js'
+import { createStore, } from 'vuex'
+import auth from './modules/auth.module'
+
+// const plugins = []
+
+// if(process.env.NODE_ENV === 'development') {
+// plugins.push(createLogger())
+// }
+
+
+
 export default createStore({
+  // plugins,
   state: {
-    // domain: env.domain,
-    is_active: null,
   },
   getters: {
+
   },
   mutations: {
   },
   actions: {
   },
   modules: {
+    auth
   }
 })

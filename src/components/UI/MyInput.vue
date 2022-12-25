@@ -10,7 +10,7 @@ export default {
    },
    setup(props, context) {
       const updateInput = (event) => {
-         context.emit('udate:modelValue', event.target.value)
+         context.emit('update:modelValue', event.target.value)
       }
       return {
          updateInput
