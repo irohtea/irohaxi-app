@@ -1,10 +1,14 @@
 <template>
+
   <div class="app">
     <my-sidebar></my-sidebar>
     <router-view />
   </div>
+    
+
 </template>
 <script>
+
 
 import MySidebar from '@/components/MySidebar.vue';
 
@@ -18,4 +22,5 @@ export default {
 .app {
   display: flex;
 }
+<style lang="scss">
 </style>
