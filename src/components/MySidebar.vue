@@ -2,13 +2,18 @@
   <aside class="sidebar" :class="`${isToggled ? 'expanded' : ''}`">
       <div class="sidebar__body">
          <router-link to="/">
-            <div class="sidebar__logo" v-if="!isTokenActive">
+            <div class="sidebar__logo">
                <img src="../assets/img/logo.png" alt="Logo">
             </div>
          </router-link>
          <router-link to="/user">
-            <div class="sidebar__user-icon" v-if="isTokenActive">
-               sdfsdf
+            <div class="sidebar__user" v-if="isTokenActive">
+               <div class="sidebar__user-icon">
+                 <img :src="user.avatar" alt="user icon">
+               </div>
+               <div class="sidebar__user-name">
+                  {{ user.email }}
+               </div>
             </div>
          </router-link>
          <div class="sidebar__menu menu">
@@ -42,8 +47,8 @@
                      <span class="menu__text">Sign in</span>
                   </div>
                </router-link>
-               <router-link  to="/login" v-else-if="isTokenActive">
-                  <div @click.stop="$store.dispatch('logout')" class="menu__link" >
+               <router-link to="/login" v-else-if="isTokenActive">
+                  <div @click.stop="$store.dispatch('reg/logout')" class="menu__link" >
                      <div class="menu__icon">
                         <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
@@ -53,7 +58,7 @@
                      <span class="menu__text">Sign out</span>
                   </div>
                </router-link>
-               <!-- <router-link  to="/login" v-else-if="isUserReg">
+               <router-link to="/login" v-else-if="!isUserReg">
                   <div class="menu__link" >
                      <div class="menu__icon">
                         <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +68,7 @@
                      </div>
                      <span class="menu__text">Login</span>
                   </div>
-               </router-link> -->
+               </router-link>
                <router-link to="/about">
                   <div class="menu__link">
                      <div class="menu__icon">
@@ -93,29 +98,32 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 export default {
    setup() {
       const store = useStore()
-      const isTokenActive = store.state.jwt_token
-      const isUserReg = store.state.is_reg
+
+      const isTokenActive = ref(localStorage.getItem('jwt_token'))
+
+      const isUserReg = ref(true)
       const isToggled = ref(localStorage.getItem('isToggled') === "true")
       const menuToggle = () => {
          isToggled.value = !isToggled.value
          localStorage.setItem('isToggled', isToggled.value)
       }
-      
-      const logout = () => {
-         store.dispatch('logout')
-      }
-      
+      const user = ref({})
+      onMounted( async () => {
+         if(isTokenActive.value) {
+            user.value = await store.dispatch('auth/toUser')
+         }
+      })
       return {
          isToggled,
          menuToggle,
          isTokenActive,
          isUserReg,
-         logout,
+         user
       }
    }
 }
@@ -154,22 +162,49 @@ export default {
       .menu__icon {
          margin-right: 16px;
       }
-      
-   }
-   // .sidebar__logo
-   &__logo {
-      cursor: pointer;
-      margin-bottom: 16px;
-      img {
-         width: 32px;
+      .sidebar__user-icon {
+         img {
+            width: 64px;
+         }
+      } 
+		.sidebar__user-name {
+         opacity: 1;
       }
+
    }
-   // .sidebar__user-icon
-   &__user-icon {
-      width: 32px;
-      height: 32px;
-      background-color: $grey;
-   }
+      // .sidebar__logo
+      &__logo {
+         cursor: pointer;
+         margin-bottom: 16px;
+         img {
+            width: 32px;
+         }
+      }
+		// .sidebar__user
+		&__user {
+         display: flex;
+         align-items: center;
+         background-color: rgba(74, 111, 181, 0.3);
+         backdrop-filter: blur(3px);
+         gap: 10px;
+         padding: 20px 0px 20px 16px;
+         margin: 0 -16px 16px -16px;
+      }
+      // .sidebar__user-icon
+      &__user-icon {
+         img {
+            transition: all 0.2s ease-out 0s;
+            width: 32px;
+            border-radius: 50%;
+            object-fit: contain;
+         }
+      }  
+		// .sidebar__user-name
+		&__user-name {
+         color: $white;
+         opacity: 0;
+         transition: 0.2s ease-out 0s;
+      }
 
    // .sidebar__body
    &__body {}

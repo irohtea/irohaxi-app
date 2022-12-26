@@ -12,7 +12,7 @@ export default {
       const store = useStore()
       const route = useRoute()
       onMounted(() => {
-         store.dispatch('activate', route.params.token);
+         store.dispatch('reg/activate', route.params.token);
       })
       }
     }

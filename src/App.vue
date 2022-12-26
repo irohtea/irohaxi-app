@@ -4,7 +4,6 @@
     <my-sidebar></my-sidebar>
     <router-view />
   </div>
-    
 
 </template>
 <script>

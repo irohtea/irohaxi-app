@@ -63,6 +63,10 @@
    // .form__input
    &__input {
    }
+   // form__error
+   &__error {
+      color: $accentColor; 
+   }
    // .form__button
    &__button {
       display: block;
