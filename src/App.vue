@@ -22,5 +22,4 @@ export default {
 .app {
   display: flex;
 }
-<style lang="scss">
 </style>
