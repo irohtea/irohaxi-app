@@ -6,6 +6,7 @@ import reg from './modules/reg.module'
 export default createStore({
   // plugins,
   state: {
+    is_loading: false,
   },
   getters: {
 

@@ -9,7 +9,7 @@
 <script>
 
 
-import MySidebar from '@/components/MySidebar.vue';
+import MySidebar from '@/components/Sidebar/MySidebar.vue';
 
 export default {
   components: {

@@ -2,14 +2,6 @@
   <main class="register">
    <div class="register__container">
       <div class="register__body">
-         <div class="register__message message">
-            <div class="message__body">
-               <h2 class="message__title">You are succsessfully registered!</h2>
-               <p class="message__text">
-                  Please, check your email to activate your account
-               </p>
-            </div>
-         </div>
          <form @submit.prevent="register" class="form">
             <div class="form__body">
                <div class="form__icon">
@@ -39,6 +31,7 @@
                <button type="sumbit" class="form__button">Register</button>
             </div>
          </form>
+         <my-loader class="register__loader" v-if="$store.state.reg.is_loading"/>
       </div>
    </div>
   </main>
@@ -46,40 +39,44 @@
 
 <script>
 
-
 import { ref } from 'vue'
-// import { useStore } from 'vuex'
-import MyInput from '@/components/UI/MyInput.vue'
 import { useRegForm } from '../use/reg.form'
 
+import MyInput from '@/components/UI/MyInput.vue'
+import MyLoader from '@/components/UI/MyLoader.vue'
 import '@/assets/form.scss'
+
 export default {
-  components: { MyInput },
+  components: { MyInput, MyLoader },
    setup() {
-      // const store = useStore()
-      // const register_form = ref({})
       const isTokenActive = ref(localStorage.getItem('jwt_token'))
-      // const register = () => {
-      //    store.dispatch('reg/register', register_form.value);
-      // }
       return {
          ...useRegForm(),
-         // register_form,
-         isTokenActive
+         isTokenActive,
       }
    }
 }
 </script>
 
 <style lang="scss">
+
 .register {
    background: rgba(34, 28, 54, 0.81);
+   height: 100vh;
    // .register__container
    &__container {}
    // .register__body
    &__body {
       margin: 100px 0;
+      display: flex;
+      flex-direction: column;
    }
+   // .register__loader
+   &__loader {
+      margin-top: 30px;
+      align-self: center;
+   }
+
 }
 
 </style>

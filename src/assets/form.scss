@@ -88,4 +88,16 @@
          font-size: 16px;
       }
    }
+   // .form__redirect 
+   &__redirect {
+      margin-top: 10px;
+      text-align: center;
+   }
+   // form__link
+   &__link {
+      color: $lightBlue;
+      &:hover {
+         text-decoration: underline;
+      }
+   }
 }

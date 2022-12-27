@@ -1,0 +1,88 @@
+.menu {
+   svg {
+      width: 30px;
+      height: 30px;
+      path {
+         fill: $blue;
+         transition: all 0.2s ease-out 0s;
+      }
+   }
+   // .menu__toggle
+   &__toggle {
+      position: relative;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+      transition: 0.3s ease-out 0s;
+   }
+   // .menu__btn
+   &__btn {
+      transition: all 0.2s ease-out 0s;
+      &:hover {
+         transform: translateX(5px);
+         svg {
+            path {
+               fill: $light;
+            }
+         }
+      }
+   }
+   // .menu__title
+   &__title {
+      color: $grey;
+      font-size: 14px;
+      margin-bottom: 10px;
+      margin-left: -5px;
+      text-transform: uppercase;
+
+   }
+   // .menu__list
+   &__list {
+      margin: 0 -16px;
+   }
+   // .menu__link
+   &__link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 0px 20px 16px;
+      text-decoration: none;
+      transition: all 0.3s ease 0s;
+      &:hover, &.router-link-exact-active {
+         background-color: rgba(79, 103, 139, 0.16);
+         border-right: 5px solid $light;
+         box-shadow: 0 0 2px $light;
+
+         .menu__text {
+            color: $light;
+         }
+         .menu__icon {
+            svg {
+               path {
+                  fill: $light;
+               }
+            }
+         }
+      }
+   }
+   // .menu__icon
+   &__icon {
+      transition: 0.2s ease-out 0s;
+   }
+   // .menu__text
+   &__text {
+      font-size: 20px;
+      color: #fff;
+      opacity: 0;
+      transition: 0.2s ease-out 0s;
+   }
+}
+.router-link-exact-active {
+   .menu__link {
+      background-color: rgba(79, 103, 139, 0.16);
+      border-right: 5px solid $light;
+      box-shadow: 0 0 2px $light;
+   }
+
+}

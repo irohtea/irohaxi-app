@@ -29,6 +29,7 @@
                         <small class="form__error" v-if="pError">{{pError}}</small>
                     </div>
                     <button type="sumbit" class="form__button">Login</button>
+                    <div class="form__redirect">Have no accaunt? <router-link to="/register" class="form__link">Click to register.</router-link></div>
                     </div>
                 </form>
             </div>
@@ -54,6 +55,7 @@ export default {
 <style lang="scss">
 .login {
    background: rgba(34, 28, 54, 0.81);
+   height: 100vh;
    // .login__container
    &__container {}
    // .login__body

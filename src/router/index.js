@@ -39,6 +39,11 @@ const routes = [
     name: 'settings',
     component: () => import('../views/SettingsView')
   },
+  {
+    path: '/message',
+    name: 'message',
+    component: () => import('../views/SuccessRegView')
+  },
 ]
 
 const router = createRouter({

@@ -7,8 +7,8 @@ const TOKEN_KEY = 'jwt_token'
 export default ({
    namespaced: true,
    state: {
-      is_reg: false,
       token: localStorage.getItem(TOKEN_KEY),
+      is_loading: false
    },
    getters: {
    },
@@ -23,19 +23,31 @@ export default ({
       CLEAR_USER(state) {
          state.token = null
          localStorage.removeItem(TOKEN_KEY)
+      },
+      IS_LOADING(state, is_loading) {
+         state.is_loading = is_loading
       }
    },
    actions: {
       async register({ commit }, details) {
          const { email, password } = details
+         commit('IS_LOADING', true)
          try {
             await axios.post(`https://irohaxi.site/api/v1/users/create/`,
                {
                   email: email,
                   password: password
+               }).then(response => {
+                  console.log(response.status);
+                  if (response.status === 200) {
+                     router.push('/message')
+                  }
                })
+            commit('IS_LOADING', false)
          } catch (error) {
             console.log(error);
+         } finally {
+            commit('IS_LOADING', false)
          }
          commit('CREATE_USER', true)
       },

@@ -1,11 +1,42 @@
 <template>
-  <aside class="sidebar" :class="`${isToggled ? 'expanded' : ''}`">
+  <aside class="sidebar" :class="`${ isToggled ? 'expanded' : '' }`">
       <div class="sidebar__body">
          <router-link to="/">
             <div class="sidebar__logo">
-               <img src="../assets/img/logo.png" alt="Logo">
+               <img src="@/assets/img/logo.png" alt="Logo">
             </div>
          </router-link>
+         <div class="sidebar__dropdown dropdown" v-if="!isTokenActive" @mouseenter="openDropdown" @mouseleave="closeDropdown">
+            <div class="dropdown__content" :class="`${ isDropdowned ? 'hovered' : '' }`">
+               <div class="dropdown__avatar">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M12 0C5.4 0 0 5.4 0 12C0 18.6 5.4 24 12 24C18.6 24 24 18.6 24 12C24 5.4 18.6 0 12 0ZM12 4C14.2 4 16 6.2 16 9C16 11.8 14.2 14 12 14C9.8 14 8 11.8 8 9C8 6.2 9.8 4 12 4ZM18.6 19.5C16.9 21 14.5 22 12 22C9.5 22 7.1 21 5.4 19.5C5 19.1 4.9 18.5 5.3 18.1C6.4 16.8 7.9 15.9 9.5 15.4C10.3 15.8 11.1 16 12 16C12.9 16 13.7 15.8 14.5 15.4C16.2 15.9 17.6 16.8 18.7 18.1C19.1 18.5 19.1 19.1 18.6 19.5Z" fill="black"/>
+                  </svg>
+               </div>
+               <div class="dropdown__text">Account</div>
+            </div>
+            <nav class="dropdown__menu" :class="`${ isDropdowned ? 'expanded' : '' }`">
+               <router-link to="/login">
+                  <button type="button" class="dropdown__login">Login</button>
+               </router-link>
+               <router-link to="/register">
+                  <div class="dropdown__link">
+                     <div class="dropdown__icon">
+                        <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
+                           <path d="M90 9.64515e-07H30C29.2119 -0.000445981 28.4315 0.154444 27.7034 0.455813C26.9752 0.757183 26.3136 1.19912 25.7564 1.75636C25.1991 2.3136 24.7572 2.97522 24.4558 3.70337C24.1544 4.43153 23.9996 5.21194 24 6V18C24 19.5913 24.6321 21.1174 25.7574 22.2426C26.8826 23.3679 28.4087 24 30 24C31.5913 24 33.1174 23.3679 34.2426 22.2426C35.3679 21.1174 36 19.5913 36 18V12H84V84H36V78C36 76.4087 35.3679 74.8826 34.2426 73.7574C33.1174 72.6321 31.5913 72 30 72C28.4087 72 26.8826 72.6321 25.7574 73.7574C24.6321 74.8826 24 76.4087 24 78V90C23.9996 90.7881 24.1544 91.5685 24.4558 92.2966C24.7572 93.0248 25.1991 93.6864 25.7564 94.2436C26.3136 94.8009 26.9752 95.2428 27.7034 95.5442C28.4315 95.8456 29.2119 96.0004 30 96H90C90.7881 96.0004 91.5685 95.8456 92.2966 95.5442C93.0248 95.2428 93.6864 94.8009 94.2436 94.2436C94.8009 93.6864 95.2428 93.0248 95.5442 92.2966C95.8456 91.5685 96.0004 90.7881 96 90V6C96.0004 5.21194 95.8456 4.43153 95.5442 3.70337C95.2428 2.97522 94.8009 2.3136 94.2436 1.75636C93.6864 1.19912 93.0248 0.757183 92.2966 0.455813C91.5685 0.154444 90.7881 -0.000445981 90 9.64515e-07V9.64515e-07Z" fill="black"/>
+                        </svg>
+                     </div>
+                     <div class="dropdown__text">Registration</div>
+                  </div>
+               </router-link>
+            </nav>
+            <div class="dropdown__chevron-down" :class="`${ isDropdowned ? 'rotate' : '' }`">
+               <svg width="768" height="384" viewBox="0 0 768 384" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 0L383.75 383.75L767.5 0H0Z" fill="black"/>
+               </svg>
+            </div>
+         </div>
          <router-link to="/user">
             <div class="sidebar__user" v-if="isTokenActive">
                <div class="sidebar__user-icon">
@@ -36,19 +67,8 @@
                      <span class="menu__text">Home</span>
                   </div>
                </router-link>
-               <router-link  to="/register" v-if="!isTokenActive">
-                  <div class="menu__link">
-                     <div class="menu__icon">
-                        <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
-                           <path d="M90 9.64515e-07H30C29.2119 -0.000445981 28.4315 0.154444 27.7034 0.455813C26.9752 0.757183 26.3136 1.19912 25.7564 1.75636C25.1991 2.3136 24.7572 2.97522 24.4558 3.70337C24.1544 4.43153 23.9996 5.21194 24 6V18C24 19.5913 24.6321 21.1174 25.7574 22.2426C26.8826 23.3679 28.4087 24 30 24C31.5913 24 33.1174 23.3679 34.2426 22.2426C35.3679 21.1174 36 19.5913 36 18V12H84V84H36V78C36 76.4087 35.3679 74.8826 34.2426 73.7574C33.1174 72.6321 31.5913 72 30 72C28.4087 72 26.8826 72.6321 25.7574 73.7574C24.6321 74.8826 24 76.4087 24 78V90C23.9996 90.7881 24.1544 91.5685 24.4558 92.2966C24.7572 93.0248 25.1991 93.6864 25.7564 94.2436C26.3136 94.8009 26.9752 95.2428 27.7034 95.5442C28.4315 95.8456 29.2119 96.0004 30 96H90C90.7881 96.0004 91.5685 95.8456 92.2966 95.5442C93.0248 95.2428 93.6864 94.8009 94.2436 94.2436C94.8009 93.6864 95.2428 93.0248 95.5442 92.2966C95.8456 91.5685 96.0004 90.7881 96 90V6C96.0004 5.21194 95.8456 4.43153 95.5442 3.70337C95.2428 2.97522 94.8009 2.3136 94.2436 1.75636C93.6864 1.19912 93.0248 0.757183 92.2966 0.455813C91.5685 0.154444 90.7881 -0.000445981 90 9.64515e-07V9.64515e-07Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">Sign in</span>
-                  </div>
-               </router-link>
-               <router-link to="/login" v-else-if="isTokenActive">
-                  <div @click.stop="$store.dispatch('reg/logout')" class="menu__link" >
+               <router-link to="/login">
+                  <div @click.stop="$store.dispatch('reg/logout')" class="menu__link" v-if="isTokenActive">
                      <div class="menu__icon">
                         <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
@@ -56,17 +76,6 @@
                         </svg>
                      </div>
                      <span class="menu__text">Sign out</span>
-                  </div>
-               </router-link>
-               <router-link to="/login" v-else-if="!isUserReg">
-                  <div class="menu__link" >
-                     <div class="menu__icon">
-                        <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
-                           <path d="M90 9.64515e-07H30C29.2119 -0.000445981 28.4315 0.154444 27.7034 0.455813C26.9752 0.757183 26.3136 1.19912 25.7564 1.75636C25.1991 2.3136 24.7572 2.97522 24.4558 3.70337C24.1544 4.43153 23.9996 5.21194 24 6V18C24 19.5913 24.6321 21.1174 25.7574 22.2426C26.8826 23.3679 28.4087 24 30 24C31.5913 24 33.1174 23.3679 34.2426 22.2426C35.3679 21.1174 36 19.5913 36 18V12H84V84H36V78C36 76.4087 35.3679 74.8826 34.2426 73.7574C33.1174 72.6321 31.5913 72 30 72C28.4087 72 26.8826 72.6321 25.7574 73.7574C24.6321 74.8826 24 76.4087 24 78V90C23.9996 90.7881 24.1544 91.5685 24.4558 92.2966C24.7572 93.0248 25.1991 93.6864 25.7564 94.2436C26.3136 94.8009 26.9752 95.2428 27.7034 95.5442C28.4315 95.8456 29.2119 96.0004 30 96H90C90.7881 96.0004 91.5685 95.8456 92.2966 95.5442C93.0248 95.2428 93.6864 94.8009 94.2436 94.2436C94.8009 93.6864 95.2428 93.0248 95.5442 92.2966C95.8456 91.5685 96.0004 90.7881 96 90V6C96.0004 5.21194 95.8456 4.43153 95.5442 3.70337C95.2428 2.97522 94.8009 2.3136 94.2436 1.75636C93.6864 1.19912 93.0248 0.757183 92.2966 0.455813C91.5685 0.154444 90.7881 -0.000445981 90 9.64515e-07V9.64515e-07Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">Login</span>
                   </div>
                </router-link>
                <router-link to="/about">
@@ -96,209 +105,52 @@
       </div>
   </aside>
 </template>
-
 <script>
+//========================================================================================================================================================
 import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+//styles========================================================================================================================================================
+import '@/components/Sidebar/sidebar-main.scss'
+import '@/components/Sidebar/SidebarDropdown/sidebar-dropdown.scss'
+import '@/components/Sidebar/SidebarMenu/sidebar-menu.scss'
+//========================================================================================================================================================
 export default {
    setup() {
+      const user = ref({})
       const store = useStore()
-
       const isTokenActive = ref(localStorage.getItem('jwt_token'))
 
-      const isUserReg = ref(true)
+      // sidebar functional
       const isToggled = ref(localStorage.getItem('isToggled') === "true")
+      const isDropdowned = ref(false)
       const menuToggle = () => {
          isToggled.value = !isToggled.value
          localStorage.setItem('isToggled', isToggled.value)
       }
-      const user = ref({})
+      const openDropdown = () => {
+         isToggled.value = true
+         isDropdowned.value = true
+      }
+      const closeDropdown = () => {
+         isDropdowned.value = false
+      }
+      
+      // get user info
       onMounted( async () => {
          if(isTokenActive.value) {
             user.value = await store.dispatch('auth/toUser')
          }
       })
+     
       return {
+         user,
+         isTokenActive,
          isToggled,
          menuToggle,
-         isTokenActive,
-         isUserReg,
-         user
+         isDropdowned,
+         openDropdown,
+         closeDropdown
       }
    }
 }
 </script>
-
-<style lang="scss" scoped>
-.sidebar {
-   display: flex;
-   flex-direction: column;
-   width: calc(2rem + 32px);
-   min-height: 100vh;
-   overflow: hidden;
-   padding: 16px;
-   backdrop-filter: blur(3px);
-   -webkit-backdrop-filter: blur(3px);
-   background-color: rgba(10, 10, 10, 0.3);
-   box-shadow: 0 8px 32px rgb(2, 4, 24);
-   border-right: 2px solid rgba(255, 255, 255, 0.09);
-   transition: 0.2s ease-out;
-
-   @media (max-width: 768px){
-         position: fixed;
-         z-index: 100;
-   }
-   &.expanded {
-      width: 300px;
-		.menu__toggle {
-         // top: -48px;
-      }
-      .menu__btn {
-         transform: rotate(-180deg);
-      }
-      .menu__text {
-         opacity: 1;
-      }
-      .menu__icon {
-         margin-right: 16px;
-      }
-      .sidebar__user-icon {
-         img {
-            width: 64px;
-         }
-      } 
-		.sidebar__user-name {
-         opacity: 1;
-      }
-
-   }
-      // .sidebar__logo
-      &__logo {
-         cursor: pointer;
-         margin-bottom: 16px;
-         img {
-            width: 32px;
-         }
-      }
-		// .sidebar__user
-		&__user {
-         display: flex;
-         align-items: center;
-         background-color: rgba(74, 111, 181, 0.3);
-         backdrop-filter: blur(3px);
-         gap: 10px;
-         padding: 20px 0px 20px 16px;
-         margin: 0 -16px 16px -16px;
-      }
-      // .sidebar__user-icon
-      &__user-icon {
-         img {
-            transition: all 0.2s ease-out 0s;
-            width: 32px;
-            border-radius: 50%;
-            object-fit: contain;
-         }
-      }  
-		// .sidebar__user-name
-		&__user-name {
-         color: $white;
-         opacity: 0;
-         transition: 0.2s ease-out 0s;
-      }
-
-   // .sidebar__body
-   &__body {}
-   // .sidebar__menu
-   &__menu {}
-   }
-//========================================================================================================================================================
-.menu {
-   svg {
-      width: 30px;
-      height: 30px;
-      path {
-         fill: $blue;
-         transition: all 0.2s ease-out 0s;
-      }
-   }
-   // .menu__toggle
-   &__toggle {
-      position: relative;
-      top: 0;
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 16px;
-      transition: 0.3s ease-out 0s;
-   }
-   // .menu__btn
-   &__btn {
-      transition: all 0.2s ease-out 0s;
-      &:hover {
-         transform: translateX(5px);
-         svg {
-            path {
-               fill: $light;
-            }
-         }
-      }
-   }
-   // .menu__title
-   &__title {
-      color: $grey;
-      font-size: 14px;
-      margin-bottom: 10px;
-      margin-left: -5px;
-      text-transform: uppercase;
-
-   }
-   // .menu__list
-   &__list {
-      margin: 0 -16px;
-   }
-   // .menu__link
-   &__link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 20px 0px 20px 16px;
-      text-decoration: none;
-      transition: all 0.3s ease 0s;
-      &:hover, &.router-link-exact-active {
-         background-color: rgba(79, 103, 139, 0.16);
-         border-right: 5px solid $light;
-         box-shadow: 0 0 2px $light;
-
-         .menu__text {
-            color: $light;
-         }
-         .menu__icon {
-            svg {
-               path {
-                  fill: $light;
-               }
-            }
-         }
-      }
-   }
-   // .menu__icon
-   &__icon {
-      transition: 0.2s ease-out 0s;
-   }
-   // .menu__text
-   &__text {
-      font-size: 20px;
-      color: #fff;
-      opacity: 0;
-      transition: 0.2s ease-out 0s;
-
-   }
-}
-.router-link-exact-active {
-   .menu__link {
-      background-color: rgba(79, 103, 139, 0.16);
-      border-right: 5px solid $light;
-      box-shadow: 0 0 2px $light;
-   }
-
-}
-</style>
