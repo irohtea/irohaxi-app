@@ -1,25 +1,25 @@
 <template>
-  <main class="user__page">
-    <section class="user__section">
-      <div class="user__container">
-        <div class="user__item">
-          <div class="user__avatar">
-            <div class="user__img">
-              <img :src="user.avatar" alt="user avatar">
-            </div>
-            <div class="user__info">
-              <div class="user__email">{{ user.email }}</div>
-              <div class="user__id"> {{  user.id }}</div>
+  <div>
+    <div>User шмузер</div>
+    <main class="user__page">
+      <section class="user__section">
+        <div class="user__container">
+          <div class="user__item">
+            <div class="user__avatar">
+              <div class="user__img">
+                <img :src="user.avatar" alt="user avatar">
+              </div>
+              <div class="user__info">
+                <div class="user__email">{{ user.email }}</div>
+                <div class="user__id"> {{  user.id }}</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-    </section>
-  </main>
-  
+      </section>
+    </main>
+  </div>
 </template>
-
 <script>
 // import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
@@ -47,7 +47,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .user {
     // .user__page
