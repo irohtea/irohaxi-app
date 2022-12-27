@@ -12,8 +12,8 @@
           </section>
           <section class="user__about">
             <div class="user__about-container">
-              <div class="user__about-name">Leha</div>
-              <div class="user__about-last-name">Abramec</div>
+              <div class="user__about-name">{{user.first_name}}test name</div>
+              <div class="user__about-last-name">{{user.last_name}}test last name</div>
             </div>
           </section>
         </div>
