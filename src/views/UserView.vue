@@ -1,22 +1,30 @@
 <template>
   <div>
-    <div>User шмузер</div>
-    <main class="user__page">
-      <section class="user__section">
-        <div class="user__container">
-          <div class="user__item">
-            <div class="user__avatar">
-              <div class="user__img">
-                <img :src="user.avatar" alt="user avatar">
-              </div>
-              <div class="user__info">
-                <div class="user__email">{{ user.email }}</div>
-                <div class="user__id"> {{  user.id }}</div>
-              </div>
+    <main class="user">
+      <div class="container">
+        <div class="both">
+          <section class="user__image">
+            <div class="user__image-container">
+                <div class="user__image-avatar">
+                    <img :src="user.avatar" alt="user avatar">
+                </div>
+            </div>
+          </section>
+          <section class="user__about">
+            <div class="user__about-container">
+              <div class="user__about-name">Leha</div>
+              <div class="user__about-last-name">Abramec</div>
+            </div>
+          </section>
+        </div>
+        <section class="user__info">
+          <div class="user__info-container">
+            <div class="user__info-discription">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, sint. Hic repellendus aperiam a maiores blanditiis culpa odit suscipit similique repudiandae. Incidunt, temporibus ipsum fuga asperiores unde placeat facere ducimus eum quam quae sunt ab dolorum officiis a nobis mollitia tempora? Cupiditate, debitis doloribus nihil unde iste magnam libero perferendis repellendus corrupti placeat tempora praesentium nam dolores laborum est voluptatem magni iusto quidem exercitationem numquam corporis provident! Id repudiandae quae esse distinctio quibusdam nulla, et iste nam perspiciatis nisi cupiditate.</p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   </div>
 </template>
@@ -48,33 +56,90 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.user {
-    // .user__page
-    &__page {}
-    // .user__section
-    &__section {}
-    // .user__container
-    &__container {}
-    // .user__item
-    &__item {
-      margin: 50px 0px;
-    }
-    // .user__avatar
-    &__avatar {
-      width: 100%;
+  .user {
+    display: flex;
+    justify-content: center;
+    padding: 150px;
+    width: 100%;
+    height: 100%;
+		// .user__image
+
+		&__image {
+      
+		}
+
+		// .user__image-container
+
+		&__image-container {
+		}
+
+		// .user__image-avatar
+
+		&__image-avatar {
       img {
-        width: 300px;
-        object-fit: contain;
-        border-radius: 50%;
+      width: 150px;
+      border-radius: 50%;
       }
-    }
-    // .user__img
-    &__img {}
-    // .user__info
-    &__info {}
-    // .user__email
-    &__email {}
-    // .user__id
-    &__id {}
+		}
+
+		// .user__about
+
+		&__about {
+      font-size: 30px;
+		}
+
+		// .user__about-container
+
+		&__about-container {
+      margin: 0px 0px 0px 10px;
+      
+		}
+
+		// .user__about-name
+
+		&__about-name {
+      
+		}
+
+		// .user__about-last-name
+
+		&__about-last-name {
+		}
+
+		// .user__info
+
+		&__info {
+      max-width: 800px;
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 10px;
+      background: rgba(34, 28, 54, 0.81);
+		}
+
+		// .user__info-container
+
+		&__info-container {
+		}
+
+		// .user__info-discription
+
+		&__info-discription {
+		}
 }
+.container {
+  // position: absolute;
+  // top: 150px;
+  // left: 400px;
+  max-width: 1000px;
+}
+.both {
+  display: flex;
+  align-items: center;
+  margin: 0px 0px 30px 0px;
+  
+}
+
+
 </style>
+
+        
