@@ -1,7 +1,8 @@
 <template>
   <div>
     <main class="user">
-      <div class="container">
+    <Loader class="loader" v-if="isLoader"></Loader>
+      <div class="container" v-else>
         <div class="both">
           <section class="user__image">
             <div class="user__image-container">
@@ -32,15 +33,19 @@
 // import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {onMounted, ref} from 'vue'
+import Loader from '../components/UI/MyLoader.vue'
 
 export default {
   setup() {
     //   const router = useRouter()
       const store = useStore()
       const user = ref({})
+      let isLoader = ref(true) 
       
       onMounted( async () => {
+        isLoader.value = true
         user.value = await store.dispatch('auth/toUser')
+        isLoader.value = false
       })
       
       console.log(user);
@@ -50,8 +55,11 @@ export default {
         //       store.commit('auth/logout')
         //       router.push('/auth')
         //   },
-          user
+          user, isLoader
       }
+  },
+  components: {
+    Loader
   }
 }
 </script>
@@ -138,8 +146,6 @@ export default {
   margin: 0px 0px 30px 0px;
   
 }
-
-
 </style>
 
         
