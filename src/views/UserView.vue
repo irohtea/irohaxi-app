@@ -13,10 +13,19 @@
           </section>
           <section class="user__about">
             <div class="user__about-container">
-              <div class="user__about-name">{{user.first_name}}test name</div>
-              <div class="user__about-last-name">{{user.last_name}}test last name</div>
+              <div class="user__about-name">
+                <input type="text" v-if="isInputActive" v-model="firstName">
+                <div  v-else>{{user.first_name}}</div>
+              </div>
+              <div class="user__about-last-name">
+                <input type="text" v-if="isInputActive" v-model="lastName">
+                <div  v-else>{{user.last_name}}</div>
+              </div>
             </div>
           </section>
+          <button class="button" @click="editProfile" v-if="isEditActive">edit profile</button>
+          <button class="button" @click="updateProfile" v-else>Update!</button>
+          <div class="close" @click="close">X</div>
         </div>
         <section class="user__info">
           <div class="user__info-container">
@@ -37,25 +46,54 @@ import Loader from '../components/UI/MyLoader.vue'
 
 export default {
   setup() {
-    //   const router = useRouter()
       const store = useStore()
       const user = ref({})
-      let isLoader = ref(true) 
+      const isLoader = ref(true)
+      const isEditActive = ref(true)
+      const isInputActive = ref(false)
+      const firstName = ref('')
+      const lastName = ref('')
+
+      const editProfile = function() {
+        isEditActive.value = false
+        isInputActive.value = true
+      }
+
+      const updateProfile = function() {
+        isEditActive.value = true
+        isInputActive.value = false
+          const name = ref({
+            first_name: firstName.value,
+            last_name: lastName.value
+          })
+          user.value.first_name = firstName.value
+          user.value.last_name = lastName.value
+        store.dispatch('edit/updateProfile', {...name.value})
+      }
       
+      const close = function() {
+        isEditActive.value = true
+        isInputActive.value = false
+      }
+
       onMounted( async () => {
         isLoader.value = true
         user.value = await store.dispatch('auth/toUser')
         isLoader.value = false
       })
-      
-      console.log(user);
 
       return {
-        //   logout: () => {
-        //       store.commit('auth/logout')
-        //       router.push('/auth')
-        //   },
-          user, isLoader
+          user,
+          isLoader,
+          isEditActive,
+          editProfile,
+          updateProfile,
+          isInputActive,
+          name,
+          firstName,
+          lastName,
+          close
+          
       }
   },
   components: {
@@ -145,6 +183,37 @@ export default {
   align-items: center;
   margin: 0px 0px 30px 0px;
   
+}
+.button {
+      display: block;
+      margin-left: auto;
+      padding: 16px;
+      font-size: 18px;
+      color: rgb(255, 255, 255);
+      font-weight: 400;
+      background-color: #41b883;
+      border-radius: 10px;
+      margin-top: 15px;
+      transition: 0.3s ease-out 0s;
+      box-shadow: 0 0 10px rgba(65, 184, 131, 0.291),
+                  0 0 20px rgba(65, 184, 131, 0.291),
+                  0 0 30px rgba(65, 184, 131, 0.291);
+      &:hover {
+         background-color: #38e396;
+         color: rgb(51, 40, 40);
+      }
+      @media (max-width: 475px){
+         font-size: 16px;
+      }
+}
+.close {
+  color: #fff;
+  background-color: red;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50px;
+  font-size: 20px;
+  margin: 15px 0px 0px 10px;
 }
 </style>
 

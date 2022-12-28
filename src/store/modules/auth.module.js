@@ -46,7 +46,7 @@ export default {
             const url = 'https://irohaxi.site/api/v1/users/me/'
             const { data } = await axios.get(url, {
                headers: {
-                  Authorization: 'Bearer ' + store.getters['auth/getToken']
+                  Authorization: 'Bearer' + store.getters['auth/getToken']
                }
             })
             // console.log('daata', data);
