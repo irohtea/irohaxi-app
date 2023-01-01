@@ -88,7 +88,7 @@
                      <span class="menu__text">About</span>
                   </div>
                </router-link>
-               <router-link to="/settings">
+               <router-link to="/settings" v-if="isTokenActive">
                   <div class="menu__link">
                      <div class="menu__icon">
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,7 +119,7 @@ export default {
       const user = ref({})
       const store = useStore()
       const isTokenActive = ref(localStorage.getItem('jwt_token'))
-
+      
       // sidebar functional
       const isToggled = ref(localStorage.getItem('isToggled') === "true")
       const isDropdowned = ref(false)
