@@ -12,7 +12,10 @@
           <option value="delete" selected>Delete my Profile</option>
         </select>
           <div class="move">
-            <button class="section__choice-button" :disabled="!choice" @click="userСhoice">Submit</button>
+            <button class="section__choice-button" 
+              :disabled="!choice" 
+              @click="userСhoice" 
+              v-if="choice.length">Submit</button>
           </div>
       </div>
     </div>

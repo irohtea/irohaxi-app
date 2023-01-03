@@ -13,8 +13,8 @@ export default {
       getToken(state) {
          return state.token
       },
-      isAuth(_, getters) {
-         return !!getters.token
+      isAuth(state) {
+         return !!state.token
       }
 
    },
