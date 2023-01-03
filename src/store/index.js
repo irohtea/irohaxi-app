@@ -1,7 +1,8 @@
-import { createStore, } from 'vuex'
+import { createStore } from 'vuex'
 import auth from './modules/auth.module'
 import reg from './modules/reg.module'
 import edit from './modules/edit.module'
+import deleteUser from './modules/deleteUser.module'
 
 
 export default createStore({
@@ -17,6 +18,9 @@ export default createStore({
   actions: {
   },
   modules: {
-    auth, reg, edit
+    auth, 
+    reg, 
+    edit,
+    deleteUser
   }
 })

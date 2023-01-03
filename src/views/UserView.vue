@@ -1,5 +1,4 @@
 <template>
-  <div>
     <main class="user">
     <Loader class="loader" v-if="isLoader"></Loader>
       <div class="container" v-else>
@@ -14,32 +13,48 @@
           <section class="user__about">
             <div class="user__about-container">
               <div class="user__about-name">
-                <input type="text" v-if="isInputActive" v-model="firstName">
-                <div  v-else>{{user.first_name}}</div>
+                <MyInput
+                  id="firstName"
+                  type="text"
+                  placeholder="Name" 
+                  @blur="fBlur"
+                  v-model="firstName"
+                  v-if="isInputActive"
+                  />
+                <div v-else>{{user.first_name}}</div>
+                <small class="error-description" v-if="fError">{{fError}}</small>
               </div>
               <div class="user__about-last-name">
-                <input type="text" v-if="isInputActive" v-model="lastName">
+                <MyInput
+                  id="lastName"
+                  type="text"
+                  placeholder="Name" 
+                  @blur="sBlur"
+                  v-model="lastName"
+                  v-if="isInputActive" 
+                />
                 <div  v-else>{{user.last_name}}</div>
+                <small class="error-description" v-if="sError">{{sError}}</small>
               </div>
             </div>
           </section>
-          <button class="button" @click="editProfile" v-if="isEditActive">edit profile</button>
+          <button class="button" @click="editProfile" v-if="isEditActive">Edit profile</button>
           <button class="button" @click="updateProfile" v-else>Update!</button>
-          <div class="close" @click="close">X</div>
+          <button class="close" @click="close" v-if="isInputActive">X</button>
         </div>
         <section class="user__info">
           <div class="user__info-container">
-            <div class="user__info-discription">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, sint. Hic repellendus aperiam a maiores blanditiis culpa odit suscipit similique repudiandae. Incidunt, temporibus ipsum fuga asperiores unde placeat facere ducimus eum quam quae sunt ab dolorum officiis a nobis mollitia tempora? Cupiditate, debitis doloribus nihil unde iste magnam libero perferendis repellendus corrupti placeat tempora praesentium nam dolores laborum est voluptatem magni iusto quidem exercitationem numquam corporis provident! Id repudiandae quae esse distinctio quibusdam nulla, et iste nam perspiciatis nisi cupiditate.</p>
-            </div>
+            <p class="user__info-discription">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, sint. Hic repellendus aperiam a maiores blanditiis culpa odit suscipit similique repudiandae. Incidunt, temporibus ipsum fuga asperiores unde placeat facere ducimus eum quam quae sunt ab dolorum officiis a nobis mollitia tempora? Cupiditate, debitis doloribus nihil unde iste magnam libero perferendis repellendus corrupti placeat tempora praesentium nam dolores laborum est voluptatem magni iusto quidem exercitationem numquam corporis provident! Id repudiandae quae esse distinctio quibusdam nulla, et iste nam perspiciatis nisi cupiditate.</p>
           </div>
         </section>
       </div>
     </main>
-  </div>
 </template>
 <script>
 // import {useRouter} from 'vue-router'
+import MyInput from '@/components/UI/MyInput.vue'
+import { firstAndLastName } from '../use/name.module'
 import {useStore} from 'vuex'
 import {onMounted, ref} from 'vue'
 import Loader from '../components/UI/MyLoader.vue'
@@ -49,10 +64,10 @@ export default {
       const store = useStore()
       const user = ref({})
       const isLoader = ref(true)
-      const isEditActive = ref(true)
-      const isInputActive = ref(false)
       const firstName = ref('')
       const lastName = ref('')
+      const isEditActive = ref(true)
+      const isInputActive = ref(false)
 
       const editProfile = function() {
         isEditActive.value = false
@@ -86,18 +101,19 @@ export default {
           user,
           isLoader,
           isEditActive,
+          firstName,
+          lastName,
           editProfile,
           updateProfile,
           isInputActive,
-          name,
-          firstName,
-          lastName,
-          close
+          close,
+          ...firstAndLastName(),
           
       }
   },
   components: {
-    Loader
+    Loader,
+    MyInput
   }
 }
 </script>
@@ -107,7 +123,7 @@ export default {
     justify-content: center;
     padding: 150px;
     width: 100%;
-    height: 100%;
+    max-height: 100vh;
 		// .user__image
 
 		&__image {
@@ -155,11 +171,7 @@ export default {
 		// .user__info
 
 		&__info {
-      max-width: 800px;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 10px;
-      background: rgba(34, 28, 54, 0.81);
+      
 		}
 
 		// .user__info-container
@@ -170,6 +182,13 @@ export default {
 		// .user__info-discription
 
 		&__info-discription {
+      max-width: 800px;
+      max-height: 300px;
+      overflow: hidden;
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 10px;
+      background: rgba(34, 28, 54, 0.81);
 		}
 }
 .container {
@@ -205,6 +224,10 @@ export default {
       @media (max-width: 475px){
          font-size: 16px;
       }
+}
+.error-description {
+  font-size: 16px;
+  color: red;
 }
 .close {
   color: #fff;

@@ -3,7 +3,7 @@
     <div class="section">
       <h2 class="section__title">Are you want to delete your profile?</h2>
       <div class="both">
-        <button class="section__button">Delete</button>
+        <button class="section__button" @click="deleteUser">Delete</button>
         <button class="section__button" @click="$emit('close')">Cancel</button>
       </div>
     </div>
@@ -11,8 +11,18 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
 export default {
   emits: ['close'],
+  setup() {
+    const store = useStore()
+    const deleteUser =  async () => {
+      await store.dispatch('deleteUser/remove')
+    }
+    return {
+      deleteUser
+    }
+  }
 }
 </script>
 

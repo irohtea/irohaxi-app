@@ -1,7 +1,10 @@
 <template>
   <main class="wrapper">
     <div class="section">
-      <QuestionItem v-if="isChoise" @close="isChoise = false"></QuestionItem>
+      <QuestionItem 
+        v-if="isChoise" 
+        @close="isChoise = false"
+        ></QuestionItem>
       <div class="section__choice" v-if="isHidden">
         <h1 class="section__choice-title">Choose an action option!</h1>
         <select class="section__choice-select" v-model="choice">
