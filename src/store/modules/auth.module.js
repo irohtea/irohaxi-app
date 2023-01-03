@@ -1,4 +1,4 @@
-import router from '@/router'
+// import router from '@/router'
 import axios from 'axios'
 import store from '../index'
 
@@ -23,10 +23,6 @@ export default {
          state.token = token
          localStorage.setItem(TOKEN_KEY, token)
       },
-      // logout(state) {
-      //    state.token = null
-      //    localStorage.removeItem(TOKEN_KEY)
-      // },
    },
    actions: {
       async login({ commit }, payload) {
@@ -38,18 +34,15 @@ export default {
          } catch (e) {
             console.log('Error Login :', e);
          }
-         router.push('/user')
-            .then(() => { router.go() })
       },
       async toUser() {
          try {
             const url = 'https://irohaxi.site/api/v1/users/me/'
             const { data } = await axios.get(url, {
                headers: {
-                  Authorization: 'Bearer' + store.getters['auth/getToken']
+                  Authorization: 'Bearer' + ' ' + store.getters['auth/getToken']
                }
             })
-            // console.log('daata', data);
             return data
          } catch (e) {
             console.log(e);
