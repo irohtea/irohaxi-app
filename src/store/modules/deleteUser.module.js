@@ -6,9 +6,12 @@ export default {
     namespaced: true,
     actions: {
         async remove() {
-            const resultId = await store.dispatch('auth/toUser')
-            const url = `https://irohaxi.site/api/v1/user/${resultId.id}/delete/`
-            await axios.delete(url)
+            const url = `https://irohaxi.site/api/v1/user/delete/`
+            await axios.delete(url, {
+                headers: {
+                    Authorization: 'Bearer' + ' ' + store.getters['auth/getToken']
+                }
+            })
             store.commit('reg/CLEAR_USER')
             router.push('/').then(() => router.go())
         } 
