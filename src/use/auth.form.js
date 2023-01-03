@@ -3,7 +3,6 @@ import * as yup from 'yup'
 import { useField, useForm } from 'vee-validate'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { errors } from '../utils/errors'
 
 
 export function useAuthForm() {
@@ -28,7 +27,7 @@ export function useAuthForm() {
          router.push('/user')
          .then(() => { router.go() })
       } catch(e) {
-         errors(e.response.data.error.detail)
+         console.log();
       }
    })
    return {
