@@ -4,9 +4,7 @@ import reg from './modules/reg.module'
 import edit from './modules/edit.module'
 import deleteUser from './modules/deleteUser.module'
 
-
 export default createStore({
-  // plugins,
   state: {
     is_loading: false,
   },

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import store from '../index'
+import {error} from '@/utils/error'
+import router from '@/router'
 
 const TOKEN_KEY = 'jwt_token'
 
@@ -31,7 +33,10 @@ export default {
             commit('setToken', data.access_token)
             return data
          } catch (e) {
-            console.log('Error Login :', e);
+            throw error(e.response.data.detail)
+         } 
+         finally {
+            router.push('/user')
          }
       },
       async toUser() {
