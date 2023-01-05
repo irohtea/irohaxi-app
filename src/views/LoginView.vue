@@ -40,7 +40,9 @@
 <script>
 import MyInput from '@/components/UI/MyInput.vue'
 import {useAuthForm} from '../use/auth.form'
-import '@/assets/form.scss'
+
+import '@/assets/forms/form.scss'
+
 export default {
     components: {
         MyInput

@@ -35,6 +35,11 @@ const routes = [
     component: () => import('../views/UserView')
   },
   {
+    path: '/library',
+    name: 'library',
+    component: () => import('../views/LibraryView')
+  },
+  {
     path: '/settings',
     name: 'settings',
     component: () => import('../views/SettingsView')
@@ -44,6 +49,17 @@ const routes = [
     name: 'message',
     component: () => import('../views/SuccessRegView')
   },
+  {
+    path: '/upload-track',
+    name: 'upload-track',
+    component: () => import('../views/UploadTrackView')
+  },
+  {
+    path: '/upload-album',
+    name: 'upload-album',
+    component: () => import('../views/UploadAlbumView')
+  },
+
 ]
 
 const router = createRouter({
