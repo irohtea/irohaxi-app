@@ -157,7 +157,7 @@ export default {
         }
         label {
             position: absolute;
-            margin: 0px -30px 0px 0px;
+            margin: 0px -5px 0px 0px;
             img {
                 width: 30px;
                 height: 30px;

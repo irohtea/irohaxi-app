@@ -5,10 +5,7 @@
             <div class="section__profile" v-else>
                 <div class="section__upper">
                     <div class="section__profile-image">
-                        <img class="section__profile-image_bacground-avatar" src="../assets/img/test-bgi.jpg" alt="">
-                        <div>
-                            <img class="section__profile-image_avatar" :src="user.avatar" alt="User Avatar">
-                        </div>
+                        <img class="section__profile-image_avatar" :src="user.avatar" alt="User Avatar">
                     </div>
                     <div class="section__profile-group">
                         <div class="section__profile-nameis">
@@ -65,6 +62,7 @@ export default {
 .section {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100vh;
     &__profile {
@@ -72,13 +70,21 @@ export default {
         height: 750px;
         @media (max-width: 1200px) {
             width: 700px;
-            height: 250px;
+            height: 500px;
         }
         @media (max-width: 800px) {
-            width: 500px;
+            width: 450px;
             height: 250px;
         }
-        background-color: rgba(10, 10, 10, 0.3);
+        @media (max-width: 600px) {
+            width: 200px;
+            height: 250px;
+        }
+        @media (max-width: 425px) {
+            width: 200px;
+            height: 200px;
+        }
+        background-color: rgba(10, 10, 10, 0.4);
         border-radius: 20px;
     }
 
@@ -87,6 +93,7 @@ export default {
     &__upper {
         display: flex;
         flex-direction: column;
+        height: 100%;
 
     }
 
@@ -94,30 +101,21 @@ export default {
 
     &__profile-image {
         display: flex;
-        height: 220px;
-        div {
-            display: block;
-            position: absolute;
-            height: 300px;
-            margin-top: 90px;
-            margin-left: 40px;
-        }
-        &_bacground-avatar {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-        }
-
-        // .section__profile-image_avatar
+        justify-content: center;
+        margin-bottom: 30px;
 
         &_avatar {
-            width: 130px;
-            height: 130px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
             object-fit: cover;
             @media (max-width: 1200px) {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
+            }
+            @media (max-width: 800px) {
+                width: 100px;
+                height: 100px;
             }
         }
     }
@@ -126,9 +124,8 @@ export default {
 
     &__profile-group {
         display: flex;
-        justify-content: center;
+        align-items: center;
         flex-direction: column;
-        margin: 0px 0px 0px 30px;
         @media (max-width: 800px) {
             gap: 10px;
         }
@@ -138,7 +135,7 @@ export default {
 
     &__profile-nameis {
         display: flex;
-        flex-direction: column;
+        gap: 20px;
     }
 
     // .section__profile-name
@@ -147,7 +144,14 @@ export default {
         font-size: 32px;
         // padding: 0px 0px 10px 0px;
         @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+
+        @media (max-width: 800px) {
             font-size: 22px;
+        }
+        @media (max-width: 800px) {
+                font-size: 16px;
         }
         input {
             display: block;
@@ -170,7 +174,13 @@ export default {
     &__profile-surname {
         font-size: 32px;
         @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+        @media (max-width: 800px) {
             font-size: 22px;
+        }
+        @media (max-width: 800px) {
+            font-size: 16px;
         }
         input {
             display: block;
@@ -193,6 +203,9 @@ export default {
     &__profile-email {
         @media (max-width: 800px) {
             font-size: 14px;
+        }
+        @media (max-width: 800px) {
+            font-size: 10px;
         }
     }
 
