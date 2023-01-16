@@ -28,7 +28,7 @@ export default {
    }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .track {
    display: grid;
    justify-items: center;
@@ -77,5 +77,70 @@ export default {
    }
 
 }
+.album-tracks {
 
+   .track {
+      display: flex;
+      max-width: 100%;
+      transition: all 0.3s ease 0s;
+      cursor: pointer;
+      // border-top: 1px solid $grey;
+      &:last-child {
+         // border-bottom: 1px solid $grey;
+      }
+      &:hover{
+         background-color: $darkBlue;               
+      }
+      &__body {
+         display: flex;
+         align-items: center;
+         gap: 15px;
+         padding: 10px;
+      }
+      // .track__img
+      &__img {
+         position: relative;
+         width: 80px;
+         height: 80px;
+         @media (max-width: 425px){
+             width: 40px;           
+             height: 40px;
+         }
+         img {
+            width: 100%;            
+            height: auto;
+            object-fit: cover;
+            border-radius: 0px;
+         }
+      }
+      // .track__info
+      &__info {
+         display: flex;
+         flex-direction: column;
+         gap: 5px;
+         margin-top: 10px;
+      }
+      // .track__name
+      &__name {
+         font-weight: 700;
+         color: #fff;
+       
+      }
+      // .track__controls
+      &__controls {
+         display: none;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translateX(-50%);
+      }
+      // .track__author
+      &__author {
+         white-space: nowrap;
+         @media (max-width: 425px){
+             white-space: normal; 
+         }
+      }
+   }
+}
 </style>

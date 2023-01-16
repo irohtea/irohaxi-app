@@ -59,6 +59,11 @@ const routes = [
     name: 'upload-album',
     component: () => import('../views/UploadAlbumView')
   },
+  {
+    path: '/album/:id',
+    name: 'album',
+    component: () => import('../views/AlbumView')
+  },
 
 ]
 

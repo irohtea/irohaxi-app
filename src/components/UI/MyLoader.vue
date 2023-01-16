@@ -15,7 +15,8 @@ export default {
     height: 100px;
     border: 3px solid $light;
     border-radius: 50%;
-    display: inline-block;
+    // display: inline-block;
+    margin: 0 auto;
     position: relative;
     animation: rotation 1s linear infinite;
     &:after {

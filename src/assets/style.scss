@@ -57,10 +57,12 @@ svg {
    display: flex;
    main {
       flex: 1 1 0;
-  min-height: 100vh;
+      min-height: 100vh;
       // padding: 32px;
       @media (max-width: 768px) {
-         padding-left: 96px;
+         // padding-left: 96px;
+         padding-left: 60px;
+
       }
       @media (max-width: 475px) {
          padding-left: 60px;

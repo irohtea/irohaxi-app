@@ -39,8 +39,8 @@ export default {
       display: flex;
       justify-content:center;
       align-items: center;
-      width: 160px;
-      height: 160px;
+      width: 200px;
+      height: 200px;
       border: 1px solid $grey;
       border-radius: 10px;
       transition: 0.3s ease 0s;

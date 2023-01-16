@@ -35,6 +35,26 @@ input[type="file"] {
          background-color: #111127;
        }
      }
+    // .upload__back
+    &__back {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: $lightBlue;
+      transition: 0.3s ease-out 0s;
+      &:hover {
+          transform: translateX(-10px);
+      }
+    }
+    // .upload__error
+    &__error {
+      margin-top: 10px;
+      color: $accentColor;
+    }
+    // .upload__message
+    &__message {
+      margin-top: 10px;
+      color: $light;
+    }
  }
  .upload-form {
     padding: 32px;
@@ -182,10 +202,10 @@ input[type="file"] {
      }
      // .upload-form__wrap
      &__wrap {
+       position: relative;
        display: flex;
        justify-content:center;
        align-items: center;
-       position: relative;
        border: 3px dashed $blue;
        width: 300px;
        height: 300px;
@@ -245,3 +265,4 @@ input[type="file"] {
        // .checks__label
        &__label {}
  }
+

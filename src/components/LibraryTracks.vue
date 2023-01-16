@@ -1,14 +1,17 @@
 <template>
-  <div class="track__items">
-      <router-link to="/upload-track">
-        <add-button>Track</add-button>
-      </router-link>
-      <my-track 
-      v-for="track in tracks" 
-      :key="track.id"
-      :track="track" 
-      />
+  <div class="tracks__container">
+     <div class="tracks__items">
+        <router-link to="/upload-track">
+          <add-button>Track</add-button>
+        </router-link>
+        <my-track 
+        v-for="track in tracks" 
+        :key="track.id"
+        :track="track" 
+        />
+    </div>
   </div>
+ 
 </template>
 
 <script>
@@ -30,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.track {
+.tracks {
 		// .track__items
 		&__items {
       display: grid;

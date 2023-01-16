@@ -41,9 +41,9 @@ export default {
 		&__header {
          display: flex;
          flex-wrap: wrap;
-         margin: 0px -15px 32px -15px;
+         margin: 0px 0px 32px 0px;
          background-color: rgba(25, 24, 38, 0.5);
-         padding: 0px 15px;
+         padding: 0px 32px;
          @media (max-width: 425px){
               justify-content:center;
          }

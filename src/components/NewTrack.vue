@@ -2,6 +2,9 @@
   <main class="upload">
     <div class="upload__container">
       <div class="upload__body">
+        <router-link to="/library">
+          <div class="upload__back"><span>&lt;</span> Library</div>
+        </router-link>
         <h1 class="upload__title">Upload your track!</h1>
         <form class="upload__form upload-form" @submit.prevent="uploadNewTrack">
           <div class="upload-form__body">
@@ -46,26 +49,36 @@
             </div>
           </div>
           <button type="submit" class="upload__btn">Upload</button>
+          <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
+          <div class="upload__message" v-if="success != ''">{{ success }}</div>
         </form>
       </div>
     </div>
   </main>
+  <upload-loader v-if="$store.state.is_loading"></upload-loader>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
 import axios from 'axios'
+
+import UploadLoader from '@/components/UI/UploadLoader.vue'
 
 import '@/assets/forms/upload-form.scss'
 
 export default {
- 
+ components: {
+  UploadLoader
+ },
   setup() {
+    const store = useStore()
     const newTrack = ref({
       name: '',
       author: '',
       text: '',
       img_src: '',
+      album_id: 1,
       song_poster: '',
       is_hidden: false,
       genre: [],
@@ -74,18 +87,18 @@ export default {
     const genres = ref([
     ])
     //Working with input file upload========================================================================================================================================================
-    const onFileChange = (e) => {
-        let files = e.target.files || e.dataTransfer.files;
-        if (!files.length) {
-          return;
-        }
-        if(files[0].type == 'audio/mpeg') {
-          createSong(files[0])
-        } else {
-          console.log('картинка');
-          createImage(files[0]);
-        }
-    }
+    // const onFileChange = (e) => {
+    //     let files = e.target.files || e.dataTransfer.files;
+    //     if (!files.length) {
+    //       return;
+    //     }
+    //     if(files[0].type == 'audio/mpeg') {
+    //       createSong(files[0])
+    //     } else {
+    //       console.log('картинка');
+    //       createImage(files[0]);
+    //     }
+    // }
     const createImage = (event) => {
       let file = event.target.files[0] || event.dataTransfer.files;
       
@@ -117,6 +130,8 @@ export default {
       }
     }) 
 
+    const success = ref('')
+    const errorMessage = ref('')
     const uploadNewTrack = async () => {
       
       const formData = new FormData();
@@ -127,6 +142,7 @@ export default {
       formData.append("name", newTrack.value.name)
       formData.append("track_author", newTrack.value.author)
       formData.append("text", newTrack.value.text)
+      formData.append("album_id", newTrack.value.album_id)
       formData.append("is_hidden", newTrack.value.is_hidden)
       formData.append("song", newTrack.value.track)
       formData.append("song_poster", newTrack.value.song_poster)
@@ -139,26 +155,47 @@ export default {
         }
 
       }
-
+      store.dispatch('setLoadingTrue')
       try {
         await axios.post(`https://irohaxi.site/api/v1/tracks/`,
         formData,
         config
-        ).then(response => console.log(response.data))
-        
+        )
+        .then(response => {
+          if(response.status == 200) {
+            success.value = 'track uploaded!'
+            errorMessage.value = ''
+
+            newTrack.value = ({
+               name: '',
+               img_src: '',
+               poster: '',
+               description: '',
+               is_hidden: false,
+            })
+          }
+        })
+        store.dispatch('setLoadingFalse')
       } catch (error) {
-        console.log(error);
+        switch(error.response.status) {
+          case 422:
+            errorMessage.value = 'Error'
+            break;
+        }
+      } finally {
+        store.dispatch('setLoadingFalse')
       }
     }
 
     return {
       newTrack,
       uploadNewTrack,
-      onFileChange,
       createImage,
       createSong,
       genres,
-      removeImage
+      removeImage,
+      success,
+      errorMessage
     }
   }
 }
