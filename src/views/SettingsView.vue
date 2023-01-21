@@ -98,11 +98,9 @@ export default {
 .wrapper {
     display: flex;
     justify-content: center;
-
+    margin-bottom: 50px;
     &__container {
         width: 100%;
-        height: 700px;
-
         padding: 0px;
         border-radius: 10px;
         background-color: rgba(10, 10, 10, 0.3);
@@ -110,11 +108,19 @@ export default {
 }
 .settings {
     display: flex;
-    height: 100%;
+    min-height: 700px;
+
+    // height: 100%;
+    @media (max-width: 560px){
+        flex-direction: column;
+        justify-content:center;
+        align-items: center;
+    }
     // .settings__header
 
     &__header {
         display: flex;
+        flex: 0 0 29%;
         flex-direction: column;
     }
 
@@ -123,10 +129,13 @@ export default {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        width: 300px;
+        // width: 300px;
         min-height: 180px;
         border-right: 2px solid rgba(255, 255, 255, 0.09);
         border-bottom: 2px solid rgba(255, 255, 255, 0.09);
+        @media (max-width: 560px){
+            border: none;
+        }
         img {
             width: 110px;
             height: 110px;
@@ -137,12 +146,12 @@ export default {
                 height: 70px;
             }
         }
-        @media (max-width: 924px) {
-            width: 230px;
-        }
-        @media (max-width: 765px) {
-            width: 180px;
-        }
+        // @media (max-width: 924px) {
+        //     width: 230px;
+        // }
+        // @media (max-width: 765px) {
+        //     width: 180px;
+        // }
     }
 
     &__image-profile {
@@ -155,6 +164,7 @@ export default {
             justify-content: center;
             flex-direction: row-reverse;
         }
+        
         label {
             position: absolute;
             margin: 0px -5px 0px 0px;
@@ -210,7 +220,6 @@ export default {
         justify-content: center;
         flex-wrap: wrap;
         width: 100%;
-
         margin-top: 10px;
     }
 
@@ -234,6 +243,9 @@ export default {
     &__sidebar {
         border-right: 2px solid rgba(255, 255, 255, 0.09);
         height: 100%;
+        @media (max-width: 560px){
+              border: none;
+        }
     }
 
     // .settings__navigation
