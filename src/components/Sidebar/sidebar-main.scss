@@ -34,6 +34,7 @@
       .sidebar__user-icon {
          img {
             width: 64px;
+            height: 64px;
          }
       } 
 		.sidebar__user-name {
@@ -84,9 +85,10 @@
       &__user-icon {
          img {
             transition: all 0.2s ease-out 0s;
+            height: 32px;
             width: 32px;
             border-radius: 50%;
-            object-fit: contain;
+            object-fit: cover;
          }
       }  
 		// .sidebar__user-name
