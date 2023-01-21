@@ -6,7 +6,7 @@ import player from './modules/player.module'
 
 import edit from './modules/edit.module'
 import deleteUser from './modules/deleteUser.module'
-import image from './modules/image.module
+import image from './modules/image.module'
 
 export default createStore({
   state: {
