@@ -1,8 +1,12 @@
-import { createStore, } from 'vuex'
+import { createStore } from 'vuex'
 import auth from './modules/auth.module'
 import reg from './modules/reg.module'
+
 import player from './modules/player.module'
 
+import edit from './modules/edit.module'
+import deleteUser from './modules/deleteUser.module'
+import image from './modules/image.module
 
 export default createStore({
   state: {
@@ -25,6 +29,11 @@ export default createStore({
     }
   },
   modules: {
-    auth, reg, player
+    player,
+    auth, 
+    reg, 
+    edit,
+    deleteUser,
+    image
   }
 })

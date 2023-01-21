@@ -1,80 +1,269 @@
 <template>
-  <div>
-    <div>User шмузер</div>
-    <main class="user__page">
-      <section class="user__section">
-        <div class="user__container">
-          <div class="user__item">
-            <div class="user__avatar">
-              <div class="user__img">
-                <img :src="user.avatar" alt="user avatar">
-              </div>
-              <div class="user__info">
-                <div class="user__email">{{ user.email }}</div>
-                <div class="user__id"> {{  user.id }}</div>
-              </div>
+    <main class="main">
+        <div class="section" >
+        <Loader class="loader" v-if="isLoader"></Loader>
+            <div class="section__profile" v-else>
+                <div class="section__upper">
+                    <div class="section__profile-image">
+                        <img class="section__profile-image_avatar" :src="user.avatar" alt="User Avatar">
+                    </div>
+                    <div class="section__profile-group">
+                        <div class="section__profile-nameis">
+                            <div class="section__profile-name">
+                                <div>{{user.first_name}}</div>
+                            </div>
+                            <div class="section__profile-surname">
+                                <div>{{user.last_name}}</div>
+                            </div>
+                        </div>
+                        <div class="section__profile-email">
+                                <p>{{user.email}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </div> 
     </main>
-  </div>
 </template>
 <script>
-// import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {onMounted, ref} from 'vue'
+import Loader from '../components/UI/MyLoader.vue'
 
 export default {
   setup() {
-    //   const router = useRouter()
       const store = useStore()
       const user = ref({})
-      
+
+      const isLoader = ref(true)
+
       onMounted( async () => {
+        isLoader.value = true
         user.value = await store.dispatch('auth/toUser')
+        isLoader.value = false
       })
-      
-      console.log(user);
 
       return {
-        //   logout: () => {
-        //       store.commit('auth/logout')
-        //       router.push('/auth')
-        //   },
-          user
+          user,
+          isLoader,
       }
+  },
+  components: {
+    Loader,
+    // MyInput
   }
 }
 </script>
 <style lang="scss" scoped>
-.user {
-    // .user__page
-    &__page {}
-    // .user__section
-    &__section {}
-    // .user__container
-    &__container {}
-    // .user__item
-    &__item {
-      margin: 50px 0px;
-    }
-    // .user__avatar
-    &__avatar {
-      width: 100%;
-      img {
-        width: 300px;
-        object-fit: contain;
-        border-radius: 50%;
-      }
-    }
-    // .user__img
-    &__img {}
-    // .user__info
-    &__info {}
-    // .user__email
-    &__email {}
-    // .user__id
-    &__id {}
+.main {
 }
+.loader {
+}
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    &__profile {
+        width: 1240px;
+        height: 750px;
+        @media (max-width: 1200px) {
+            width: 700px;
+            height: 500px;
+        }
+        @media (max-width: 800px) {
+            width: 450px;
+            height: 250px;
+        }
+        @media (max-width: 600px) {
+            width: 200px;
+            height: 250px;
+        }
+        @media (max-width: 425px) {
+            width: 200px;
+            height: 200px;
+        }
+        background-color: rgba(10, 10, 10, 0.4);
+        border-radius: 20px;
+    }
+
+    // .section__upper
+
+    &__upper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+    }
+
+    // .section__profile-image
+
+    &__profile-image {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+
+        &_avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            @media (max-width: 1200px) {
+                width: 200px;
+                height: 200px;
+            }
+            @media (max-width: 800px) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
+
+    // .section__profile-group
+
+    &__profile-group {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        @media (max-width: 800px) {
+            gap: 10px;
+        }
+    }
+
+    // .section__profile-nameis
+
+    &__profile-nameis {
+        display: flex;
+        gap: 20px;
+    }
+
+    // .section__profile-name
+
+    &__profile-name {
+        font-size: 32px;
+        // padding: 0px 0px 10px 0px;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+
+        @media (max-width: 800px) {
+            font-size: 22px;
+        }
+        @media (max-width: 800px) {
+                font-size: 16px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            // height: 30px;
+            color: #fff;
+            background-color: rgba(10, 10, 10, 0.3);
+            outline: none;
+            border: none;
+            padding: 0px 0px 0px 10px;
+            @media (max-width: 800px) {
+                width: 100%;
+                // height: 20px;
+            }
+        }
+    }
+
+    // .section__profile-surname
+
+    &__profile-surname {
+        font-size: 32px;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+        @media (max-width: 800px) {
+            font-size: 22px;
+        }
+        @media (max-width: 800px) {
+            font-size: 16px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            // height: 30px;
+            color: #fff;
+            background-color: rgba(10, 10, 10, 0.3);
+            outline: none;
+            border: none;
+            padding: 0px 0px 0px 10px;
+            @media (max-width: 800px) {
+                width: 100%;
+                // height: 20px;
+            }
+        }
+    }
+
+    // .section__profile-email
+
+    &__profile-email {
+        @media (max-width: 800px) {
+            font-size: 14px;
+        }
+        @media (max-width: 800px) {
+            font-size: 10px;
+        }
+    }
+
+    // .section__profile-number
+
+    &__profile-number {
+        // font-size: 20px;
+    }
+
+    // .section__profile-sms
+
+    &__profile-sms {
+        // font-size: 16px;
+    }
+
+    // .section__profile-button
+
+    &__profile-button {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        align-items: center;
+        // margin-top: 10px;
+        width: 100%;
+        height: 50px;
+
+        // .section__profile-button_edit
+
+        &_edit {
+            display: block;
+            padding: 4px 10px;
+            background-color: rgba(10, 10, 10, 0.3);
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid rgb(68, 32, 32);
+        }
+
+        // .section__profile-button_save
+
+        &_save {
+            display: block;
+            padding: 4px 10px;
+            background-color: rgba(10, 10, 10, 0.3);
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid rgb(68, 32, 32);
+        }
+        div {
+            font-size: 40px;
+            margin-left: 50px;
+            color: #fff;
+        }
+    }
+}
+.close {
+    margin-right: 10px;
+}
+
 </style>
+
+        

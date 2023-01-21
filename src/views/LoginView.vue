@@ -4,32 +4,34 @@
             <div class="login__body">
                 <form @submit.prevent="onSubmit" class="form">
                     <div class="form__body">
-                    <div class="form__icon">
-                        <img src="../assets/img/logo.png" alt="Logo">
-                    </div>
-                    <h2 class="form__title">Login Title</h2>
-                    <div class="form__item">
-                        <label for="email" class="form__label">Email <span>*</span></label>
-                        <my-input id="email" 
-                            type="email"
-                            class="form__input" 
-                            placeholder="Email" 
-                            @blur="eBlur"
-                            v-model="email"/>
-                        <small class="form__error" v-if="eError">{{eError}}</small>
-                    </div>
-                    <div class="form__item">
-                        <label for="password" class="form__label">Password <span>*</span></label>
-                        <my-input id="password" 
-                            type="password"
-                            class="form__input" 
-                            placeholder="Password" 
-                            @blur="pBlur"
-                            v-model="password"/>
-                        <small class="form__error" v-if="pError">{{pError}}</small>
-                    </div>
-                    <button type="sumbit" class="form__button">Login</button>
-                    <div class="form__redirect">Have no accaunt? <router-link to="/register" class="form__link">Click to register.</router-link></div>
+                        <div class="form__icon">
+                            <img src="../assets/img/logo.png" alt="Logo">
+                        </div>
+                        <h2 class="form__title">Login Title</h2>
+                        <div class="form__item">
+                            <label for="email" class="form__label">Email <span>*</span></label>
+                            <my-input id="email" 
+                                type="email"
+                                class="form__input" 
+                                placeholder="Email" 
+                                @blur="eBlur"
+                                v-model="email"/>
+                            <small class="form__error" v-if="eError">{{eError}}</small>
+                        </div>
+                        <div class="form__item">
+                            <label for="password" class="form__label">Password <span>*</span></label>
+                            <my-input id="password" 
+                                type="password"
+                                class="form__input" 
+                                placeholder="Password" 
+                                @blur="pBlur"
+                                v-model="password"/>
+                            <small class="form__error" v-if="pError">{{pError}}</small>
+                        </div>
+                        <button type="sumbit" class="form__button">Login</button>
+                        <div class="form__redirect">Have no accaunt? 
+                            <router-link to="/register" class="form__link">Click to register.</router-link>
+                        </div>
                     </div>
                 </form>
             </div>
