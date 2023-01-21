@@ -22,10 +22,11 @@ export function albumRetrieve(id) {
          console.log(error);
       }
       try {
-         const result = await analyze(album.value.poster) 
+         const result = await analyze(album.value.poster, { ignore: [ 'rgb(255,255,255)', 'rgb(0,0,0)', 'rgb(128, 128, 128)' ] }) 
          bgColor.value = result[0].color
          background.value = {
-            'background': `linear-gradient(90deg, #0d0d13 50%, ${bgColor.value})`
+            'background': `linear-gradient(180deg, #0d0d13 50%, ${bgColor.value})`,
+            'box-shadow': `0px 0px 20px ${bgColor.value}`,
          }
          console.log(bgColor.value);
       } catch (error) {

@@ -1,8 +1,8 @@
 <template>
-  <main class="album">
+  <main class="album" :style="background">
    <div class="album__container">
-      <div class="album__body">
-         <div class="album__info album-info" :style="background">
+      <div class="album__body" >
+         <div class="album__info album-info" >
             <div class="album-info__left">
                <div class="album-info__img">
                   <img :src="album.poster" :alt="album.name">
@@ -55,8 +55,6 @@
 </template>
 <script>
 
-// import { ref,  } from 'vue'
-// import axios from 'axios'
 import { useRoute } from 'vue-router'
 import MyTrack from '@/components/MyTrack.vue'
 
@@ -111,9 +109,7 @@ svg {
    display: flex;
    align-items: center;
    gap: 20px;
-   @media (max-width: 768px){
-      flex-direction: column;
-   }
+
 		// .album-info__left
 		&__left {
          flex: 1 0 30%;
@@ -122,13 +118,16 @@ svg {
       }
 		// .album-info__img
 		&__img {
-         margin-bottom: 15px;
-         max-width: 500px;
-         width: 500px;
-         height: 500px;
+         position: relative;
+         padding: 0px 0px 100% 0px;
+         min-height: 160px;
+         min-width: 160px;
          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
             width: 100%;
-            height: 500px;
             object-fit: cover;
             border-radius: 15px;
          }
@@ -137,7 +136,6 @@ svg {
 		// .album-info__right
 		&__right {
          flex: 1 0 50%;
-         // margin-top: 100px;
          @media (max-width: 768px){
             margin-top: 20px;
          }
@@ -148,13 +146,16 @@ svg {
          font-weight: 700;
          letter-spacing: 1.5px;
          margin-bottom: 20px;
+         @media (max-width: 480px){
+            margin-bottom: 5px;
+            font-size: 18px;
+         }
       }
       // .album-info__band
       &__band {
          font-size: 18px;
          font-weight: 700;
          margin-bottom: 10px;
-         // font-style: italic;
          span {
             text-decoration: underline;
          }
@@ -165,6 +166,9 @@ svg {
       }
 		// .album-info__description
 		&__description {
+         @media (max-width: 768px){
+              display: none;
+         }
       }
 		// .album-info__genre-list
 		&__genre-list {
@@ -190,11 +194,10 @@ svg {
 		// .album-actions__play
 		&__play {}
 }
-
 .album-tracks {
    margin-top: 20px;
    padding-top: 20px;
-      
+   color: grey;
 }
 
 

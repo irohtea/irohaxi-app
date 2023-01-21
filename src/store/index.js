@@ -1,6 +1,7 @@
 import { createStore, } from 'vuex'
 import auth from './modules/auth.module'
 import reg from './modules/reg.module'
+import player from './modules/player.module'
 
 
 export default createStore({
@@ -24,6 +25,6 @@ export default createStore({
     }
   },
   modules: {
-    auth, reg, 
+    auth, reg, player
   }
 })

@@ -1,5 +1,5 @@
 <template>
-   <div class="track">
+   <div class="track" @click="$store.dispatch('player/addToPlayList', {track})">
       <div class="track__body">
          <div class="track__img">
             <img :src="track.song_poster" alt="Song Poster">
@@ -14,7 +14,7 @@
             </div>
          </div>
       </div>
-    </div>
+   </div>
 </template>
 
 <script>
@@ -32,23 +32,22 @@ export default {
 .track {
    display: grid;
    justify-items: center;
-   max-width: 160px;
    margin: 0 auto;
    // .track__body
    &__body {
    }
    // .track__img
    &__img {
-      // background: $darkBlue;
-      // border-radius: 10px;
       position: relative;
-      width: 160px;
-      height: 160px;
+      z-index: 5;
+      width: 200px;
+      height: 200px;
       img {
-         width: 160px;
-         height: 160px;
+         width: 200px;
+         height: 200px;
          object-fit: cover;
          border-radius: 10px;
+         transition: all 0.3s ease 0s;
       }
    }
    // .track__info
@@ -84,12 +83,13 @@ export default {
       max-width: 100%;
       transition: all 0.3s ease 0s;
       cursor: pointer;
-      // border-top: 1px solid $grey;
+      // border-bottom: 1px solid $grey;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.09);
       &:last-child {
-         // border-bottom: 1px solid $grey;
+         border-bottom: none;
       }
       &:hover{
-         background-color: $darkBlue;               
+         background-color: rgba(255, 255, 255, 0.09);              
       }
       &__body {
          display: flex;

@@ -1,8 +1,8 @@
 <template>
   <main class="home">
-    <div class="home__container">
-      
-    </div>
+    <section class="home__popular-albums popular-albums"></section>
+    <section class="home__popular-tracks popular-tracks"></section>
+    <section class="home__popular-albums popular-albums"></section>
   </main>
 </template>
 
