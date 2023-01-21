@@ -57,7 +57,18 @@ const routes = [
     path: '/settings',
     name: 'settings',
     component: () => import('../views/SettingsView'),
+    children: [
+      {
+        path: 'account',
+        component: () => import('../components/Settings/SettingsAccountSidebar'),
+        meta: {
+          sidebar: 'SettingsAccount',
+          auth: true,
+        }
+      },
+    ],
     meta: {
+      sidebar: 'settings',
       auth: true
     }
   },
@@ -73,7 +84,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 

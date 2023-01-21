@@ -13,12 +13,12 @@ export function useRegForm() {
    // isSubmitting, submitCount
    const { value: email, errorMessage: eError, handleBlur: eBlur } = useField(
       'email',
-      yup.string().trim().required().email()
+      yup.string().trim().required('This is a required field!').email('This must be a valid email!')
    )
 
    const { value: password, errorMessage: pError, handleBlur: pBlur } = useField(
       'password',
-      yup.string().trim().required().min(3)
+      yup.string().trim().required('This is a required field!').min(8, 'This must be at least 8 characters!')
    )
 
    const register = handleSubmit(async (values) => {

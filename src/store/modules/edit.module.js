@@ -5,15 +5,15 @@ import store from '../index'
 export default {
     namespaced: true,
     state: {
-
-    },
-    getters: {
+        response: ''
     },
     mutations: {
-
+        setResponse(state, response) {
+            state.response = response
+        }
     },
     actions: {
-        async updateProfile(_, name) {
+        async updateProfile({commit}, name) {
             console.log(name);
             const url = 'https://irohaxi.site/api/v1/user/update/'
             await axios.put(url, name, 
@@ -21,7 +21,9 @@ export default {
                 headers: {
                     Authorization: 'Bearer ' + store.getters['auth/getToken']
                 }
-            }).then(res => res.data)
+            }).then(res => {
+                commit('setResponse', res.data)
+            })
         }
     }
 }

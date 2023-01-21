@@ -3,6 +3,7 @@ import auth from './modules/auth.module'
 import reg from './modules/reg.module'
 import edit from './modules/edit.module'
 import deleteUser from './modules/deleteUser.module'
+import image from './modules/image.module'
 
 export default createStore({
   state: {
@@ -19,6 +20,7 @@ export default createStore({
     auth, 
     reg, 
     edit,
-    deleteUser
+    deleteUser,
+    image
   }
 })

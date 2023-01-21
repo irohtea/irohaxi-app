@@ -1,60 +1,31 @@
 <template>
-    <main class="user">
-    <Loader class="loader" v-if="isLoader"></Loader>
-      <div class="container" v-else>
-        <div class="both">
-          <section class="user__image">
-            <div class="user__image-container">
-                <div class="user__image-avatar">
-                    <img :src="user.avatar" alt="user avatar">
+    <main class="main">
+        <div class="section" >
+        <Loader class="loader" v-if="isLoader"></Loader>
+            <div class="section__profile" v-else>
+                <div class="section__upper">
+                    <div class="section__profile-image">
+                        <img class="section__profile-image_avatar" :src="user.avatar" alt="User Avatar">
+                    </div>
+                    <div class="section__profile-group">
+                        <div class="section__profile-nameis">
+                            <div class="section__profile-name">
+                                <div>{{user.first_name}}</div>
+                            </div>
+                            <div class="section__profile-surname">
+                                <div>{{user.last_name}}</div>
+                            </div>
+                        </div>
+                        <div class="section__profile-email">
+                                <p>{{user.email}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </section>
-          <section class="user__about">
-            <div class="user__about-container">
-              <div class="user__about-name">
-                <MyInput
-                  id="firstName"
-                  type="text"
-                  placeholder="Name" 
-                  @blur="fBlur"
-                  v-model="firstName"
-                  v-if="isInputActive"
-                  />
-                <div v-else>{{user.first_name}}</div>
-                <small class="error-description" v-if="fError">{{fError}}</small>
-              </div>
-              <div class="user__about-last-name">
-                <MyInput
-                  id="lastName"
-                  type="text"
-                  placeholder="Name" 
-                  @blur="sBlur"
-                  v-model="lastName"
-                  v-if="isInputActive" 
-                />
-                <div  v-else>{{user.last_name}}</div>
-                <small class="error-description" v-if="sError">{{sError}}</small>
-              </div>
-            </div>
-          </section>
-          <button class="button" @click="editProfile" v-if="isEditActive">Edit profile</button>
-          <button class="button" @click="updateProfile" v-else>Update!</button>
-          <button class="close" @click="close" v-if="isInputActive">X</button>
-        </div>
-        <section class="user__info">
-          <div class="user__info-container">
-            <p class="user__info-discription">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, sint. Hic repellendus aperiam a maiores blanditiis culpa odit suscipit similique repudiandae. Incidunt, temporibus ipsum fuga asperiores unde placeat facere ducimus eum quam quae sunt ab dolorum officiis a nobis mollitia tempora? Cupiditate, debitis doloribus nihil unde iste magnam libero perferendis repellendus corrupti placeat tempora praesentium nam dolores laborum est voluptatem magni iusto quidem exercitationem numquam corporis provident! Id repudiandae quae esse distinctio quibusdam nulla, et iste nam perspiciatis nisi cupiditate.</p>
-          </div>
-        </section>
-      </div>
+        </div> 
     </main>
 </template>
 <script>
-// import {useRouter} from 'vue-router'
-import MyInput from '@/components/UI/MyInput.vue'
-import { firstAndLastName } from '../use/name.module'
 import {useStore} from 'vuex'
 import {onMounted, ref} from 'vue'
 import Loader from '../components/UI/MyLoader.vue'
@@ -63,33 +34,8 @@ export default {
   setup() {
       const store = useStore()
       const user = ref({})
+
       const isLoader = ref(true)
-      const firstName = ref('')
-      const lastName = ref('')
-      const isEditActive = ref(true)
-      const isInputActive = ref(false)
-
-      const editProfile = function() {
-        isEditActive.value = false
-        isInputActive.value = true
-      }
-
-      const updateProfile = function() {
-        isEditActive.value = true
-        isInputActive.value = false
-          const name = ref({
-            first_name: firstName.value,
-            last_name: lastName.value
-          })
-          user.value.first_name = firstName.value
-          user.value.last_name = lastName.value
-        store.dispatch('edit/updateProfile', {...name.value})
-      }
-      
-      const close = function() {
-        isEditActive.value = true
-        isInputActive.value = false
-      }
 
       onMounted( async () => {
         isLoader.value = true
@@ -100,144 +46,224 @@ export default {
       return {
           user,
           isLoader,
-          isEditActive,
-          firstName,
-          lastName,
-          editProfile,
-          updateProfile,
-          isInputActive,
-          close,
-          ...firstAndLastName(),
-          
       }
   },
   components: {
     Loader,
-    MyInput
+    // MyInput
   }
 }
 </script>
 <style lang="scss" scoped>
-  .user {
+.main {
+}
+.loader {
+}
+.section {
     display: flex;
     justify-content: center;
-    padding: 150px;
+    align-items: center;
     width: 100%;
-    max-height: 100vh;
-		// .user__image
+    height: 100vh;
+    &__profile {
+        width: 1240px;
+        height: 750px;
+        @media (max-width: 1200px) {
+            width: 700px;
+            height: 500px;
+        }
+        @media (max-width: 800px) {
+            width: 450px;
+            height: 250px;
+        }
+        @media (max-width: 600px) {
+            width: 200px;
+            height: 250px;
+        }
+        @media (max-width: 425px) {
+            width: 200px;
+            height: 200px;
+        }
+        background-color: rgba(10, 10, 10, 0.4);
+        border-radius: 20px;
+    }
 
-		&__image {
-      
-		}
+    // .section__upper
 
-		// .user__image-container
+    &__upper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
 
-		&__image-container {
-		}
+    }
 
-		// .user__image-avatar
+    // .section__profile-image
 
-		&__image-avatar {
-      img {
-      width: 150px;
-      border-radius: 50%;
-      }
-		}
+    &__profile-image {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
 
-		// .user__about
+        &_avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            @media (max-width: 1200px) {
+                width: 200px;
+                height: 200px;
+            }
+            @media (max-width: 800px) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
 
-		&__about {
-      font-size: 30px;
-		}
+    // .section__profile-group
 
-		// .user__about-container
+    &__profile-group {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        @media (max-width: 800px) {
+            gap: 10px;
+        }
+    }
 
-		&__about-container {
-      margin: 0px 0px 0px 10px;
-      
-		}
+    // .section__profile-nameis
 
-		// .user__about-name
+    &__profile-nameis {
+        display: flex;
+        gap: 20px;
+    }
 
-		&__about-name {
-      
-		}
+    // .section__profile-name
 
-		// .user__about-last-name
+    &__profile-name {
+        font-size: 32px;
+        // padding: 0px 0px 10px 0px;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+        }
 
-		&__about-last-name {
-		}
+        @media (max-width: 800px) {
+            font-size: 22px;
+        }
+        @media (max-width: 800px) {
+                font-size: 16px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            // height: 30px;
+            color: #fff;
+            background-color: rgba(10, 10, 10, 0.3);
+            outline: none;
+            border: none;
+            padding: 0px 0px 0px 10px;
+            @media (max-width: 800px) {
+                width: 100%;
+                // height: 20px;
+            }
+        }
+    }
 
-		// .user__info
+    // .section__profile-surname
 
-		&__info {
-      
-		}
+    &__profile-surname {
+        font-size: 32px;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+        @media (max-width: 800px) {
+            font-size: 22px;
+        }
+        @media (max-width: 800px) {
+            font-size: 16px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            // height: 30px;
+            color: #fff;
+            background-color: rgba(10, 10, 10, 0.3);
+            outline: none;
+            border: none;
+            padding: 0px 0px 0px 10px;
+            @media (max-width: 800px) {
+                width: 100%;
+                // height: 20px;
+            }
+        }
+    }
 
-		// .user__info-container
+    // .section__profile-email
 
-		&__info-container {
-		}
+    &__profile-email {
+        @media (max-width: 800px) {
+            font-size: 14px;
+        }
+        @media (max-width: 800px) {
+            font-size: 10px;
+        }
+    }
 
-		// .user__info-discription
+    // .section__profile-number
 
-		&__info-discription {
-      max-width: 800px;
-      max-height: 300px;
-      overflow: hidden;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 10px;
-      background: rgba(34, 28, 54, 0.81);
-		}
-}
-.container {
-  // position: absolute;
-  // top: 150px;
-  // left: 400px;
-  max-width: 1000px;
-}
-.both {
-  display: flex;
-  align-items: center;
-  margin: 0px 0px 30px 0px;
-  
-}
-.button {
-      display: block;
-      margin-left: auto;
-      padding: 16px;
-      font-size: 18px;
-      color: rgb(255, 255, 255);
-      font-weight: 400;
-      background-color: #41b883;
-      border-radius: 10px;
-      margin-top: 15px;
-      transition: 0.3s ease-out 0s;
-      box-shadow: 0 0 10px rgba(65, 184, 131, 0.291),
-                  0 0 20px rgba(65, 184, 131, 0.291),
-                  0 0 30px rgba(65, 184, 131, 0.291);
-      &:hover {
-         background-color: #38e396;
-         color: rgb(51, 40, 40);
-      }
-      @media (max-width: 475px){
-         font-size: 16px;
-      }
-}
-.error-description {
-  font-size: 16px;
-  color: red;
+    &__profile-number {
+        // font-size: 20px;
+    }
+
+    // .section__profile-sms
+
+    &__profile-sms {
+        // font-size: 16px;
+    }
+
+    // .section__profile-button
+
+    &__profile-button {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        align-items: center;
+        // margin-top: 10px;
+        width: 100%;
+        height: 50px;
+
+        // .section__profile-button_edit
+
+        &_edit {
+            display: block;
+            padding: 4px 10px;
+            background-color: rgba(10, 10, 10, 0.3);
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid rgb(68, 32, 32);
+        }
+
+        // .section__profile-button_save
+
+        &_save {
+            display: block;
+            padding: 4px 10px;
+            background-color: rgba(10, 10, 10, 0.3);
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid rgb(68, 32, 32);
+        }
+        div {
+            font-size: 40px;
+            margin-left: 50px;
+            color: #fff;
+        }
+    }
 }
 .close {
-  color: #fff;
-  background-color: red;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 50px;
-  font-size: 20px;
-  margin: 15px 0px 0px 10px;
+    margin-right: 10px;
 }
+
 </style>
 
         
