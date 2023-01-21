@@ -1,21 +1,16 @@
 <template>
   <main class="home">
-    <div class="home__container">
-      <h1>Home</h1>
-      <p>Home page</p>
-      <my-loader v-if="$store.state.is_loading === true"></my-loader>
-    </div>
+    <section class="home__popular-albums popular-albums"></section>
+    <section class="home__popular-tracks popular-tracks"></section>
+    <section class="home__popular-albums popular-albums"></section>
   </main>
 </template>
 
 <script>
-import MyLoader from '@/components/UI/MyLoader.vue'
+
 export default {
-  components: {
-    MyLoader
-  },
-  setup() {
-  }
+ 
+
 }
 </script>
 <style lang="scss" scoped>

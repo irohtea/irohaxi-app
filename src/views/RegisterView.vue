@@ -44,7 +44,8 @@ import { useRegForm } from '../use/reg.form'
 
 import MyInput from '@/components/UI/MyInput.vue'
 import MyLoader from '@/components/UI/MyLoader.vue'
-import '@/assets/form.scss'
+
+import '@/assets/forms/form.scss'
 
 export default {
   components: { MyInput, MyLoader },

@@ -54,6 +54,11 @@ const routes = [
     }
   },
   {
+    path: '/library',
+    name: 'library',
+    component: () => import('../views/LibraryView')
+  },
+  {
     path: '/settings',
     name: 'settings',
     component: () => import('../views/SettingsView'),
@@ -80,6 +85,22 @@ const routes = [
       auth: false
     }
   },
+  {
+    path: '/upload-track',
+    name: 'upload-track',
+    component: () => import('../views/UploadTrackView')
+  },
+  {
+    path: '/upload-album',
+    name: 'upload-album',
+    component: () => import('../views/UploadAlbumView')
+  },
+  {
+    path: '/album/:id',
+    name: 'album',
+    component: () => import('../views/AlbumView')
+  },
+
 ]
 
 const router = createRouter({

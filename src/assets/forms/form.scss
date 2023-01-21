@@ -1,0 +1,103 @@
+.form {
+   .register {
+		// .register__container
+		&__container {}
+		// .register__body
+		&__body {
+      }
+}
+	// .form__title
+   &__title {
+      position: relative;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: $white;
+      z-index: 1;
+      @media (max-width: 475px){
+         font-size: 24px;
+      }
+   }
+   // .form__body
+   &__body {
+      position: relative;
+      max-width: 768px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 52px 32px;
+      border: 1px solid $blue;
+      background-color: $darkBlue;
+      border-radius: 10px;
+      border: 1px solid $grey;
+      @media (max-width: 475px){
+           padding: 52px 24px;
+      }
+   }
+   // .form__icon
+   &__icon {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      img {
+         width: 100px;
+         height: 100px;
+      }
+   }
+   // .form__item
+   &__item {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+   }
+   // .form__label
+   &__label {
+      font-weight: 600;
+      span {
+         color: $accentColor; 
+      }
+   }
+   // .form__input
+   &__input {
+   }
+   // form__error
+   &__error {
+      color: $accentColor; 
+   }
+   // .form__button
+   &__button {
+      display: block;
+      padding: 16px 24px;
+      font-size: 18px;
+      color: $white;
+      font-weight: 700;
+      background-color: #41b883;
+      border-radius: 10px;
+      margin-top: 15px;
+      transition: 0.3s ease-out 0s;
+      box-shadow: 0 0 10px rgba(65, 184, 131, 0.291),
+                  0 0 20px rgba(65, 184, 131, 0.291),
+                  0 0 30px rgba(65, 184, 131, 0.291);
+      &:hover {
+         background-color: #38e396;
+      }
+      @media (max-width: 475px){
+         font-size: 16px;
+      }
+   }
+   // .form__redirect 
+   &__redirect {
+      margin-top: 10px;
+      text-align: center;
+   }
+   // form__link
+   &__link {
+      color: $lightBlue;
+      &:hover {
+         text-decoration: underline;
+      }
+   }
+}
