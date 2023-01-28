@@ -42,10 +42,6 @@ export default {
     width: 100%;
     height: 100%;
     margin-top: 100px;
-    // .delete-page__section
-    
-    
-    
     &__image-svg {
         margin-bottom: 20px;
         svg {
@@ -59,10 +55,16 @@ export default {
         align-items: center;
         flex-direction: column;
         background-color: #fff;
-        padding: 30px 50px 0px 50px;
+        padding: 20px 50px 20px 50px;
         border-radius: 10px;
         width: 40%;
         height: 40%;
+        @media (max-width: 992px) {
+            width: 60%;
+        }
+        @media (max-width: 768px) {
+            width: 80%;
+        }
     }
 
     // .delete-page__title
@@ -86,22 +88,27 @@ export default {
         display: flex;
         justify-content: space-around;
         width: 100%;
+        button {
+            width: 100%;
+            padding: 10px 30px;
+            border-radius: 10px;
+            word-wrap: break-word;
+            @media (max-width: 768px) {
+                padding: 6px 20px;
+            }
+        }
     }
 
     // .delete-page__button-delete
 
     &__button-delete {
         background: #FA8072;
-        padding: 10px 30px;
-        border-radius: 10px;
     }
 
     // .delete-page__button-cancel
 
     &__button-cancel {
         background: #D8BFD8;
-        padding: 10px 30px;
-        border-radius: 10px;
     }
 }
 </style>

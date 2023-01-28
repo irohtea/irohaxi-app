@@ -192,13 +192,13 @@ export default {
         padding: 15px;
         font-size: 20px;
         text-decoration: none;
-        transition: all 0.4s ease 0s;
         gap: 10px;
         &:hover {
             color: $light;
             background-color: rgba(79, 103, 139, 0.16);
             border-right: 5px solid $light;
             box-shadow: 0 0 2px $light;
+            transition: all 0.4s ease 0s;
             .settings__icon {
                 svg {
                     path {

@@ -86,9 +86,6 @@ export default {
             await store.dispatch('edit/updateProfile', {...name.value})
             window.location.reload();
         }
-        const test = () => {
-            console.log(user.value);
-        }
 
         const deleteUser = () => {
             isDelete.value = true
@@ -100,7 +97,6 @@ export default {
 
         onMounted( async () => {
             user.value = await store.dispatch('auth/toUser')
-            console.log(user.value);
         })
         return {
             updateProfile,
@@ -111,7 +107,6 @@ export default {
             user,
             avatar,
             isDelete,
-            test
         }
     },
     components: {
@@ -177,7 +172,7 @@ export default {
 
     &__button {
         display: inline-flex;
-        align-self: flex-start;
+        align-self: flex-end;
         background: $light;
         color: #fff;
         padding: 10px;
@@ -238,17 +233,10 @@ export default {
         padding: 15px;
         outline:none;
         border-radius: 5px;
-        border: none;
-        // @media (max-width: 1150px) {
-        //     width: 200px;
-        //     height: 35px;
-        //     font-size: 18px;
-        // }
-        // @media (max-width: 924px) {
-        //     width: 160px;
-        //     height: 30px;
-        //     font-size: 14px;
-        // }
+        border: 1px solid #4f678b;
+        background: #000;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        color: #c2c2c9;
     }
 }
 </style>
