@@ -27,20 +27,20 @@
             </div>
          </div>
          <div class="album__actions album-actions">
-            <action-button>
+            <action-button @click="$store.dispatch('player/addToPlayList', album)">
                <svg width="320" height="384" viewBox="0 0 320 384" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M309.2 168.9L30.8 3.2C27.4 1.2 23.9 0 19.9 0C9 0 0.0999985 9 0.0999985 20H0V364H0.0999985C0.0999985 375 9 384 19.9 384C24 384 27.4 382.6 31.1 380.6L309.2 215.1C315.8 209.6 320 201.3 320 192C320 182.7 315.8 174.5 309.2 168.9Z" fill="black"/>
                </svg>
                <span>Play</span>
             </action-button>
-            <action-button>
+            <!-- <action-button>
                <svg width="47" height="42" viewBox="0 0 47 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8.465 33.95L16.707 25.707L15.293 24.293L7.051 32.535C6.105 33.48 4.85 34 3.515 34H0V36H3.515C5.384 36 7.142 35.272 8.465 33.95Z" fill="black"/>
                   <path d="M31.535 8.05003L23.293 16.293L24.707 17.707L32.949 9.46503C33.895 8.52003 35.15 8.00003 36.485 8.00003H42.586L38.293 12.293L39.707 13.707L46.414 7.00003L39.707 0.29303L38.293 1.70703L42.586 6.00003H36.485C34.616 6.00003 32.858 6.72803 31.535 8.05003Z" fill="black"/>
                   <path d="M7.051 9.464L31.535 33.95C32.858 35.272 34.616 36 36.485 36H42.586L38.293 40.293L39.707 41.707L46.414 35L39.707 28.293L38.293 29.707L42.586 34H36.485C35.15 34 33.894 33.48 32.949 32.536L8.465 8.05C7.142 6.728 5.384 6 3.515 6H0V8H3.515C4.85 8 6.105 8.52 7.051 9.464Z" fill="black"/>
                </svg>
                <span>Mix</span>
-            </action-button>
+            </action-button> -->
          </div>
          <div class="album__tracks album-tracks">
             <my-track 

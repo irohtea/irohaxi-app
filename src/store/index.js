@@ -11,9 +11,12 @@ import image from './modules/image.module'
 export default createStore({
   state: {
     is_loading: false,
+    penis: 'large'
   },
   getters: {
-
+    penis(state) {
+      return state.penis
+    }
   },
   mutations: {
     IS_LOADING(state, is_loading) {

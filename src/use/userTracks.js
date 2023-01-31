@@ -4,7 +4,7 @@ import axios from 'axios'
 export function userTracks() {
 
    const tracks = ref([])
-
+   const currentTrack = ref({})
    onMounted(async() => {
       const config = {
          headers: {
@@ -15,6 +15,8 @@ export function userTracks() {
          await axios.get(`https://irohaxi.site/api/v1/users/tracks/`, config)
          .then(response => {
             tracks.value = response.data;
+            currentTrack.value = tracks.value[0]
+            // console.log(currentTrack.value);
          })
       } catch (error) {
          console.log(error);
@@ -22,7 +24,8 @@ export function userTracks() {
    })
 
    return {
-      tracks
+      tracks,
+      currentTrack
    }
 
 }
