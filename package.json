@@ -10,7 +10,9 @@
   "dependencies": {
     "axios": "^1.2.1",
     "core-js": "^3.8.3",
+    "primevue": "^3.23.0",
     "rgbaster": "^2.1.1",
+    "swiper": "^9.0.2",
     "vee-validate": "^4.7.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",

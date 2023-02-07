@@ -11,7 +11,6 @@ import image from './modules/image.module'
 export default createStore({
   state: {
     is_loading: false,
-    penis: 'large'
   },
   getters: {
     penis(state) {

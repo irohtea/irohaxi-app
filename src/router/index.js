@@ -100,7 +100,11 @@ const routes = [
     name: 'album',
     component: () => import('../views/AlbumView')
   },
-
+  {
+    path: '/playlist',
+    name: 'playlist',
+    component: () => import('../views/PlayerExtendedView')
+  },
 ]
 
 const router = createRouter({

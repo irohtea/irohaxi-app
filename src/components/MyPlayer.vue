@@ -1,7 +1,8 @@
 <template>
    <transition name="fade">
-      <div class="player" v-if="playlist.length > 0">
-         <div class="player__wrapper">
+      <div class="player" >
+         <!-- v-if="playlist.length > 0" -->
+         <div class="player__wrapper" @click.self="$store.dispatch('player/openExtended', isExtended = !isExtended)">
             <div class="player__track player-track">
                <div class="player-track__body" >
                   <div class="player-track__img">
@@ -13,7 +14,6 @@
                      </div>
                   </div>
                </div>
-           
             </div>
             <div class="player__controls player-controls" >
                <button class="player-controls__btn mix-btn">
@@ -52,7 +52,7 @@
             <div class="player__actions player-actions">
                <div class="player-actions__item" @mouseenter="showVolume = !showVolume" @mouseleave="showVolume = !showVolume">
                   <transition name="fade">
-                     <div class="player-actions__box" v-show="showVolume">
+                     <div class="player-actions__box volume" v-show="showVolume">
                         <input type="range" min="0" max="1" step="0.01" v-model.number="volume">
                      </div>
                   </transition>
@@ -62,7 +62,11 @@
                      </svg>
                   </button>
                </div>
-   
+               <button class="player-actions__btn chevron-btn" :class="{ rotate: $store.state.player.isExtended }" @click="$store.dispatch('player/openExtended', isExtended = !isExtended)">
+                  <svg width="768" height="384" viewBox="0 0 768 384" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M0 0L383.75 383.75L767.5 0H0Z" fill="black"/>
+                  </svg>
+               </button>
             </div>
             <div class="player__progress player-progress">
                <div class="player-progress__time">{{ currentTime }}</div>
@@ -75,6 +79,8 @@
          </div>
       </div>
    </transition>
+
+   <!-- {{ $store.state.player.playlist }} -->
 </template>
 
 <script>
@@ -82,15 +88,16 @@
 import { computed, ref, watch, watchEffect} from 'vue'
 import { useStore } from 'vuex'
 
-// import { useStore } from 'vuex'
 export default {
    name: 'my-player',
+
    setup() {
       const store = useStore()
       const audio = new Audio()
 
       const isPlaying = ref(false)
       const isLoading = ref(false)
+      const isExtended = ref(false)
       const showVolume = ref(false)
 
       const playlist = ref([])
@@ -106,25 +113,27 @@ export default {
       audio.volume = volume.value
       // Current and duration time
       audio.ontimeupdate = function() {
-      progressWidth.value = (100 / audio.duration) * audio.currentTime + '%'
-      let durmin = Math.floor(audio.duration / 60)
-      let dursec = Math.floor(audio.duration - durmin * 60)
-      let curmin = Math.floor(audio.currentTime / 60)
-      let cursec = Math.floor(audio.currentTime - curmin * 60)
-      if (durmin < 10) {
-         durmin = '0' + durmin
-      }
-      if (dursec < 10) {
-         dursec = '0' + dursec
-      }
-      if (curmin < 10) {
-         curmin = '0' + curmin
-      }
-      if (cursec < 10) {
-         cursec = '0' + cursec
-      }
-      duration.value = durmin + ':' + dursec
-      currentTime.value = curmin + ':' + cursec
+         progressWidth.value = (100 / audio.duration) * audio.currentTime + '%'
+         let durmin = Math.floor(audio.duration / 60)
+         let dursec = Math.floor(audio.duration - durmin * 60)
+         let curmin = Math.floor(audio.currentTime / 60)
+         let cursec = Math.floor(audio.currentTime - curmin * 60)
+
+         if (durmin < 10) {
+            durmin = '0' + durmin
+         }
+         if (dursec < 10) {
+            dursec = '0' + dursec
+         }
+         if (curmin < 10) {
+            curmin = '0' + curmin
+         }
+         if (cursec < 10) {
+            cursec = '0' + cursec
+         }
+
+         duration.value = durmin + ':' + dursec
+         currentTime.value = curmin + ':' + cursec
       };
       audio.onended = () => {
          next()
@@ -137,6 +146,7 @@ export default {
             return
          } else {
             currentTrack.value = data
+            store.dispatch('player/setCurrentTrack', currentTrack.value)
             audioSrc.value = currentTrack.value
          }
       })
@@ -146,6 +156,7 @@ export default {
             isPlaying.value = false
 
          }
+         // else {}
          audio.src = newSrc.song
          play()
          isPlaying.value = true
@@ -155,7 +166,6 @@ export default {
       watch(volume, (newVolume) => {
          audio.volume = newVolume
       })
-      
       // Player controls 
       const play = () => {
          if(audio.src != '' && audio.paused) {
@@ -223,6 +233,7 @@ export default {
          audio,
          isPlaying,
          isLoading,
+         isExtended,
          showVolume,
          audioSrc,
          currentTrack,
@@ -266,53 +277,75 @@ export default {
       }
 
    }
-		// .player__wrapper
-		&__wrapper {
-         position: relative;
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         gap: 10px;
-         width: 100%;
-         z-index: 15;
-         height: 110px;
-         padding: 0px 32px;
-         backdrop-filter: blur(1px);
-         -webkit-backdrop-filter: blur(1px);
-         background: linear-gradient(90deg, rgba(49, 71, 112, 0.9) 0%, rgba(11, 10, 16, 0.9) 100%);
-     
-         box-shadow: 0 8px 32px rgb(2, 4, 24);
-         transition: 0.2s ease-out;
+   // .player__wrapper
+   &__wrapper {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      z-index: 15;
+      height: 100px;
+      padding: 0px 32px;
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+      background: linear-gradient(90deg, rgba(49, 71, 112, 0.9) 0%, rgba(11, 10, 16, 0.9) 100%);
+      box-shadow: 0 8px 32px rgb(2, 4, 24);
+      transition: 0.2s ease-out;
+      @media (max-width: 768px){
+         height: 90px;
       }
-      // .player__track
-      &__track {
-         display: flex;
-         gap: 20px;
-         flex: 1 1 33.3333%;
-         justify-content: flex-start;
-         align-items: center;
-
+      @media (max-width: 520px){
+         padding: 0px 16px;
       }
-		// .player__controls
-		&__controls {
-         flex: 1 1 33.3333%;
-         justify-content:center;
-         align-items: center;
-      }
-      
-      // .player__actions
-		&__actions {
-         flex: 1 1 33.3333%;
-         justify-content: flex-end;
-         align-items: center;
+   }
+   // .player__track
+   &__track {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 20px;
+      flex: 1 1 33.3333%;
+      justify-content: flex-start;
+      align-items: center;
+      // @media (max-width:$){
          
+      // }
+      @media (max-width: 768px){
+         flex: 1 1 40%;
       }
-      // .player__progress
-      &__progress {
-         // flex: 0 1 35%;
+
+   }
+   // .player__controls
+   &__controls {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 33.3333%;
+      justify-content:center;
+      align-items: center;
+      @media (max-width: 768px){
+         justify-content: flex-end;
       }
-      // .player__bar
-		&__bar {}
+   }
+   
+   // .player__actions
+   &__actions {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 33.3333%;
+      justify-content: flex-end;
+      align-items: center;
+      @media (max-width: 768px){
+         flex: 1 1 0%;
+      }
+   }
+   // .player__progress
+   &__progress {
+      // flex: 0 1 35%;
+   }
+   // .player__bar
+   &__bar {}
 }
 .player-controls {
    display: flex;
@@ -336,14 +369,22 @@ export default {
             transition: all 0.3s ease 0s;
             fill: $white;
          }
+         @media (max-width: 768px){
+            width: 30px;
+            height: 30px;
+         }
       }
     
    }
 }
 .play-btn {
    svg {
-      width: 65px;
-      height: 65px;
+      width: 55px;
+      height: 55px;
+      @media (max-width: 768px){
+         width: 35px;
+         height: 35px;
+      }
    }
 }
 .mix-btn,
@@ -352,8 +393,14 @@ export default {
       width: 35px;
       height: 35px;
    }
+   @media (max-width: 768px){
+      width: 25px;
+      height: 25px;
+   }
+   @media (max-width: 520px){
+      display: none;
+   }
 }
-
 .player-progress {
    display: flex;
    justify-content: space-between;
@@ -365,22 +412,35 @@ export default {
 		// .player-progress__time
 		&__time {
          white-space: nowrap;
+         @media (max-width: 768px){
+            display: none;
+         }
       }
 }
 .player-track {
    // .track__body
-   // flex: 1 1 40%;
    &__body {
          display: flex;
          align-items: center;
          gap: 15px;
+         @media (max-width: 520px){
+            gap: 0px;
+         }
       }
 		// .track__img
 		&__img {
          img {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             object-fit: cover;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            @media (max-width: 768px){
+               width: 50px;
+               height: 50px;
+            }
+            @media (max-width: 520px){
+               display: none;
+            }
          }
       }
 		// .track__info
@@ -388,17 +448,46 @@ export default {
          display: flex;
          flex-direction: column;
          gap: 7px;
+         // @media (max-width: 375px){
+         //    width: 100px;
+         //    white-space: nowrap;
+         //    overflow: hidden;
+         // }
       }
 		// .track__name
 		&__name {
          color: $white;
          font-size: 18px;
          font-weight: 700;
+         // animation: trackText infinite 7s linear;
+         @media (max-width: 768px){
+            font-size: 15px;
+         }
+         // @media (max-width: 375px){
+         //    animation: trackText infinite 7s linear;
+         // }
       }
 		// .track__band
 		&__band {
          font-weight: 300;
+         @media (max-width: 768px){
+            font-size: 14px;
+         }
+         // @media (max-width: 375px){
+         //    animation: trackText infinite 7s linear;
+         // }
       }
+}
+@keyframes trackText {
+   0% {
+    transform: translateX(100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-135%);
+  }
 }
 .player-actions {
    display: flex;
@@ -407,9 +496,17 @@ export default {
    // .player-actions__item
    &__item {
       display: flex;
-      align-items: center;
       gap: 15px;
+      align-items: center;
       padding: 15px 0;
+      @media screen and (max-width: 768px){
+         // display: flex;
+         // align-items: center;
+         // gap: 15px;
+         // padding: 15px 0;
+         visibility: hidden;
+         display: none;
+      }
    }
    // .player-actions__box
    &__box {
@@ -421,6 +518,13 @@ export default {
 
    // .player-actions__btn
    &__btn {
+      &:hover {
+         svg {
+            path {
+               fill: $light;
+            }
+         }
+      }
       svg {
          width: 30px;
          height: 30px;
@@ -428,6 +532,19 @@ export default {
             transition: all 0.3s ease 0s;
             fill: $white;
          }
+         @media (max-width: 768px){
+            width: 25px;
+            height: 25px;
+         }
+      }
+   }
+   .chevron-btn {
+      position: relative;
+      top: -2px;
+      transform: rotate(180deg);
+      transition: all 0.3s ease 0s;
+      &.rotate {
+         transform: rotate(0deg);
       }
    }
 }
@@ -457,6 +574,10 @@ export default {
          transform: scale(0);
          opacity: 0;
          transition: all 0.3s ease 0s;
+         @media (max-width: 768px){
+            transform: scale(1);
+            opacity: 1;
+         }
       }
 }
 //========================================================================================================================================================

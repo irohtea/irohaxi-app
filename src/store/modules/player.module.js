@@ -1,9 +1,12 @@
+import axios from "axios"
+
 export default ({
    namespaced: true,
 
     state: {
         audioUrl: null,
         isPlaying: false,
+        isExtended: false,
         playlist: [],
         currentTrack: {},
         audioSrc: '',
@@ -18,23 +21,63 @@ export default ({
       },
     },
     mutations: {
+        ADD_ALBUM(state, playlist) {
+          state.playlist = playlist 
+        },
         ADD_TRACK(state, playlist) {
           state.playlist = playlist 
-          // state.currentTrack = playlist[0] 
-          // state.audioSrc = playlist[0].song 
         },
         SET_PLAYING(state, isPlaying) {
           state.isPlaying = isPlaying 
-          // state.currentTrack = playlist[0] 
-          // state.audioSrc = playlist[0].song 
+        },
+        SET_EXTENDED(state, isExtended) {
+          state.isExtended = isExtended
+        },
+        SET_CURRENT(state, currentTrack) {
+          state.currentTrack = currentTrack
         }
     },
       actions: {
-        addToPlayList({ commit }, details) {
+        addAlbumToPlayList({ commit }, details) {
           const { track } = details
-          // let playlist = track.track 
-          commit('ADD_TRACK', track)
+
+          commit('ADD_ALBUM', track)
           commit('SET_PLAYING', true)
+        },
+        async addUserATrackToPlayList({ commit }, details) {
+          const { track } = details
+          let sortedPlaylist = []
+          const config = {
+            headers: {
+               'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+            }
+          }
+          try {
+            await axios.get(`https://irohaxi.site/api/v1/users/tracks/`, config)
+              .then(response => {
+                // playlist = [track, ...response.data]
+                sortedPlaylist = [...response.data].filter(item => {
+                  if(item.id !=  track.id) {
+                    return item
+                  }
+                })
+                sortedPlaylist.unshift(track)
+              })
+          } catch (error) {
+            console.log(error);
+          }
+
+          
+          commit('ADD_TRACK', sortedPlaylist)
+          commit('SET_PLAYING', true)
+        },
+
+
+        openExtended({ commit }, details) {
+          commit('SET_EXTENDED', details)
+        },
+        setCurrentTrack({ commit }, details) {
+          commit('SET_CURRENT', details)
         },
     },
 })
