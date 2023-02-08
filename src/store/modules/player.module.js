@@ -10,7 +10,7 @@ export default ({
         playlist: [],
         currentTrack: {},
         audioSrc: '',
-        test: 'test'
+        test: 'test',
     },
     getters: {
       audioSrc(state) {
@@ -18,6 +18,9 @@ export default ({
       },
       playlist(state) {
         return state.playlist
+      },
+      isPlaying(state) {
+        return state.isPlaying
       },
     },
     mutations: {
@@ -38,6 +41,7 @@ export default ({
         }
     },
       actions: {
+     
         addAlbumToPlayList({ commit }, details) {
           const { track } = details
 
@@ -79,5 +83,8 @@ export default ({
         setCurrentTrack({ commit }, details) {
           commit('SET_CURRENT', details)
         },
+        setPause({commit}, details) {
+          commit('SET_PLAYING', details)
+        }
     },
 })

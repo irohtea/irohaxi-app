@@ -101,7 +101,6 @@ export default {
       const showVolume = ref(false)
 
       const playlist = ref([])
-
       const progressWidth = ref('')
       const currentTrack = ref({})
       const songIndex = ref(0)
@@ -169,13 +168,27 @@ export default {
       // Player controls 
       const play = () => {
          if(audio.src != '' && audio.paused) {
-            audio.play()
             isPlaying.value = true
+            store.dispatch('player/setPause', true)
+            audio.play()
          } else {
-            audio.pause()
             isPlaying.value = false
+            store.dispatch('player/setPause', false)
+            audio.pause()
          }
       }
+      watchEffect(() => {
+         const data = store.getters['player/isPlaying']
+         console.log(data);
+         if(data === false) {
+            isPlaying.value = false
+            audio.pause()
+         } else if(data === true) {
+            isPlaying.value = true
+            audio.play()
+         }
+       
+      })
       const prev = () => {
          if(songIndex.value === 0) {
             songIndex.value = store.state.player.playlist.length - 1
@@ -230,6 +243,7 @@ export default {
      
       return {
          playlist: computed(() => store.state.player.playlist),
+         pause: computed(() => store.state.player.isPlaying ),
          audio,
          isPlaying,
          isLoading,
