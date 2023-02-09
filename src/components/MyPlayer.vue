@@ -1,7 +1,6 @@
 <template>
    <transition name="fade">
-      <div class="player" >
-         <!-- v-if="playlist.length > 0" -->
+      <div class="player" v-if="playlist.length > 0">
          <div class="player__wrapper" @click.self="$store.dispatch('player/openExtended', isExtended = !isExtended)">
             <div class="player__track player-track">
                <div class="player-track__body" >

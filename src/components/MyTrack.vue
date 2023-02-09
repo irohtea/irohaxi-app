@@ -1,6 +1,15 @@
 <template>
         
-   <div class="track" :class="{active: playingItem === track.id}">
+   <div class="track" 
+   :class="[
+      {playing: $store.state.player.playlist.length > 0 
+      && $store.state.player.currentTrack.id === track.id
+      && $store.state.player.isPlaying},
+      
+      {paused: $store.state.player.playlist.length > 0 
+      && $store.state.player.currentTrack.id === track.id
+      && !$store.state.player.isPlaying}
+   ]">
       <div class="track__body">
          <div class="track__img">
             <img :src="track.song_poster" alt="Song Poster">
@@ -8,10 +17,10 @@
                <button class="controls__more">
                  <more-button />
                </button>
-               <button class="controls__play" @click="setPlaying(track.id)" v-if="playingItem != track.id">
+               <button class="controls__play">
                   <play-button @click="$store.dispatch('player/addUserATrackToPlayList', {track})" />
                </button>
-               <button class="controls__play" @click="setPlaying(null)" v-else>
+               <button class="controls__pause">
                   <pause-button @click="$store.dispatch('player/setPause', false)" />
                </button>
             </div>
@@ -33,6 +42,7 @@ import PlayButton from '@/components/Controls/PlayButton.vue';
 import PauseButton from '@/components/Controls/PauseButton.vue';
 import MoreButton from '@/components/Controls/MoreButton.vue';
 
+
 export default {
    name: 'my-track',
    components: {
@@ -45,18 +55,7 @@ export default {
          type: Object,
          required: true,
       },
-      playingItem: {
-         type: Number
-      }
    },
-   setup(props, {emit}) {
-      const setPlaying = (id) => {
-         emit('playing', id)
-      }
-      return {
-         setPlaying
-      }
-   }
 }
 </script>
 <style lang="scss">
@@ -65,10 +64,31 @@ export default {
    display: grid;
    justify-items: center;
    margin: 0 auto;
-   &.active {
+   transition: all 0.3 ease;
+   &.playing {
       .controls {
          opacity: 1;
       }
+      .controls__play {
+         display: none;
+      }
+      .controls__pause {
+         display: block;
+      }
+
+   }
+   &.paused {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: block;
+      }
+      .controls__pause {
+         display: none;
+
+      }
+
    }
    // .track__body
    &__body {
@@ -154,7 +174,8 @@ export default {
          }
       }
 		// .controls__play
-		&__play {
+		&__play,
+      &__pause{
          pointer-events: all;
          position: absolute;
          top: 50%;
@@ -167,6 +188,14 @@ export default {
                fill: $white;
             }
          }
+      }
+      // .controls__play
+		&__play {}
+      // .controls__pause
+		&__pause {
+         display: none;
+         pointer-events: all;
+
       }
 }
 .album-tracks {

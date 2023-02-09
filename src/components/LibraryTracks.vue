@@ -8,8 +8,6 @@
         v-for="track in tracks" 
         :key="track.id"
         :track="track"
-        :playingItem="playingItem"
-        @playing="setPlaying"
         />
     </div>
   </div>
@@ -19,7 +17,7 @@
 <script>
 import AddButton from '@/components/UI/AddButton.vue';
 import MyTrack from '@/components/MyTrack.vue'
-import { ref } from '@vue/reactivity';
+
 export default {
   name: 'library-tracks',
   components: {
@@ -32,17 +30,7 @@ export default {
       required: true
     }
   },
-  setup() {
-    const playingItem = ref(null)
-    const setPlaying = (id) =>{
-      playingItem.value = id;
-      console.log(id);
-    }
-    return {
-      setPlaying,
-      playingItem
-    }
-  }
+
 }
 </script>
 
