@@ -78,8 +78,6 @@
          </div>
       </div>
    </transition>
-
-   <!-- {{ $store.state.player.playlist }} -->
 </template>
 
 <script>
@@ -148,6 +146,7 @@ export default {
             audioSrc.value = currentTrack.value
          }
       })
+
       watch(audioSrc, (newSrc) => {
          if(audioSrc.value === undefined) {
             audio.pause()
@@ -178,7 +177,6 @@ export default {
       }
       watchEffect(() => {
          const data = store.getters['player/isPlaying']
-         console.log(data);
          if(data === false) {
             isPlaying.value = false
             audio.pause()
@@ -218,7 +216,7 @@ export default {
             audio.play()
          }
       }
-      // Udating bar current time
+      // Updating bar current time
       const updateBar = (x) => {
          let progress = document.querySelector('.player-bar')
          let maxduration = audio.duration
@@ -242,7 +240,6 @@ export default {
      
       return {
          playlist: computed(() => store.state.player.playlist),
-         pause: computed(() => store.state.player.isPlaying ),
          audio,
          isPlaying,
          isLoading,

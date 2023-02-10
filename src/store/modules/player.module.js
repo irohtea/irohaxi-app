@@ -41,7 +41,6 @@ export default ({
         }
     },
       actions: {
-     
         addAlbumToPlayList({ commit }, details) {
           const { track } = details
 
@@ -75,16 +74,14 @@ export default ({
           commit('ADD_TRACK', sortedPlaylist)
           commit('SET_PLAYING', true)
         },
-
-
-        openExtended({ commit }, details) {
-          commit('SET_EXTENDED', details)
-        },
         setCurrentTrack({ commit }, details) {
           commit('SET_CURRENT', details)
         },
         setPause({commit}, details) {
           commit('SET_PLAYING', details)
-        }
+        },
+        openExtended({ commit }, details) {
+          commit('SET_EXTENDED', details)
+        },
     },
 })

@@ -17,11 +17,8 @@
             <div class="item__img">
                <img :src="track.song_poster" :alt="track.name">
                <div class="item__controls controls">
-               <!-- <button class="controls__more">
-                 <more-button />
-               </button> -->
                <button class="controls__play">
-                  <play-button @click="$store.dispatch('player/addUserATrackToPlayList', {track})" />
+                  <play-button @click="$store.dispatch('player/setCurrentTrack', track)" />
                </button>
                <button class="controls__pause">
                   <pause-button @click="$store.dispatch('player/setPause', false)" />
@@ -57,7 +54,6 @@ import { computed } from 'vue'
       setup() {
          const store = useStore()
 
-
          return {
             playlist: computed(() => store.state.player.playlist),
 
@@ -79,8 +75,9 @@ import { computed } from 'vue'
 }
 .item {
    transition: all 0.3 ease;
+   border-radius: 5px;
    &.playing {
-      background: $darkBlue;
+      background: rgba(34, 35, 38, 0.9);
       .controls {
          opacity: 1;
       }
@@ -93,6 +90,7 @@ import { computed } from 'vue'
 
    }
    &.paused {
+      background: rgba(34, 35, 38, 0.9);
       .controls {
          opacity: 1;
       }
@@ -120,16 +118,24 @@ import { computed } from 'vue'
          }
       }
    }
-
    // .item__img
    &__img {
       position: relative;
-      width: 100px;
+      flex: 0 0 100px;
       height: 100px;
+      @media (max-width: 425px){
+         flex: 0 0 70px;
+         height: 70px;
+      }
+      @media (max-width: 375px){
+         display: none;
+      }
       img {
          width: 100%;
          height: 100%;
          object-fit: cover;
+         border-radius: 5px;
+        
       }
    }
    // .item__info
@@ -137,12 +143,33 @@ import { computed } from 'vue'
       flex: 1 1 100%;
    }
    // .item__name
-   &__name {}
+   &__name {
+   }
+   
    // .item__band
    &__band {}
    // .item__controls 
    &__controls {
       border-radius: 0px;
+   }
+   // .controls__more
+   &__more {
+      display: flex;
+      pointer-events: all;
+      margin-right: 15px;
+      padding: 10px;
+      border-radius: 50%;
+      transition: 0.2s ease 0s;
+      &:active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      &.active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      svg {
+         width: 20px;
+         height: 20px;
+      }
    }
 }
 .controls {
@@ -155,28 +182,9 @@ import { computed } from 'vue'
    opacity: 0;
    background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
    transition: all 0.2s ease 0s;
-   // .controls__more
-   &__more {
-      pointer-events: all;
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      padding: 5px;
-      border-radius: 50%;
-      transition: 0.2s ease 0s;
-      &:active {
-         background: rgba(79, 103, 139, 0.718);
-      }
-      &.active {
-         background: rgba(79, 103, 139, 0.718);
-      }
-      svg {
-         width: 20px;
-         height: 20px;
-         path {
-            fill: $white;
-         }
-      }
+   @media (max-width: 375px){
+      position: static;
+      display: block;
    }
    // .controls__play
    &__play,
