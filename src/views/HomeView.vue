@@ -5,7 +5,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import Slider from '@/components/Slider/SliderBar.vue'
 export default {
@@ -33,5 +32,4 @@ export default {
         }
     }
 }
-
 </style>

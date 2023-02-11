@@ -7,7 +7,7 @@
         <my-track 
         v-for="track in tracks" 
         :key="track.id"
-        :track="track" 
+        :track="track"
         />
     </div>
   </div>
@@ -17,6 +17,7 @@
 <script>
 import AddButton from '@/components/UI/AddButton.vue';
 import MyTrack from '@/components/MyTrack.vue'
+
 export default {
   name: 'library-tracks',
   components: {
@@ -28,7 +29,8 @@ export default {
       type: Array,
       required: true
     }
-  }
+  },
+
 }
 </script>
 
