@@ -10,8 +10,8 @@
             <div class="upload-form__body">
                <div class="upload-form__inputs">
                  <div class="upload-form__item">
-                    <label for="band" class="upload-form__label">Band:</label>
-                    <input type="text" id="band" class="upload-form__input" placeholder="band" v-model="newAlbum.band">
+                    <label for="band" class="upload-form__label">Author:</label>
+                    <input type="text" id="band" class="upload-form__input" placeholder="author" v-model="newAlbum.band">
                  </div>
                  <div class="upload-form__item">
                   <label for="name" class="upload-form__label">Name:</label>

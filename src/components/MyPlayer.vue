@@ -16,36 +16,20 @@
             </div>
             <div class="player__controls player-controls" >
                <button class="player-controls__btn mix-btn">
-                  <svg width="47" height="42" viewBox="0 0 47 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M8.465 33.95L16.707 25.707L15.293 24.293L7.051 32.535C6.105 33.48 4.85 34 3.515 34H0V36H3.515C5.384 36 7.142 35.272 8.465 33.95Z" fill="black"/>
-                     <path d="M31.535 8.05003L23.293 16.293L24.707 17.707L32.949 9.46503C33.895 8.52003 35.15 8.00003 36.485 8.00003H42.586L38.293 12.293L39.707 13.707L46.414 7.00003L39.707 0.29303L38.293 1.70703L42.586 6.00003H36.485C34.616 6.00003 32.858 6.72803 31.535 8.05003Z" fill="black"/>
-                     <path d="M7.051 9.464L31.535 33.95C32.858 35.272 34.616 36 36.485 36H42.586L38.293 40.293L39.707 41.707L46.414 35L39.707 28.293L38.293 29.707L42.586 34H36.485C35.15 34 33.894 33.48 32.949 32.536L8.465 8.05C7.142 6.728 5.384 6 3.515 6H0V8H3.515C4.85 8 6.105 8.52 7.051 9.464Z" fill="black"/>
-                  </svg>
+                 <player-mix/>
                </button>
                <button class="player-controls__btn prev-btn" @click="prev">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M18 17L10 12L18 7V17Z" fill="black"/>
-                     <path d="M6 7H9V17H6V7Z" fill="black"/>
-                  </svg>
+                  <player-prev />
                </button>
                <button class="player-controls__btn play-btn"  @click="play">
-                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="!isPlaying">
-                     <path d="M16 29L28 20L16 11V29ZM20 0C8.95 0 0 8.95 0 20C0 31.05 8.95 40 20 40C31.05 40 40 31.05 40 20C40 8.95 31.05 0 20 0ZM20 36C11.18 36 4 28.82 4 20C4 11.18 11.18 4 20 4C28.82 4 36 11.18 36 20C36 28.82 28.82 36 20 36Z" fill="black"/>
-                  </svg>
-                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" v-else>
-                     <path d="M14 28H18V12H14V28ZM20 0C8.95 0 0 8.95 0 20C0 31.05 8.95 40 20 40C31.05 40 40 31.05 40 20C40 8.95 31.05 0 20 0ZM20 36C11.18 36 4 28.82 4 20C4 11.18 11.18 4 20 4C28.82 4 36 11.18 36 20C36 28.82 28.82 36 20 36ZM22 28H26V12H22V28Z" fill="black"/>
-                  </svg>
+                  <player-play v-if="!isPlaying"/>
+                  <player-pause v-else/>
                </button>
                <button class="player-controls__btn next-btn" @click="next">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M6 17L14 12L6 7V17Z" fill="black"/>
-                     <path d="M18 7H15V12V17H18V7Z" fill="black"/>
-                  </svg>
+                  <player-next />
                </button>
                <button class="player-controls__btn repeat-btn">
-                  <svg width="36" height="40" viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M8 10H28V16L36 8L28 0V6H4V18H8V10ZM28 30H8V24L0 32L8 40V34H32V22H28V30Z" fill="black"/>
-                  </svg>
+                 <player-repeat />
                </button>
             </div>
             <div class="player__actions player-actions">
@@ -81,17 +65,30 @@
 </template>
 
 <script>
+import PlayerMix from '@/components/UI/Player/PlayerMix.vue'
+import PlayerPlay from '@/components/UI/Player/PlayerPlay.vue'
+import PlayerPause from '@/components/UI/Player/PlayerPause.vue'
+import PlayerPrev from '@/components/UI/Player/PlayerPrev.vue'
+import PlayerNext from '@/components/UI/Player/PlayerNext.vue'
+import PlayerRepeat  from '@/components/UI/Player/PlayerRepeat.vue'
 
-import { computed, ref, watch, watchEffect} from 'vue'
+import { computed, ref, watch, watchEffect, } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
    name: 'my-player',
-
+   components: {
+      PlayerMix,
+      PlayerPlay,
+      PlayerPause,
+      PlayerPrev,
+      PlayerNext,
+      PlayerRepeat
+   },
    setup() {
       const store = useStore()
       const audio = new Audio()
-
+      
       const isPlaying = ref(false)
       const isLoading = ref(false)
       const isExtended = ref(false)
@@ -136,15 +133,15 @@ export default {
       }
       // Setting up current track src
       watchEffect(() => {
-         const data = store.getters['player/playlist'][songIndex.value];
+         const current = store.getters['player/playlist'][store.getters['player/songIndex']];
 
-         if(data === []) {
+         if(current === []) {
             return
          } else {
-            currentTrack.value = data
+            currentTrack.value = current
             store.dispatch('player/setCurrentTrack', currentTrack.value)
             audioSrc.value = currentTrack.value
-         }
+         } 
       })
 
       watch(audioSrc, (newSrc) => {
@@ -186,34 +183,28 @@ export default {
          }
        
       })
+
       const prev = () => {
-         if(songIndex.value === 0) {
-            songIndex.value = store.state.player.playlist.length - 1
-            currentTrack.value = playlist.value[songIndex.value]
-            // audioSrc.value = currentTrack.value.song
-            audio.src = audioSrc.value
+         if(store.getters['player/songIndex'] === 0) {
+            store.commit('player/SET_INDEX', store.state.player.playlist.length - 1)
+            currentTrack.value = playlist.value[store.getters['player/songIndex']]
             audio.play()
          } else {
-            songIndex.value-- 
-            currentTrack.value = playlist.value[songIndex.value]
-            // audioSrc.value = currentTrack.value.song
-            audio.src = audioSrc.value
+            store.commit('player/SET_INDEX', store.getters['player/songIndex'] - 1)
+            currentTrack.value = playlist.value[store.getters['player/songIndex']]
             audio.play()
          }
       }
       const next = () => {
-         if(songIndex.value === store.state.player.playlist.length - 1) {
-            songIndex.value = 0 
-            currentTrack.value = playlist.value[songIndex.value]
-            // audioSrc.value = currentTrack.value.song
-            audio.src = audioSrc.value
+         if(store.getters['player/songIndex'] === store.state.player.playlist.length - 1) {
+            store.commit('player/SET_INDEX', 0)
+            currentTrack.value = playlist.value[store.getters['player/songIndex']]
             audio.play()
          } else {
-            songIndex.value++ 
-            currentTrack.value = playlist.value[songIndex.value]
-            // audioSrc.value = currentTrack.value.song
-            audio.src = audioSrc.value
+            store.commit('player/SET_INDEX', store.getters['player/songIndex'] + 1)
+            currentTrack.value = playlist.value[store.getters['player/songIndex']]
             audio.play()
+            console.log(songIndex.value);
          }
       }
       // Updating bar current time
@@ -240,16 +231,17 @@ export default {
      
       return {
          playlist: computed(() => store.state.player.playlist),
+         isChanged: computed(() => store.state.player.isChanged),
+         currentTrack: computed(() => store.state.player.currentTrack),
+         songIndex: computed(() => store.state.player.songIndex),
          audio,
          isPlaying,
          isLoading,
          isExtended,
          showVolume,
          audioSrc,
-         currentTrack,
          currentTime,
          duration,
-         songIndex,
          updateBar,
          clickProgress,
          play,

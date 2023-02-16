@@ -18,7 +18,7 @@
                <img :src="track.song_poster" :alt="track.name">
                <div class="item__controls controls">
                <button class="controls__play">
-                  <play-button @click="$store.dispatch('player/setCurrentTrack', track)" />
+                  <play-button @click="$store.dispatch('player/changeTrack', track)" />
                </button>
                <button class="controls__pause">
                   <pause-button @click="$store.dispatch('player/setPause', false)" />
@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import PlayButton from '@/components/Controls/PlayButton.vue';
-import PauseButton from '@/components/Controls/PauseButton.vue';
-import MoreButton from '@/components/Controls/MoreButton.vue';
+import PlayButton from '@/components/UI/Controls/PlayButton.vue';
+import PauseButton from '@/components/UI/Controls/PauseButton.vue';
+import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
 import { useStore } from 'vuex'
 import { computed } from 'vue'

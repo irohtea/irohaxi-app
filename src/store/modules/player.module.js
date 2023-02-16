@@ -1,5 +1,12 @@
 import axios from "axios"
 
+
+// TODO 
+//1. Выбирать отдельный трек в плейлисте (когда PlayerExtended). (Может что-то сделать с songIndex?)
+//2. Когда заходишь в альбом и нажимаешь на отдельный трек, добавлять альбом из которого этот трек в плейлист, 
+//и проигрывать трек который был выбран.
+//3. 
+
 export default ({
    namespaced: true,
 
@@ -7,8 +14,12 @@ export default ({
         audioUrl: null,
         isPlaying: false,
         isExtended: false,
+        isChanged: false,
+        songIndex: 0,
         playlist: [],
+        changedTrack: {},
         currentTrack: {},
+        albumId: null,
         audioSrc: '',
         test: 'test',
     },
@@ -19,15 +30,30 @@ export default ({
       playlist(state) {
         return state.playlist
       },
+      currentTrack(state) {
+        return state.currentTrack
+      },
       isPlaying(state) {
         return state.isPlaying
+      },
+      changedTrack(state) {
+        return state.changedTrack
+      },
+      isChanged(state) {
+        return state.isChanged
+      },
+      songIndex(state) {
+        return state.songIndex
       },
     },
     mutations: {
         ADD_ALBUM(state, playlist) {
           state.playlist = playlist 
         },
-        ADD_TRACK(state, playlist) {
+        ALBUM_ID(state, albumId) {
+          state.albumId = albumId 
+        },
+        ADD_TRACKS(state, playlist) {
           state.playlist = playlist 
         },
         SET_PLAYING(state, isPlaying) {
@@ -38,16 +64,27 @@ export default ({
         },
         SET_CURRENT(state, currentTrack) {
           state.currentTrack = currentTrack
-        }
+        },
+        SET_CHANGED(state, changedTrack) {
+          state.changedTrack = changedTrack
+        },
+        SET_IS_CHANGED(state, isChanged) {
+          state.isChanged = isChanged
+        },
+        SET_INDEX(state, songIndex) {
+          state.songIndex = songIndex
+        },
     },
       actions: {
         addAlbumToPlayList({ commit }, details) {
           const { track } = details
 
           commit('ADD_ALBUM', track)
+          commit('ALBUM_ID', details.id)
           commit('SET_PLAYING', true)
+          commit('SET_INDEX', 0)
         },
-        async addUserATrackToPlayList({ commit }, details) {
+        async addUserTrackToPlayList({ commit }, details) {
           const { track } = details
           let sortedPlaylist = []
           const config = {
@@ -71,11 +108,20 @@ export default ({
           }
 
           
-          commit('ADD_TRACK', sortedPlaylist)
+          commit('ADD_TRACKS', sortedPlaylist)
           commit('SET_PLAYING', true)
+          commit('SET_INDEX', 0)
+
         },
         setCurrentTrack({ commit }, details) {
           commit('SET_CURRENT', details)
+        },
+        changeTrack({ commit, state }, details) {
+          console.log(state.playlist.indexOf(details));
+
+          commit('SET_INDEX', state.playlist.indexOf(details))
+          commit('SET_PLAYING', true)
+
         },
         setPause({commit}, details) {
           commit('SET_PLAYING', details)

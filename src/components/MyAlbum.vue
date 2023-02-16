@@ -1,5 +1,14 @@
 <template>
    <div class="album">
+      <!-- :class="[
+      {playing: $store.state.player.playlist.length > 0 
+      && $store.state.player.albumId === album.id
+      && $store.state.player.isPlaying},
+      
+      {paused: $store.state.player.playlist.length > 0 
+      && $store.state.player.albumId === album.id
+      && !$store.state.player.isPlaying}
+   ]"> -->
       <div class="album__body">
          <div class="album__img">
             <router-link :to="`/album/${album.id}`">
@@ -9,11 +18,11 @@
                   <button class="controls__more">
                      <more-button />
                   </button>
-                  <button class="controls__play" @click="$store.dispatch('player/addAlbumToPlayList', album)">
-                     <play-button />
+                  <button class="controls__play" >
+                     <play-button @click="$store.dispatch('player/addAlbumToPlayList', album)" ref=""/>
                   </button>
                   <button class="controls__plause" >
-                     <pause-button />
+                     <pause-button @click="$store.dispatch('player/setPause', false)" />
                   </button>
                </div>
             </div>
@@ -36,9 +45,9 @@
 </template>
 
 <script>
-import PlayButton from '@/components/Controls/PlayButton.vue';
-import PauseButton from '@/components/Controls/PauseButton.vue';
-import MoreButton from '@/components/Controls/MoreButton.vue';
+import PlayButton from '@/components/UI/Controls/PlayButton.vue';
+import PauseButton from '@/components/UI/Controls/PauseButton.vue';
+import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
 import { ref } from 'vue'
 // import { useStore } from 'vuex'
@@ -80,6 +89,30 @@ export default {
    display: grid;
    justify-items: center;
    margin: 0 auto;
+   &.playing {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: none;
+      }
+      .controls__pause {
+         display: block;
+      }
+
+   }
+   &.paused {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: block;
+      }
+      .controls__pause {
+         display: none;
+
+      }
+   }
    // .album__body
    &__body {
       position: relative;
@@ -172,7 +205,8 @@ export default {
          }
       }
 		// .controls__play
-		&__play {
+		&__play,
+      &__pause {
          pointer-events: all;
          position: absolute;
          top: 50%;
@@ -185,6 +219,13 @@ export default {
                fill: $white;
             }
          }
+      }
+       // .controls__play
+		&__play {}
+      // .controls__pause
+		&__pause {
+         display: none;
+         pointer-events: all;
       }
 }
 .dialog {

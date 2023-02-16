@@ -18,7 +18,7 @@
                  <more-button />
                </button>
                <button class="controls__play">
-                  <play-button @click="$store.dispatch('player/addUserATrackToPlayList', {track})" />
+                  <play-button @click="$store.dispatch('player/addUserTrackToPlayList', {track})" />
                </button>
                <button class="controls__pause">
                   <pause-button @click="$store.dispatch('player/setPause', false)" />
@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import PlayButton from '@/components/Controls/PlayButton.vue';
-import PauseButton from '@/components/Controls/PauseButton.vue';
-import MoreButton from '@/components/Controls/MoreButton.vue';
+import PlayButton from '@/components/UI/Controls/PlayButton.vue';
+import PauseButton from '@/components/UI/Controls/PauseButton.vue';
+import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
 
 export default {
@@ -88,7 +88,6 @@ export default {
          display: none;
 
       }
-
    }
    // .track__body
    &__body {
@@ -195,7 +194,6 @@ export default {
 		&__pause {
          display: none;
          pointer-events: all;
-
       }
 }
 .album-tracks {
@@ -205,8 +203,31 @@ export default {
       max-width: 100%;
       transition: all 0.3s ease 0s;
       cursor: pointer;
-      // border-bottom: 1px solid $grey;
       border-bottom: 2px solid rgba(255, 255, 255, 0.09);
+      &.playing {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: none;
+      }
+      .controls__pause {
+         display: block;
+      }
+
+   }
+   &.paused {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: block;
+      }
+      .controls__pause {
+         display: none;
+
+      }
+   }
       &:last-child {
          border-bottom: none;
       }
@@ -250,11 +271,10 @@ export default {
       }
       // .track__controls
       &__controls {
-         display: none;
          position: absolute;
-         top: 50%;
          left: 50%;
          transform: translateX(-50%);
+         border-radius: 0px;
       }
       // .track__author
       &__author {
