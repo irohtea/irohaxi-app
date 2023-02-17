@@ -33,21 +33,9 @@
                </svg>
                <span>Play</span>
             </action-button>
-            <!-- <action-button>
-               <svg width="47" height="42" viewBox="0 0 47 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8.465 33.95L16.707 25.707L15.293 24.293L7.051 32.535C6.105 33.48 4.85 34 3.515 34H0V36H3.515C5.384 36 7.142 35.272 8.465 33.95Z" fill="black"/>
-                  <path d="M31.535 8.05003L23.293 16.293L24.707 17.707L32.949 9.46503C33.895 8.52003 35.15 8.00003 36.485 8.00003H42.586L38.293 12.293L39.707 13.707L46.414 7.00003L39.707 0.29303L38.293 1.70703L42.586 6.00003H36.485C34.616 6.00003 32.858 6.72803 31.535 8.05003Z" fill="black"/>
-                  <path d="M7.051 9.464L31.535 33.95C32.858 35.272 34.616 36 36.485 36H42.586L38.293 40.293L39.707 41.707L46.414 35L39.707 28.293L38.293 29.707L42.586 34H36.485C35.15 34 33.894 33.48 32.949 32.536L8.465 8.05C7.142 6.728 5.384 6 3.515 6H0V8H3.515C4.85 8 6.105 8.52 7.051 9.464Z" fill="black"/>
-               </svg>
-               <span>Mix</span>
-            </action-button> -->
          </div>
          <div class="album__tracks album-tracks">
-            <my-track 
-            v-for="track in album.track" 
-            :key="track.id"
-            :track="track"
-            />
+           <album-playlist :tracks="album.track"/> 
          </div>
       </div>
    </div>
@@ -56,15 +44,15 @@
 <script>
 
 import { useRoute } from 'vue-router'
-import MyTrack from '@/components/MyTrack.vue'
-
 import ActionButton from '@/components/UI/ActionButton.vue'
+import AlbumPlaylist from '@/components/AlbumPlaylist.vue'
+
 import { albumRetrieve } from '@/use/albumRetrieve'
 
 export default {
    components: {
-      MyTrack,
-      ActionButton
+      ActionButton,
+      AlbumPlaylist,
    },
    setup() {
       const route = useRoute()
@@ -94,7 +82,8 @@ svg {
 		&__container {}
 		// .album__body
 		&__body {
-         padding: 40px 0;
+         padding: 40px 0px 110px 0px;
+
       }
 		// .album__info
 		&__info {}

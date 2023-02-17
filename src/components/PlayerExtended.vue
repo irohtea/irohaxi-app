@@ -126,7 +126,7 @@ import TabButton from '@/components/UI/TabButton.vue'
       min-width: 260px;
       img {
          max-width: 100%;
-         height: 100%;
+         height: auto;
          width: 100%;
          object-fit: cover;
          box-shadow: 0 0 25px $darkBlue;

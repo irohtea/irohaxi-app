@@ -185,26 +185,27 @@ export default {
       })
 
       const prev = () => {
-         if(store.getters['player/songIndex'] === 0) {
+         songIndex.value = store.getters['player/songIndex']
+         if(songIndex.value  === 0) {
             store.commit('player/SET_INDEX', store.state.player.playlist.length - 1)
-            currentTrack.value = playlist.value[store.getters['player/songIndex']]
+            currentTrack.value = playlist.value[songIndex.value]
             audio.play()
          } else {
-            store.commit('player/SET_INDEX', store.getters['player/songIndex'] - 1)
-            currentTrack.value = playlist.value[store.getters['player/songIndex']]
+            store.commit('player/SET_INDEX', songIndex.value  - 1)
+            currentTrack.value = playlist.value[songIndex.value]
             audio.play()
          }
       }
       const next = () => {
-         if(store.getters['player/songIndex'] === store.state.player.playlist.length - 1) {
+         songIndex.value = store.getters['player/songIndex']
+         if(songIndex.value === store.state.player.playlist.length - 1) {
             store.commit('player/SET_INDEX', 0)
-            currentTrack.value = playlist.value[store.getters['player/songIndex']]
+            currentTrack.value = playlist.value[songIndex.value ]
             audio.play()
          } else {
-            store.commit('player/SET_INDEX', store.getters['player/songIndex'] + 1)
-            currentTrack.value = playlist.value[store.getters['player/songIndex']]
+            store.commit('player/SET_INDEX', songIndex.value  + 1)
+            currentTrack.value = playlist.value[songIndex.value]
             audio.play()
-            console.log(songIndex.value);
          }
       }
       // Updating bar current time

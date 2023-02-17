@@ -1,37 +1,33 @@
 <template>
-   <div class="playlist__list">
-      <div class="playlist__item item" 
-         v-for="track in playlist" 
-         :key="track.id"
-         :class="[
-         {playing: $store.state.player.playlist.length > 0 
-         && $store.state.player.currentTrack.id === track.id
-         && $store.state.player.isPlaying},
-         
-         {paused: $store.state.player.playlist.length > 0 
-         && $store.state.player.currentTrack.id === track.id
-         && !$store.state.player.isPlaying}
-      ]">
-         <div class="item__body">
-            <div class="item__img">
-               <img :src="track.song_poster" :alt="track.name">
-               <div class="item__controls controls">
-               <button class="controls__play">
-                  <play-button @click="$store.dispatch('player/changeTrack', track)" />
-               </button>
-               <button class="controls__pause">
-                  <pause-button @click="$store.dispatch('player/setPause', false)" />
-               </button>
-            </div>
-            </div>
-            <div class="item__info">
-               <div class="item__name">{{ track.name }}</div>
-               <div class="item__band">{{ track.track_author }}</div>
-            </div>
-            <button class="item__more">
-                 <more-button />
+   <div class="album-track" 
+      :class="[
+      {playing: $store.state.player.playlist.length > 0 
+      && $store.state.player.currentTrack.id === track.id
+      && $store.state.player.isPlaying},
+      
+      {paused: $store.state.player.playlist.length > 0 
+      && $store.state.player.currentTrack.id === track.id
+      && !$store.state.player.isPlaying}
+   ]">
+      <div class="album-track__body">
+         <div class="album-track__img">
+            <img :src="track.song_poster" :alt="track.name">
+            <div class="album-track__controls controls">
+            <button class="controls__play">
+               <play-button @click="$store.dispatch('player/changeTrack', track)" />
+            </button>
+            <button class="controls__pause">
+               <pause-button @click="$store.dispatch('player/setPause', false)" />
             </button>
          </div>
+         </div>
+         <div class="album-track__info">
+            <div class="album-track__name">{{ track.name }}</div>
+            <div class="album-track__band">{{ track.track_author }}</div>
+         </div>
+         <button class="album-track__more">
+               <more-button />
+         </button>
       </div>
    </div>
 </template>
@@ -41,38 +37,28 @@ import PlayButton from '@/components/UI/Controls/PlayButton.vue';
 import PauseButton from '@/components/UI/Controls/PauseButton.vue';
 import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-
-   export default {
-      components: {
-         PlayButton,
-         PauseButton,
-         MoreButton,
-      },
-      setup() {
-         const store = useStore()
-
-         return {
-            playlist: computed(() => store.state.player.playlist),
-
-         }
+export default {
+   components: {
+      PlayButton,
+      PauseButton,
+      MoreButton,
+   },
+   props: {
+      track: {
+         type: Object,
+         required: true,
       }
+   },
+   setup () {
+      
+
+      return {}
    }
+}
 </script>
 
 <style lang="scss" scoped>
-.playlist {
-		// .playlist__list
-		&__list {
-         display: flex;
-         flex-direction: column;
-         gap: 15px;
-      }
-		// .playlist__item
-		&__item {}
-}
-.item {
+.album-track {
    transition: all 0.3 ease;
    border-radius: 5px;
    &.playing {
@@ -100,12 +86,14 @@ import { computed } from 'vue'
          display: none;
       }
    }
-   // .item__body
+   // .album-track__body
    &__body {
       display: flex;
       gap: 10px;
       align-items: center;
       &:hover {
+         transition: all 0.3 ease;
+         background: rgba(34, 35, 38, 0.9);
          .controls {
             opacity: 1;
          }
@@ -117,7 +105,7 @@ import { computed } from 'vue'
          }
       }
    }
-   // .item__img
+   // .album-track__img
    &__img {
       position: relative;
       flex: 0 0 100px;
@@ -137,17 +125,18 @@ import { computed } from 'vue'
         
       }
    }
-   // .item__info
+   // .album-track__info
    &__info {
       flex: 1 1 100%;
    }
-   // .item__name
+   // .album-track__name
    &__name {
+      color: $white;
    }
    
-   // .item__band
+   // .album-track__band
    &__band {}
-   // .item__controls 
+   // .album-track__controls 
    &__controls {
       border-radius: 0px;
    }

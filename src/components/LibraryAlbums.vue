@@ -17,11 +17,12 @@
 <script>
 import AddButton from '@/components/UI/AddButton.vue';
 import MyAlbum from '@/components/MyAlbum.vue'
+
 export default {
   name: 'library-albums',
   components: { 
     MyAlbum, 
-    AddButton 
+    AddButton,
   },
   props: {
     albums: {

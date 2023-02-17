@@ -118,8 +118,9 @@ export default {
       
       const formData = new FormData();
 
-      for (let g in newAlbum.value.genre) {
-        formData.append("genre", g)
+      for(let i = 0; i < newAlbum.value.genre.length; i++) {
+        formData.append("genre", newAlbum.value.genre[i])
+        console.log(newAlbum.value.genre[i])
       }
       formData.append("name", newAlbum.value.name)
       formData.append("band", newAlbum.value.band)
@@ -146,12 +147,15 @@ export default {
           if(response.status == 200) {
             success.value = 'uploaded!'
             errorMessage.value = ''
-             newAlbum.value = ({
-               name: '',
-               img_src: '',
-               poster: '',
-               description: '',
-               is_hidden: false,
+              newAlbum.value = ({
+                name: '',
+                band: '',
+                img_src: '',
+                poster: '',
+                description: '',
+                genre: [],
+                release_year: '',
+                is_hidden: false,
             })
           }
         })

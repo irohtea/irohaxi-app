@@ -4,3 +4,11 @@
       <path d="M206 0H146V320H206V0Z" fill="#252525"/>
    </svg>
 </template>
+
+<style lang="scss" scoped>
+svg {
+   path {
+      fill: $white;
+   }
+}
+</style>

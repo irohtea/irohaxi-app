@@ -1,6 +1,6 @@
 <template>
-   <div class="album">
-      <!-- :class="[
+   <div class="album"
+      :class="[
       {playing: $store.state.player.playlist.length > 0 
       && $store.state.player.albumId === album.id
       && $store.state.player.isPlaying},
@@ -8,7 +8,7 @@
       {paused: $store.state.player.playlist.length > 0 
       && $store.state.player.albumId === album.id
       && !$store.state.player.isPlaying}
-   ]"> -->
+   ]">
       <div class="album__body">
          <div class="album__img">
             <router-link :to="`/album/${album.id}`">
@@ -16,12 +16,12 @@
             </router-link>
                <div class="album__controls controls">
                   <button class="controls__more">
-                     <more-button />
+                     <more-button @click="openDialog"/>
                   </button>
                   <button class="controls__play" >
                      <play-button @click="$store.dispatch('player/addAlbumToPlayList', album)" ref=""/>
                   </button>
-                  <button class="controls__plause" >
+                  <button class="controls__pause" >
                      <pause-button @click="$store.dispatch('player/setPause', false)" />
                   </button>
                </div>
@@ -36,9 +36,11 @@
             </div>
          </div>
          <div class="album__dialog dialog" v-if="isDialog">
-            <div class="dialog__body" @click.stop>
-               <div class="dialog__btn">btn</div>
-               <div class="dialog__btn">btn</div>
+            <div class="dialog__body">
+               <div class="dialog__items">
+                  <button class="dialog__btn" @click="deleteAlbum(album.id)">Delete</button>
+                  <button class="dialog__btn">Delete</button>
+               </div>
             </div>
          </div>
     </div>
@@ -50,7 +52,9 @@ import PauseButton from '@/components/UI/Controls/PauseButton.vue';
 import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
 import { ref } from 'vue'
-// import { useStore } from 'vuex'
+import axios from 'axios';
+import router from '@/router'
+import { useStore } from 'vuex';
 
 export default {
    name: 'my-album',
@@ -66,18 +70,38 @@ export default {
       },
    },
    setup() {
-      // const store = useStore()
+      const store = useStore()
       const isDialog = ref(false)
       const openDialog = () => {
          isDialog.value = !isDialog.value
       }
-      // const setPlaylist = (album) => {
-      //    store.dispatch('player/addToPlayList', album)
-      // }
+      const deleteAlbum = async (id) => {
+         const config = {
+            headers: {
+               'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+            }
+         }
+
+         store.dispatch('setLoadingTrue')
+
+         try {
+            await axios.delete(`https://irohaxi.site/api/v1/users/albums/${id}`, config)
+            .then(response => {
+               console.log(response);
+            })
+            router.push('/library')
+            .then(() => { router.go() })
+         } catch (error) {
+            console.log(error);
+         } finally {
+            store.dispatch('setLoadingFalse')
+         }
+      }
+
       return {
+         deleteAlbum,
          isDialog,
          openDialog,
-         // setPlaylist
       }
    },
   
@@ -235,11 +259,19 @@ export default {
       z-index: 5;
 		// .dialog__body
 		&__body {
-         padding: 20px;
+         padding: 10px;
          background-color: rgb(33, 33, 33, 0.95);
       }
+      // .dialog__items
+      &__items {
+         display: flex;
+         flex-direction: column;
+      }
 		// .dialog__btn
-		&__btn {}
+		&__btn {
+         padding: 10px;
+         color: $white;
+      }
 }
 
 </style>

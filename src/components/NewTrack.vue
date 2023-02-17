@@ -6,52 +6,59 @@
           <div class="upload__back"><span>&lt;</span> Library</div>
         </router-link>
         <h1 class="upload__title">Upload your track!</h1>
-        <form class="upload__form upload-form" @submit.prevent="uploadNewTrack">
-          <div class="upload-form__body">
-            <div class="upload-form__inputs">
-              <div class="upload-form__item">
-                <label for="name" class="upload-form__label">Name:</label>
-                <input type="text" id="name" class="upload-form__input" placeholder="track name" v-model="newTrack.name">
-              </div>
-              <div class="upload-form__item">
-                <label for="author" class="upload-form__label">Author:</label>
-                <input type="text" id="author" class="upload-form__input" placeholder="Author" v-model="newTrack.author">
-              </div>
-              <div class="upload-form__item">
-                <label for="text" class="upload-form__label">Song text:</label>
-                <textarea type="text" id="text" class="upload-form__textarea" v-model="newTrack.text"></textarea>
-              </div>
-              <div class="upload-form__item">
-                <div class="upload-form__label">Pick genre:</div>
-                <div class="upload-form__checks checks" v-for="genre in genres" :key="genre.id">
-                  <input type="checkbox" class="checks__checkbox" :id="genre" :value="genre.id" v-model="newTrack.genre">
-                  <label class="checks__label" :for="genre"> {{ genre.name }} </label>
+          <form class="upload__form upload-form" @submit.prevent="uploadNewTrack">
+            <div class="upload-form__body">
+              <div class="upload-form__inputs">
+                <div class="upload-form__item">
+                  <label for="name" class="upload-form__label">Name:</label>
+                  <input type="text" id="name" class="upload-form__input" placeholder="track name" v-model="newTrack.name">
                 </div>
-              </div>
-              <div class="upload-form__item">
-                <label for="song" class="upload-form__label">Song:</label>
-                <input type="file" accept="audio/*" id="song" class="upload-form__input-upload" @change="createSong">
-              </div>
-              <div class="upload-form__checks checks">
-                  <label class="checks__label">Make thack private?</label>
-                  <input type="checkbox" class="checks__checkbox" value="true" v-model="newTrack.is_hidden">
+                <div class="upload-form__item">
+                  <label for="author" class="upload-form__label">Author:</label>
+                  <input type="text" id="author" class="upload-form__input" placeholder="Author" v-model="newTrack.author">
                 </div>
-            </div>
-            <div class="upload-form__file">
-              <div class="upload-form__wrap" v-if="!newTrack.img_src">
-                <h3>Track poster</h3>
-                <input type="file" accept="image/*" class="upload-form__input-file" @change="createImage">
+                <div class="upload-form__item">
+                  <label for="text" class="upload-form__label">Song text:</label>
+                  <textarea type="text" id="text" class="upload-form__textarea" v-model="newTrack.text"></textarea>
+                </div>
+                <div class="upload-form__item">
+                  <div class="upload-form__label">Pick genre:</div>
+                  <div class="upload-form__checks checks" v-for="genre in genres" :key="genre.id">
+                    <input type="checkbox" class="checks__checkbox" :id="genre" :value="genre.id" v-model="newTrack.genre">
+                    <label class="checks__label" :for="genre"> {{ genre.name }} </label>
+                  </div>
+                </div>
+                <div class="upload-form__item">
+                  <div class="upload-form__label">Pick album:</div>
+                  <div class="upload-form__checks checks" v-for="album in albums" :key="album.id">
+                    <input type="radio" class="checks__checkbox" :id="album" :value="album.id" v-model="newTrack.album_id">
+                    <label class="checks__label" :for="album"> {{ album.name }} </label>
+                  </div>
+                </div>
+                <div class="upload-form__item">
+                  <label for="song" class="upload-form__label">Song:</label>
+                  <input type="file" accept="audio/*" id="song" class="upload-form__input-upload" @change="createSong">
+                </div>
+                <div class="upload-form__checks checks">
+                    <label class="checks__label">Make thack private?</label>
+                    <input type="checkbox" class="checks__checkbox" value="true" v-model="newTrack.is_hidden">
+                  </div>
               </div>
-              <div class="upload-form__img" v-if="newTrack.img_src">
-                <img :src="newTrack.img_src" alt="your image">
+              <div class="upload-form__file">
+                <div class="upload-form__wrap" v-if="!newTrack.img_src">
+                  <h3>Track poster</h3>
+                  <input type="file" accept="image/*" class="upload-form__input-file" @change="createImage">
+                </div>
+                <div class="upload-form__img" v-if="newTrack.img_src">
+                  <img :src="newTrack.img_src" alt="your image">
+                </div>
+                <div class="upload-form__delete" @click="removeImage" v-if="newTrack.img_src">Remove image</div>
               </div>
-              <div class="upload-form__delete" @click="removeImage" v-if="newTrack.img_src">Remove image</div>
             </div>
-          </div>
-          <button type="submit" class="upload__btn">Upload</button>
-          <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
-          <div class="upload__message" v-if="success != ''">{{ success }}</div>
-        </form>
+            <button type="submit" class="upload__btn">Upload</button>
+            <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
+            <div class="upload__message" v-if="success != ''">{{ success }}</div>
+          </form>
       </div>
     </div>
   </main>
@@ -73,12 +80,13 @@ export default {
  },
   setup() {
     const store = useStore()
+    const albums = ref([])
     const newTrack = ref({
       name: '',
       author: '',
       text: '',
       img_src: '',
-      album_id: 1,
+      album_id: '',
       song_poster: '',
       is_hidden: false,
       genre: [],
@@ -86,19 +94,6 @@ export default {
     })
     const genres = ref([
     ])
-    //Working with input file upload========================================================================================================================================================
-    // const onFileChange = (e) => {
-    //     let files = e.target.files || e.dataTransfer.files;
-    //     if (!files.length) {
-    //       return;
-    //     }
-    //     if(files[0].type == 'audio/mpeg') {
-    //       createSong(files[0])
-    //     } else {
-    //       console.log('картинка');
-    //       createImage(files[0]);
-    //     }
-    // }
     const createImage = (event) => {
       let file = event.target.files[0] || event.dataTransfer.files;
       
@@ -120,6 +115,7 @@ export default {
     }
     //========================================================================================================================================================
     onMounted(async () => {
+      
       try {
         await axios.get(`https://irohaxi.site/api/v1/genre/`)
         .then(response => {
@@ -128,74 +124,99 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }) 
 
-    const success = ref('')
-    const errorMessage = ref('')
-    const uploadNewTrack = async () => {
-      
-      const formData = new FormData();
-
-      for (let g in newTrack.value.genre) {
-        formData.append("genre", g)
-      }
-      formData.append("name", newTrack.value.name)
-      formData.append("track_author", newTrack.value.author)
-      formData.append("text", newTrack.value.text)
-      formData.append("album_id", newTrack.value.album_id)
-      formData.append("is_hidden", newTrack.value.is_hidden)
-      formData.append("song", newTrack.value.track)
-      formData.append("song_poster", newTrack.value.song_poster)
-      
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*',
           'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
         }
-
       }
-      store.dispatch('setLoadingTrue')
+
       try {
-        await axios.post(`https://irohaxi.site/api/v1/tracks/`,
-        formData,
-        config
-        )
+        await axios.get(`https://irohaxi.site/api/v1/users/albums/`, config)
         .then(response => {
-          if(response.status == 200) {
-            success.value = 'track uploaded!'
-            errorMessage.value = ''
-
-            newTrack.value = ({
-               name: '',
-               img_src: '',
-               poster: '',
-               description: '',
-               is_hidden: false,
-            })
-          }
+          albums.value = response.data
+          console.log(response);
         })
-        store.dispatch('setLoadingFalse')
       } catch (error) {
-        switch(error.response.status) {
-          case 422:
-            errorMessage.value = 'Error'
-            break;
-        }
-      } finally {
-        store.dispatch('setLoadingFalse')
+        console.log(error);
       }
-    }
+
+    }) 
+
+      const success = ref('')
+      const errorMessage = ref('')
+      const uploadNewTrack = async () => {
+      
+        const formData = new FormData();
+
+        for(let i = 0; i < newTrack.value.genre.length; i++) {
+          formData.append("genre", newTrack.value.genre[i])
+          console.log(newTrack.value.genre[i])
+        }
+        formData.append("name", newTrack.value.name)
+        formData.append("track_author", newTrack.value.author)
+        formData.append("text", newTrack.value.text)
+        formData.append("album_id", newTrack.value.album_id)
+        formData.append("is_hidden", newTrack.value.is_hidden)
+        formData.append("song", newTrack.value.track)
+        formData.append("song_poster", newTrack.value.song_poster)
+        
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+          }
+
+        }
+        store.dispatch('setLoadingTrue')
+        
+        try {
+          await axios.post(`https://irohaxi.site/api/v1/tracks/`,
+          formData,
+          config
+          )
+          .then(response => {
+            if(response.status == 200) {
+              success.value = 'track uploaded!'
+              errorMessage.value = ''
+
+              newTrack.value = ({
+                name: '',
+                author: '',
+                text: '',
+                img_src: '',
+                album_id: null,
+                song_poster: '',
+                is_hidden: false,
+                genre: [],
+                track: ''
+              })
+
+            }
+          })
+          store.dispatch('setLoadingFalse')
+        } catch (error) {
+          switch(error.response.status) {
+            case 422:
+              errorMessage.value = 'Error'
+              break;
+          }
+        } finally {
+          store.dispatch('setLoadingFalse')
+        }
+      }
 
     return {
       newTrack,
       uploadNewTrack,
+      albums,
       createImage,
       createSong,
       genres,
       removeImage,
       success,
-      errorMessage
+      errorMessage,
     }
   }
 }
