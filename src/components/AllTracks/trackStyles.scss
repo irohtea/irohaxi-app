@@ -1,0 +1,263 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    // background: rgb(2,2,14);
+    background: linear-gradient(24deg, rgba(2,2,14,1) 2%, rgba(3,10,20,1) 49%, rgba(53,76,121,1) 98%);
+		// .wrapper__container
+	&__container {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        margin: 15px 0px 15px 0px;
+	}
+
+    &__tracks {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 15px;
+        @media (max-width: 425px) {
+            display: flex;
+            justify-content: center;
+        }
+        // grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
+    }
+
+    &__genre {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        div {
+            small {
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__genre-link {
+        color: $white;
+        content: '';
+        border-bottom: 1px solid rgba(255, 255, 255, 0.411);
+    }
+}
+.track {
+   display: grid;
+   justify-items: center;
+//    margin: 0 auto;
+   transition: all 0.3 ease;
+   &.playing {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: none;
+      }
+      .controls__pause {
+         display: block;
+      }
+
+   }
+   &.paused {
+        .controls {
+            opacity: 1;
+        }
+        .controls__play {
+            display: block;
+        }
+        .controls__pause {
+            display: none;
+        }
+    }
+   // .track__body
+   &__body {
+      position: relative;
+      &:hover {
+            .controls {
+                opacity: 1;
+            }
+            .track__img {
+            }
+            .controls__more {
+            }
+            .controls__play {
+            }
+        }
+    }
+   // .track__img
+   &__img {
+        position: relative;
+        z-index: 5;
+        width: 200px;
+        height: 200px;
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: all 0.3s ease 0s;
+        }
+    }
+   // .track__info
+   &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 10px;
+    }
+   // .track__name
+   &__name {
+        font-weight: 700;
+        color: #fff;
+    }
+    // .track__controls
+    &__controls {
+    }
+    // .track__author
+    &__author {
+
+    }
+}
+.controls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
+    transition: all 0.2s ease 0s;
+    // .controls__more
+   &__more {
+        pointer-events: all;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 10px;
+        border-radius: 50%;
+        transition: 0.2s ease 0s;
+        &:active {
+            background: rgba(79, 103, 139, 0.718);
+        }
+        &.active {
+            background: rgba(79, 103, 139, 0.718);
+        }
+        svg {
+        width: 20px;
+        height: 20px;
+            path {
+                fill: $white;
+            }
+        }
+    }
+		// .controls__play
+		&__play,
+      &__pause{
+            pointer-events: all;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            svg {
+                width: 30px;
+                height: 30px;
+                path {
+                fill: $white;
+                }
+            }
+        }
+      // .controls__play
+		&__play {}
+      // .controls__pause
+		&__pause {
+        display: none;
+        pointer-events: all;
+    }
+}
+.album-tracks {
+
+    .track {
+        display: flex;
+        max-width: 100%;
+        // transition: all 0.3s ease 0s;
+        cursor: pointer;
+        // border-bottom: 1px solid $grey;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.09);
+        &:last-child {
+            border-bottom: none;
+        }
+        &:hover{
+            background-color: rgba(255, 255, 255, 0.09);              
+        }
+        &__title {
+            @media (max-width: 375px) {
+                font-size: 18px;
+            }
+        }
+        &__body {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            gap: 15px;
+            padding: 10px 0px 10px 10px;
+        }
+        // .track__img
+        &__img {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            img {
+                width: 100%;            
+                height: 100%;
+                object-fit: cover;
+                border-radius: 0px;
+                @media  (max-width: 425px) {
+                    width: 80px;
+                    height: 80px;
+                }
+                @media  (max-width: 375px) {
+                    width: 60px;
+                    height: 80px;
+                }
+            }
+        }
+        // .track__info
+        &__info {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 5px;
+            // margin-top: 10px;
+            @media  (max-width: 375px) {
+                font-size: 14px;
+            }
+        }
+        // .track__name
+        &__name {
+            font-weight: 700;
+            color: #fff;
+            @media  (max-width: 375px) {
+                font-size: 12px;
+            }
+            
+        }
+        // .track__controls
+        &__controls {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        // .track__author
+        &__author {
+            white-space: nowrap;
+            @media (max-width: 425px){
+                white-space: normal; 
+            }
+        }
+    }
+}

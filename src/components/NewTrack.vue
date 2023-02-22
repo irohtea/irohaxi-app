@@ -78,7 +78,7 @@ export default {
       author: '',
       text: '',
       img_src: '',
-      album_id: 1,
+      album_id: 9,
       song_poster: '',
       is_hidden: false,
       genre: [],

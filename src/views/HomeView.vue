@@ -1,9 +1,7 @@
 <template>
-    <div class="home">
-        <div class="home__container">
-            <Slider></Slider>
-        </div>
-    </div>
+    <main class="home">
+        <Slider></Slider>
+    </main>
 </template>
 <script>
 import Slider from '@/components/Slider/SliderBar.vue'
@@ -11,18 +9,14 @@ export default {
     components: {
         Slider
     },
-    setup() {
-        return {
-
-        }
-    }
 }
 </script>
 
 <style lang="scss" scoped>
 .home {
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
+    // padding-left: 0 !important;
     width: 100%;
     // .wrapper__container
 
@@ -32,4 +26,5 @@ export default {
         }
     }
 }
+
 </style>
