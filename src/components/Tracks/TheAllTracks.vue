@@ -1,14 +1,9 @@
 <template>
     <main class="wrapper">
         <div class="wrapper__container">
-            <aside class="wrapper__genre">
-                <div v-for="genre in ourGenres" :key="genre">
-                    <small @click="filter(genre.name)">{{genre.name}}</small>
-                </div>
-            </aside>
-            <div class="wrapper__tracks">
+            <div class="wrapper__tracks" v-if="$store.state.genre.genres.length !== 0">
                 <div class="track" 
-                v-for="track in filtredTracks"
+                v-for="track in $store.state.genre.genres"
                 :key="track"
                 :class="[
                     {playing: $store.state.player.playlist.length > 0 
@@ -45,6 +40,19 @@
                     </div>
                 </div>
             </div>
+            <div class="all-genre" v-else>
+                <h1 class="all-genre__title">Genres</h1>
+                <div 
+                v-for="genre in ourGenres" 
+                :key="genre" 
+                @click="filter(genre.name)" 
+                class="all-genre__item"
+                >
+                    <small class="all-genre__name">
+                        {{genre.name}}
+                    </small>
+                </div>
+            </div>
         </div>
     </main>
 </template>
@@ -53,11 +61,12 @@
 import axios from 'axios'
 // import {ref, computed, onMounted} from 'vue'
 import {ref, onMounted} from 'vue'
-// import {useStore} from 'vuex'
+import {useStore} from 'vuex'
 
 import PlayButton from '@/components/Controls/PlayButton.vue';
 import PauseButton from '@/components/Controls/PauseButton.vue';
 import MoreButton from '@/components/Controls/MoreButton.vue';
+
 export default {
     components: {
         PlayButton,
@@ -65,35 +74,40 @@ export default {
         MoreButton,
     },
     setup() {
-        // const store = useStore()
+        const store = useStore()
         const ourTracks = ref([])
-        const ourGenres = ref([])
         const filtredTracks = ref([])
-
-        const filtedGenres = ref([])
+        const ourGenres = ref([])
 
         const filter = (genre) => {
-            for(let item of filtredTracks.value) {
+            for(let item of store.state.genre.genres) {
                 if(item) {
-                    filtredTracks.value = []
+                    store.state.genre.genres = []
                 }
             }
             for(let item of ourTracks.value) {
                 for(let itemOfGenre of item.genre) {
-                    console.log(item.genre);
                     if(itemOfGenre.name === genre) {
-                        filtredTracks.value.push(item)
+                        store.commit('genre/showAllGenre', item)
                     }
                 }
             }
+            console.log(store.state.genre.genres);
         }
-
 
         onMounted( async () => {
             const config = {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
                 }
+            }
+            try {
+                await axios.get('https://irohaxi.site/api/v1/genre/', config)
+                    .then(response => {
+                        ourGenres.value = response.data
+                    })
+            }catch(error) {
+                console.log(error);
             }
             try {
                 await axios.get('https://irohaxi.site/api/v1/tracks/', config)
@@ -104,28 +118,18 @@ export default {
             }catch(error) {
                 console.log(error);
             }
-            try {
-                await axios.get('https://irohaxi.site/api/v1/genre/', config)
-                    .then(response => {
-                        ourGenres.value = response.data
-                    })
-            }catch(error) {
-                console.log(error);
-            }
-
         })
 
         return {
             ourTracks,
-            ourGenres,
-            filter,
             filtredTracks,
-            filtedGenres,
+            ourGenres,
+            filter
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@import './trackStyles.scss';
+@import './track-styles.scss';
 </style>

@@ -1,14 +1,32 @@
 <template>
     <main class="home">
-        <Slider></Slider>
+        <div class="home__container">
+            <SliderBarAlbum></SliderBarAlbum>
+            <SliderBarGenre></SliderBarGenre>
+            <SliderBarTrack></SliderBarTrack>
+        </div>
     </main>
 </template>
 <script>
-import Slider from '@/components/Slider/SliderBar.vue'
+import SliderBarAlbum from '@/components/Slider/SliderBarAlbum.vue'
+import SliderBarGenre from '@/components/Slider/SliderBarGenre.vue'
+import SliderBarTrack from '@/components/Slider/SliderBarTrack.vue'
+
+import {onMounted} from 'vue'
 export default {
     components: {
-        Slider
+        SliderBarAlbum,
+        SliderBarGenre,
+        SliderBarTrack
     },
+    setup() {
+        onMounted(() => {
+            
+        })
+        return {
+
+        }
+    }
 }
 </script>
 
@@ -26,5 +44,4 @@ export default {
         }
     }
 }
-
 </style>

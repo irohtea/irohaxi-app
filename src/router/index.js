@@ -107,12 +107,12 @@ const routes = [
   {
     path: '/all-albums',
     name: 'allalbum',
-    component: () => import('../views/TheAllAlbums')
+    component: () => import('..//components/TheAllAlbums')
   },
   {
     path: '/all-tracks',
     name: 'alltracks',
-    component: () => import('..//components/AllTracks/TheAllTracks.vue'),
+    component: () => import('..//components/Tracks/TheAllTracks.vue'),
   },
 ]
 

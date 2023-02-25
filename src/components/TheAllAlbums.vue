@@ -99,7 +99,6 @@ export default {
 
 <style lang="scss" scoped>
 .wrapper {
-    background: rgb(2,2,14);
     background: linear-gradient(24deg, rgba(2,2,14,1) 2%, rgba(3,10,20,1) 49%, rgba(53,76,121,1) 98%);
     &__container {
 
