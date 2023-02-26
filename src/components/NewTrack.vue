@@ -21,18 +21,20 @@
                   <label for="text" class="upload-form__label">Song text:</label>
                   <textarea type="text" id="text" class="upload-form__textarea" v-model="newTrack.text"></textarea>
                 </div>
-                <div class="upload-form__item">
-                  <div class="upload-form__label">Pick genre:</div>
-                  <div class="upload-form__checks checks" v-for="genre in genres" :key="genre.id">
-                    <input type="checkbox" class="checks__checkbox" :id="genre" :value="genre.id" v-model="newTrack.genre">
-                    <label class="checks__label" :for="genre"> {{ genre.name }} </label>
+                <div class="upload-form__group">
+                  <div class="upload-form__item">
+                    <div class="upload-form__label">Pick genre:</div>
+                    <div class="upload-form__checks checks" v-for="genre in genres" :key="genre.id">
+                      <input type="checkbox" class="checks__checkbox" :id="genre" :value="genre.id" v-model="newTrack.genre">
+                      <label class="checks__label" :for="genre"> {{ genre.name }} </label>
+                    </div>
                   </div>
-                </div>
-                <div class="upload-form__item">
-                  <div class="upload-form__label">Pick album:</div>
-                  <div class="upload-form__checks checks" v-for="album in albums" :key="album.id">
-                    <input type="radio" class="checks__checkbox" :id="album" :value="album.id" v-model="newTrack.album_id">
-                    <label class="checks__label" :for="album"> {{ album.name }} </label>
+                  <div class="upload-form__item">
+                    <div class="upload-form__label">Pick album:</div>
+                    <div class="upload-form__checks checks" v-for="album in albums" :key="album.id">
+                      <input type="radio" class="checks__checkbox" :id="album" :value="album.id" v-model="newTrack.album_id">
+                      <label class="checks__label" :for="album"> {{ album.name }} </label>
+                    </div>
                   </div>
                 </div>
                 <div class="upload-form__item">
@@ -56,8 +58,12 @@
               </div>
             </div>
             <button type="submit" class="upload__btn">Upload</button>
-            <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
-            <div class="upload__message" v-if="success != ''">{{ success }}</div>
+            <transition name="fade">
+              <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
+            </transition>
+            <transition name="fade">
+              <div class="upload__message" v-if="success != ''">{{ success }}</div>
+            </transition>
           </form>
       </div>
     </div>
@@ -135,7 +141,6 @@ export default {
         await axios.get(`https://irohaxi.site/api/v1/users/albums/`, config)
         .then(response => {
           albums.value = response.data
-          console.log(response);
         })
       } catch (error) {
         console.log(error);
@@ -151,7 +156,6 @@ export default {
 
         for(let i = 0; i < newTrack.value.genre.length; i++) {
           formData.append("genre", newTrack.value.genre[i])
-          console.log(newTrack.value.genre[i])
         }
         formData.append("name", newTrack.value.name)
         formData.append("track_author", newTrack.value.author)
@@ -178,7 +182,11 @@ export default {
           )
           .then(response => {
             if(response.status == 200) {
+              
               success.value = 'track uploaded!'
+              setTimeout(() => {
+                success.value = ''
+              }, 3000)
               errorMessage.value = ''
 
               newTrack.value = ({
@@ -199,7 +207,11 @@ export default {
         } catch (error) {
           switch(error.response.status) {
             case 422:
-              errorMessage.value = 'Error'
+              errorMessage.value = 'Something went wrong'
+              setTimeout(() => {
+                errorMessage.value = ''
+
+              }, 3000)
               break;
           }
         } finally {

@@ -1,23 +1,13 @@
 import axios from "axios"
 
-
-// TODO 
-//1. Выбирать отдельный трек в плейлисте (когда PlayerExtended). (Может что-то сделать с songIndex?)
-//2. Когда заходишь в альбом и нажимаешь на отдельный трек, добавлять альбом из которого этот трек в плейлист, 
-//и проигрывать трек который был выбран.
-//3. 
-
 export default ({
    namespaced: true,
-
     state: {
         audioUrl: null,
         isPlaying: false,
         isExtended: false,
-        isChanged: false,
         songIndex: 0,
         playlist: [],
-        changedTrack: {},
         currentTrack: {},
         albumId: null,
         audioSrc: '',
@@ -36,12 +26,6 @@ export default ({
       isPlaying(state) {
         return state.isPlaying
       },
-      changedTrack(state) {
-        return state.changedTrack
-      },
-      isChanged(state) {
-        return state.isChanged
-      },
       songIndex(state) {
         return state.songIndex
       },
@@ -49,6 +33,7 @@ export default ({
     mutations: {
         ADD_ALBUM(state, playlist) {
           state.playlist = playlist 
+          console.log('added');
         },
         ALBUM_ID(state, albumId) {
           state.albumId = albumId 
@@ -65,17 +50,11 @@ export default ({
         SET_CURRENT(state, currentTrack) {
           state.currentTrack = currentTrack
         },
-        SET_CHANGED(state, changedTrack) {
-          state.changedTrack = changedTrack
-        },
-        SET_IS_CHANGED(state, isChanged) {
-          state.isChanged = isChanged
-        },
         SET_INDEX(state, songIndex) {
           state.songIndex = songIndex
         },
     },
-      actions: {
+    actions: {
         addAlbumToPlayList({ commit }, details) {
           const { track } = details
 
@@ -95,7 +74,6 @@ export default ({
           try {
             await axios.get(`https://irohaxi.site/api/v1/users/tracks/`, config)
               .then(response => {
-                // playlist = [track, ...response.data]
                 sortedPlaylist = [...response.data].filter(item => {
                   if(item.id !=  track.id) {
                     return item
@@ -106,7 +84,6 @@ export default ({
           } catch (error) {
             console.log(error);
           }
-
           
           commit('ADD_TRACKS', sortedPlaylist)
           commit('SET_PLAYING', true)
@@ -117,11 +94,12 @@ export default ({
           commit('SET_CURRENT', details)
         },
         changeTrack({ commit, state }, details) {
-          console.log(state.playlist.indexOf(details));
+          const playlist = state.playlist
 
-          commit('SET_INDEX', state.playlist.indexOf(details))
-          commit('SET_PLAYING', true)
-
+          commit('SET_INDEX', playlist.findIndex((i) => {
+            return i.id === details.id
+          }))
+      
         },
         setPause({commit}, details) {
           commit('SET_PLAYING', details)

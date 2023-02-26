@@ -14,7 +14,7 @@
                  Author &ndash; <span>{{ album.band }}</span> 
                </div>
                <div class="album-info__year">
-                 Album &middot; 2022
+                 Album &middot; {{ album.release_year }}
                </div>
                <div class="album-info__description">
                   <p>{{ album.description }}</p>
@@ -35,7 +35,7 @@
             </action-button>
          </div>
          <div class="album__tracks album-tracks">
-           <album-playlist :tracks="album.track"/> 
+           <album-playlist :tracks="album.track" /> 
          </div>
       </div>
    </div>
@@ -82,7 +82,7 @@ svg {
 		&__container {}
 		// .album__body
 		&__body {
-         padding: 40px 0px 110px 0px;
+         padding: 40px 0px 120px 0px;
 
       }
 		// .album__info
@@ -93,24 +93,26 @@ svg {
 		&__tracks {}
 }
 .album-info {
-   // background: linear-gradient(90deg, #0d0d13 50%, rgb(23, 49, 71, 0.5));
    border-radius: 10px;
    display: flex;
    align-items: center;
    gap: 20px;
-
+   @media (max-width: 375px){
+      flex-direction: column;
+   }
 		// .album-info__left
 		&__left {
          flex: 1 0 30%;
          display: flex;
          flex-direction: column;
+       
       }
 		// .album-info__img
 		&__img {
          position: relative;
          padding: 0px 0px 100% 0px;
-         min-height: 160px;
-         min-width: 160px;
+         min-height: 130px;
+         min-width: 130px;
          img {
             position: absolute;
             top: 0;
@@ -120,6 +122,7 @@ svg {
             object-fit: cover;
             border-radius: 15px;
          }
+      
       }
       
 		// .album-info__right
@@ -127,6 +130,9 @@ svg {
          flex: 1 0 50%;
          @media (max-width: 768px){
             margin-top: 20px;
+         }
+         @media (max-width: 375px){
+           justify-content:center;align-items: center;
          }
       }
       // .album-info__name
@@ -163,9 +169,15 @@ svg {
 		&__genre-list {
          display: flex;
          flex-wrap: wrap;
+         gap: 8px;
+         @media (max-width: 460px){
+              flex-direction: column;
+         }
       }
 		// .album-info__genre-item
 		&__genre-item {
+         display: flex;
+         align-self: baseline;
          margin-top: 15px;
          padding: 10px;
          border: 1px solid $grey;
@@ -179,7 +191,6 @@ svg {
    flex-wrap: wrap;
    column-gap: 30px;
    row-gap: 10px;
-   // justify-content: space-between;
 		// .album-actions__play
 		&__play {}
 }

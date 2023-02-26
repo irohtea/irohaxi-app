@@ -18,24 +18,19 @@ export default {
       tracks: {
          type: Array,
          required: true,
-      }
+      },
    },
-   setup () {
-      
-
-      return {}
-   }
 }
 </script>
 
 <style lang="scss" scoped>
 .album-tracks {
-		// .album-tracks__list
-		&__list {
-         display: flex;
-         flex-direction: column;
-         gap: 15px;
-      }
+   // .album-tracks__list
+   &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+   }
 }
 
 </style>

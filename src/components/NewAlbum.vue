@@ -49,8 +49,12 @@
                </div>
             </div>
             <button type="submit" class="upload__btn">Upload</button>
-            <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
-            <div class="upload__message" v-if="success != ''">{{ success }}</div>
+            <transition name="fade">
+              <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
+            </transition>
+            <transition name="fade">
+              <div class="upload__message" v-if="success != ''">{{ success }}</div>
+            </transition>
          </form>
          </div>
       </div>
@@ -146,16 +150,21 @@ export default {
         .then(response => {
           if(response.status == 200) {
             success.value = 'uploaded!'
+            setTimeout(() => {
+              success.value = ''
+            }, 3000)
+
             errorMessage.value = ''
-              newAlbum.value = ({
-                name: '',
-                band: '',
-                img_src: '',
-                poster: '',
-                description: '',
-                genre: [],
-                release_year: '',
-                is_hidden: false,
+
+            newAlbum.value = ({
+              name: '',
+              band: '',
+              img_src: '',
+              poster: '',
+              description: '',
+              genre: [],
+              release_year: '',
+              is_hidden: false,
             })
           }
         })
@@ -163,7 +172,11 @@ export default {
       } catch (error) {
         switch(error.response.status) {
           case 422:
-            errorMessage.value = 'Error'
+            errorMessage.value = 'Something went wrong'
+            setTimeout(() => {
+              errorMessage.value = ''
+
+            }, 3000)
             break;
         }
       } finally {

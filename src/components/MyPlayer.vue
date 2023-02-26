@@ -133,8 +133,11 @@ export default {
       }
       // Setting up current track src
       watchEffect(() => {
-         const current = store.getters['player/playlist'][store.getters['player/songIndex']];
+         const index = store.getters['player/songIndex']
+         const playlist = store.getters['player/playlist']
 
+         const current = playlist[index];
+         
          if(current === []) {
             return
          } else {
@@ -150,10 +153,11 @@ export default {
             isPlaying.value = false
 
          }
-         // else {}
-         audio.src = newSrc.song
-         play()
-         isPlaying.value = true
+         else {
+            audio.src = newSrc.song
+            play()
+            isPlaying.value = true
+         }
 
       })
       // Volume upd
@@ -258,7 +262,6 @@ export default {
 <style lang="scss" scoped>
 
 .player {
-   // display: none;
    display: flex;
    align-items: center;
    position: fixed;

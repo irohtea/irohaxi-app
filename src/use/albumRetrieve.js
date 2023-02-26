@@ -28,7 +28,6 @@ export function albumRetrieve(id) {
             'background': `linear-gradient(180deg, #0d0d13 50%, ${bgColor.value})`,
             'box-shadow': `0px 0px 20px ${bgColor.value}`,
          }
-         console.log(bgColor.value);
       } catch (error) {
          console.log(error);
       }

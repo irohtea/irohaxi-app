@@ -12,7 +12,12 @@
                <div class="player-extended__tabs tabs">
                  <div class="tabs__body">
                      <div class="tabs__navigation">
-                        <tab-button class="tabs__button" v-for="tab in tabs" :key="tab" @click="comp = tab.component">
+                        <tab-button
+                        :class="{ active: comp === tab.component }"
+                        class="tabs__button" 
+                        v-for="tab in tabs" 
+                        :key="tab" 
+                        @click="comp = tab.component">
                            {{ tab.text }}
                         </tab-button>
                      </div>

@@ -1,55 +1,90 @@
 <template>
-  <main class="user-library">
-      <section class="library">
-         <tabs-wrapper class="library__tabs">
-            <tab-item title="Albums">
-               <library-albums :albums="albums"></library-albums>
-               <my-loader v-if="$store.state.is_loading" class="library__loader"></my-loader>
-            </tab-item>
-            <tab-item title="Tracks">
-               <library-tracks :tracks="tracks"></library-tracks>
-               <my-loader v-if="$store.state.is_loading" class="library__loader"></my-loader>
-            </tab-item>
-         </tabs-wrapper>
+  <main class="library">
+      <div class="library__navigation">
+         <div class="library__container">
+            <div class="library__buttons">
+               <tab-button
+               class="library__button" 
+               :class="{active: comp === tab.component}"
+               v-for="tab in tabs" 
+               :key="tab" 
+               @click="comp = tab.component"
+               >
+                  {{ tab.text }}
+               </tab-button>
+            </div>
+         </div>
+      </div>
+      <section class="library__section">
+         <div class="library__container">
+            <keep-alive>
+               <component :is="comp"/>
+            </keep-alive>
+         </div>
       </section>
   </main>
 </template>
 
 <script>
-
+import { ref } from 'vue'
 import LibraryAlbums from '@/components/LibraryAlbums.vue'
 import LibraryTracks from '@/components/LibraryTracks.vue'
-import TabsWrapper from '@/components/TabsWrapper.vue'
-import TabItem from '@/components/TabItem.vue'
-import MyLoader from '@/components/UI/MyLoader.vue'
-
-import { userAlbums } from '@/use/userAlbums'
-import { userTracks } from '@/use/userTracks'
+import LibraryPlaylists from '@/components/LibraryPlaylists.vue'
+import TabButton from '@/components/UI/TabButton.vue'
 
 export default {
    components: { 
       LibraryAlbums, 
-      LibraryTracks, 
-      TabsWrapper,
-      TabItem, 
-      MyLoader
+      LibraryTracks,
+      LibraryPlaylists,
+      TabButton, 
    },
    setup() {
-
-      const { albums } = userAlbums()
-      const { tracks } = userTracks()
-
+      const tabs = ref([
+         {text: 'Albums', component: 'LibraryAlbums'},
+         {text: 'Tracks', component: 'LibraryTracks'},
+         {text: 'Playlists', component: 'LibraryPlaylists'},
+      ])
+      const comp = ref('LibraryAlbums')
       return {
-         tracks,
-         albums,
+         tabs,
+         comp,
       }
    }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.library {
+   padding-bottom: 120px;
+   background: rgb(29,39,59);
+   background: linear-gradient(45deg, rgba(29,39,59,1) 0%, rgba(6, 9, 18, 1) 100%);
+		// .library__navigation
+		&__navigation {
+         background-color: rgba(10, 10, 10, 0.279);
+         box-shadow: 0px 2px 25px rgba(74, 111, 181, 0.9);
+         border-bottom: 1px solid $blue;
+         margin-bottom: 50px;
+      }
+		// .library__buttons
+		&__buttons {
+         display: flex;
+         flex-wrap: wrap;
+         @media (max-width: 720px){
+              justify-content: center;
+         }
+      }
+		// .library__button
+		&__button {}
+		// .library__section
+		&__section {}
+		// .library__container
+		&__container {}
+}
+
 .user-library {
    min-height: 100vh;
+   padding-bottom: 120px;
 }
 .library {
 		// .library__container

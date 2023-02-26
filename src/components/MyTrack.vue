@@ -33,6 +33,9 @@
                {{ track.track_author }}
             </div>
          </div>
+         <button class="track__more">
+            <more-button />
+         </button>
       </div>
    </div>
 </template>
@@ -45,6 +48,7 @@ import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
 export default {
    name: 'my-track',
+
    components: {
       PlayButton,
       PauseButton,
@@ -58,13 +62,18 @@ export default {
    },
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 
 .track {
+   position: relative;
    display: grid;
    justify-items: center;
    margin: 0 auto;
-   transition: all 0.3 ease;
+   width: 200px;
+   @media (max-width: 768.98px){
+      width: 100%;
+      display: flex;
+   }
    &.playing {
       .controls {
          opacity: 1;
@@ -75,7 +84,12 @@ export default {
       .controls__pause {
          display: block;
       }
-
+      @media (max-width: 768.98px){
+         .track__body {
+            border-radius: 10px;
+            background: rgba(24, 36, 59, 0.704);
+         }
+      }
    }
    &.paused {
       .controls {
@@ -86,12 +100,23 @@ export default {
       }
       .controls__pause {
          display: none;
-
+      }
+      @media (max-width: 768.98px){
+         .track__body {
+            background: rgba(34, 35, 38, 0.9);
+            border-radius: 10px;
+         }
       }
    }
    // .track__body
    &__body {
       position: relative;
+      @media (max-width: 768.98px){
+         display: flex;
+         flex: 1 1 100%;
+         align-items: center;
+         gap: 10px;
+      }
       &:hover {
          .controls {
             opacity: 1;
@@ -110,12 +135,28 @@ export default {
       z-index: 5;
       width: 200px;
       height: 200px;
+      @media (max-width: 768.98px){
+         width: 100px;
+         height: 100px;
+      }
+      @media (max-width: 460px){
+         width:  70px;
+         height: 70px;
+      }
       img {
          width: 200px;
          height: 200px;
          object-fit: cover;
          border-radius: 10px;
          transition: all 0.3s ease 0s;
+         @media (max-width: 768px){
+            width: 100px;
+            height: 100px;
+         }
+         @media (max-width: 460px){
+            width:  70px;
+            height: 70px;
+         }
       }
    }
    // .track__info
@@ -124,6 +165,12 @@ export default {
       flex-direction: column;
       gap: 5px;
       margin-top: 10px;
+      @media (max-width: 768.98px){
+         flex: 1 1 100%;
+      }
+      @media (max-width: 460px){
+         font-size: 14px;
+      }
    }
    // .track__name
    &__name {
@@ -136,6 +183,27 @@ export default {
    // .track__author
    &__author {
 
+   }
+   // .track__more
+   &__more {
+      pointer-events: all;
+      // margin-right: 15px;
+      padding: 10px;
+      border-radius: 50%;
+      transition: 0.2s ease 0s;
+      &:active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      &.active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      svg {
+         width: 20px;
+         height: 20px;
+      }
+      @media (min-width: 768.98px){
+         display: none;
+      }
    }
 }
 .controls {
@@ -151,27 +219,30 @@ export default {
    transition: all 0.2s ease 0s;
    // .controls__more
    &__more {
-         pointer-events: all;
-         position: absolute;
-         top: 5px;
-         right: 5px;
-         padding: 10px;
-         border-radius: 50%;
-         transition: 0.2s ease 0s;
-         &:active {
-            background: rgba(79, 103, 139, 0.718);
-         }
-         &.active {
-            background: rgba(79, 103, 139, 0.718);
-         }
-         svg {
-            width: 20px;
-            height: 20px;
-            path {
-               fill: $white;
-            }
+      pointer-events: all;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      padding: 10px;
+      border-radius: 50%;
+      transition: 0.2s ease 0s;
+      @media (max-width: 768px){
+           display: none;
+      }
+      &:active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      &.active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      svg {
+         width: 20px;
+         height: 20px;
+         path {
+            fill: $white;
          }
       }
+   }
 		// .controls__play
 		&__play,
       &__pause{
@@ -196,93 +267,93 @@ export default {
          pointer-events: all;
       }
 }
-.album-tracks {
+// .album-tracks {
 
-   .track {
-      display: flex;
-      max-width: 100%;
-      transition: all 0.3s ease 0s;
-      cursor: pointer;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.09);
-      &.playing {
-      .controls {
-         opacity: 1;
-      }
-      .controls__play {
-         display: none;
-      }
-      .controls__pause {
-         display: block;
-      }
+//    .track {
+//       display: flex;
+//       max-width: 100%;
+//       transition: all 0.3s ease 0s;
+//       cursor: pointer;
+//       border-bottom: 2px solid rgba(255, 255, 255, 0.09);
+//       &.playing {
+//       .controls {
+//          opacity: 1;
+//       }
+//       .controls__play {
+//          display: none;
+//       }
+//       .controls__pause {
+//          display: block;
+//       }
 
-   }
-   &.paused {
-      .controls {
-         opacity: 1;
-      }
-      .controls__play {
-         display: block;
-      }
-      .controls__pause {
-         display: none;
+//    }
+//    &.paused {
+//       .controls {
+//          opacity: 1;
+//       }
+//       .controls__play {
+//          display: block;
+//       }
+//       .controls__pause {
+//          display: none;
 
-      }
-   }
-      &:last-child {
-         border-bottom: none;
-      }
-      &:hover{
-         background-color: rgba(255, 255, 255, 0.09);              
-      }
-      &__body {
-         display: flex;
-         align-items: center;
-         gap: 15px;
-         padding: 10px;
-      }
-      // .track__img
-      &__img {
-         position: relative;
-         width: 80px;
-         height: 80px;
-         @media (max-width: 425px){
-             width: 40px;           
-             height: 40px;
-         }
-         img {
-            width: 100%;            
-            height: auto;
-            object-fit: cover;
-            border-radius: 0px;
-         }
-      }
-      // .track__info
-      &__info {
-         display: flex;
-         flex-direction: column;
-         gap: 5px;
-         margin-top: 10px;
-      }
-      // .track__name
-      &__name {
-         font-weight: 700;
-         color: #fff;
+//       }
+//    }
+//       &:last-child {
+//          border-bottom: none;
+//       }
+//       &:hover{
+//          background-color: rgba(255, 255, 255, 0.09);              
+//       }
+//       &__body {
+//          display: flex;
+//          align-items: center;
+//          gap: 15px;
+//          padding: 10px;
+//       }
+//       // .track__img
+//       &__img {
+//          position: relative;
+//          width: 80px;
+//          height: 80px;
+//          @media (max-width: 425px){
+//              width: 40px;           
+//              height: 40px;
+//          }
+//          img {
+//             width: 100%;            
+//             height: auto;
+//             object-fit: cover;
+//             border-radius: 0px;
+//          }
+//       }
+//       // .track__info
+//       &__info {
+//          display: flex;
+//          flex-direction: column;
+//          gap: 5px;
+//          margin-top: 10px;
+//       }
+//       // .track__name
+//       &__name {
+//          font-weight: 700;
+//          color: #fff;
        
-      }
-      // .track__controls
-      &__controls {
-         position: absolute;
-         left: 50%;
-         transform: translateX(-50%);
-         border-radius: 0px;
-      }
-      // .track__author
-      &__author {
-         white-space: nowrap;
-         @media (max-width: 425px){
-             white-space: normal; 
-         }
-      }
-   }
-}
+//       }
+//       // .track__controls
+//       &__controls {
+//          position: absolute;
+//          left: 50%;
+//          transform: translateX(-50%);
+//          border-radius: 0px;
+//       }
+//       // .track__author
+//       &__author {
+//          white-space: nowrap;
+//          @media (max-width: 425px){
+//              white-space: normal; 
+//          }
+//       }
+//    }
+// }
 </style>

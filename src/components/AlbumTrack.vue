@@ -10,9 +10,13 @@
       && !$store.state.player.isPlaying}
    ]">
       <div class="album-track__body">
+         <!-- <play-button @click="$store.dispatch('player/albumTrack')"/> -->
          <div class="album-track__img">
             <img :src="track.song_poster" :alt="track.name">
             <div class="album-track__controls controls">
+            <!-- <button class="controls__btn">
+               <play-button />
+            </button> -->
             <button class="controls__play">
                <play-button @click="$store.dispatch('player/changeTrack', track)" />
             </button>
@@ -47,13 +51,9 @@ export default {
       track: {
          type: Object,
          required: true,
-      }
+      },
    },
-   setup () {
-      
-
-      return {}
-   }
+ 
 }
 </script>
 
@@ -110,12 +110,9 @@ export default {
       position: relative;
       flex: 0 0 100px;
       height: 100px;
-      @media (max-width: 425px){
+      @media (max-width: 460px){
          flex: 0 0 70px;
          height: 70px;
-      }
-      @media (max-width: 375px){
-         display: none;
       }
       img {
          width: 100%;

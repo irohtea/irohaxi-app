@@ -23,6 +23,12 @@ export default {
    max-width: 160px;
    margin: 0 auto;
    gap: 5px;
+   @media (max-width: 768.98px){
+      display: inline-flex;
+      gap: 10px;
+      margin: 0;
+   }
+
    &:hover {
       button {
          border: 1px solid $lightBlue;
@@ -32,7 +38,6 @@ export default {
             fill: $lightBlue;
          }
       }
-      
    }
    button {
       background-color: rgba(25, 24, 38, 0.5);
@@ -44,6 +49,18 @@ export default {
       border: 1px solid $grey;
       border-radius: 10px;
       transition: 0.3s ease 0s;
+      @media (max-width: 768.98px){
+         width: 100px;
+         height: 100px;
+      }  
+      @media (max-width: 460px){
+         width: 70px;
+         height: 70px;
+         svg {
+            width: 20px;
+            height: 20px;
+         }
+      }  
       svg {
          transition: 0.3s ease 0s;
          path {
@@ -56,6 +73,12 @@ export default {
       margin-top: 6px;
       font-weight: 700;
       color: #fff;
+      @media (max-width: 768.98px){
+         display: inline-flex;
+         display: none;
+         align-items: center;
+         align-self: auto;
+      }
       &:hover {
          text-decoration: underline;
       }

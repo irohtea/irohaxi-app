@@ -16,13 +16,13 @@
             <div class="item__img">
                <img :src="track.song_poster" :alt="track.name">
                <div class="item__controls controls">
-               <button class="controls__play">
-                  <play-button @click="$store.dispatch('player/changeTrack', track)" />
-               </button>
-               <button class="controls__pause">
-                  <pause-button @click="$store.dispatch('player/setPause', false)" />
-               </button>
-            </div>
+                  <button class="controls__play">
+                     <play-button @click="$store.dispatch('player/changeTrack', track)" />
+                  </button>
+                  <button class="controls__pause">
+                     <pause-button @click="$store.dispatch('player/setPause', false)" />
+                  </button>
+               </div>
             </div>
             <div class="item__info">
                <div class="item__name">{{ track.name }}</div>

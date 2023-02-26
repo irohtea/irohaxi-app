@@ -13,7 +13,6 @@ import { useStore } from 'vuex'
       setup() {
          const store = useStore()
 
-
          return {
             currentTrackText: computed(() => store.state.player.currentTrack.text.replace(/\n/g, "<br />")),
          }
