@@ -105,6 +105,11 @@ const routes = [
     name: 'album',
     component: () => import('../views/AlbumView')
   },
+  {
+    path: '/playlist/:id',
+    name: 'playlist',
+    component: () => import('../views/PlaylistView')
+  },
 ]
 
 const router = createRouter({

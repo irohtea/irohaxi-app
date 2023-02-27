@@ -33,7 +33,7 @@
                      <div class="upload-form__delete" @click="removeImage" v-if="newPlaylist.img_src">Remove image</div>
                   </div>
                </div>
-               <button type="submit" class="upload__btn">Upload</button>
+               <button type="submit" class="upload__btn">Create</button>
                <transition name="fade">
                   <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
                </transition>
@@ -95,13 +95,7 @@ export default {
       
       const formData = new FormData();
 
-      for(let i = 0; i < newPlaylist.value.genre.length; i++) {
-         formData.append("genre", newPlaylist.value.genre[i])
-         console.log(newPlaylist.value.genre[i])
-      }
       formData.append("name", newPlaylist.value.name)
-      formData.append("band", newPlaylist.value.band)
-      formData.append("release_year", newPlaylist.value.release_year)
       formData.append("description", newPlaylist.value.description)
       formData.append("is_hidden", newPlaylist.value.is_hidden)
       formData.append("poster", newPlaylist.value.poster)
@@ -116,7 +110,7 @@ export default {
       }
       store.dispatch('setLoadingTrue')
       try {
-         await axios.post(`https://irohaxi.site/api/v1/albums/`,
+         await axios.post(`https://irohaxi.site/api/v1/playlist/`,
          formData,
          config
          )
@@ -131,12 +125,9 @@ export default {
 
             newPlaylist.value = ({
                name: '',
-               band: '',
                img_src: '',
                poster: '',
                description: '',
-               genre: [],
-               release_year: '',
                is_hidden: false,
             })
             }

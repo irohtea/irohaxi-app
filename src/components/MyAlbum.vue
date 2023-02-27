@@ -16,7 +16,7 @@
             </router-link>
                <div class="album__controls controls">
                   <button class="controls__more">
-                     <more-button @click="isModalOpen = true"/>
+                     <more-button @click="isModalOpen = !isModalOpen" />
                   </button>
                   <button class="controls__play">
                      <play-button @click="$store.dispatch('player/addAlbumToPlayList', album)"/>
@@ -35,17 +35,19 @@
             </div>
          </div>
          <button class="album__more">
-            <more-button />
+            <more-button @click="isModalOpen = !isModalOpen" />
          </button>
       </div>
-      <div class="album__dialog dialog" v-show="isModalOpen" >
-         <div class="dialog__body" v-click-outside="onClickOutside">
-            <div class="dialog__items">
-               <button class="dialog__btn" @click="deleteAlbum(album.id)">Delete</button>
-               <button class="dialog__btn">SOME</button>
-            </div>
-         </div>
-      </div>
+      <modal-menu v-show="isModalOpen" ref="modal">
+         <template #buttons>
+            <button>
+               <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 32C2 34.21 3.79 36 6 36H22C24.21 36 26 34.21 26 32V8H2V32ZM28 2H21L19 0H9L7 2H0V6H28V2Z" fill="black"/>
+               </svg>
+               <span>Delete album</span>
+            </button>
+         </template>
+      </modal-menu>
    </div>
 </template>
 
@@ -53,11 +55,13 @@
 import PlayButton from '@/components/UI/Controls/PlayButton.vue'
 import PauseButton from '@/components/UI/Controls/PauseButton.vue'
 import MoreButton from '@/components/UI/Controls/MoreButton.vue'
+import ModalMenu from '@/components/ModalMenu.vue'
 
 import router from '@/router'
 import axios from 'axios'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { onClickOutside } from '@vueuse/core'
 
 export default {
    name: 'my-album',
@@ -66,6 +70,7 @@ export default {
       PlayButton,
       PauseButton,
       MoreButton,
+      ModalMenu,
    },
    props: {
       album: {
@@ -76,12 +81,11 @@ export default {
    setup() {
       const store = useStore()
       const isModalOpen = ref(false)
-      
-     const onClickOutside = () => {
-      //   console.log('Clicked outside. Event: ', event.target.value)
-         isModalOpen.value = false
+      const modal = ref(null)
 
-      }
+      onClickOutside(modal, () => {
+         isModalOpen.value = false
+      })
    
       const deleteAlbum = async (id) => {
          const config = {
@@ -109,7 +113,7 @@ export default {
       return {
          deleteAlbum,
          isModalOpen,
-         onClickOutside
+         modal,
       }
    },
   
@@ -128,6 +132,7 @@ export default {
    }
    &.playing {
       .controls {
+         background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
          opacity: 1;
       }
       .controls__play {
@@ -137,7 +142,7 @@ export default {
          display: block;
       }
       @media (max-width: 768.98px){
-         .track__body {
+         .album__body {
             border-radius: 10px;
             background: rgba(24, 36, 59, 0.704);
          }
@@ -145,6 +150,7 @@ export default {
    }
    &.paused {
       .controls {
+         background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
          opacity: 1;
       }
       .controls__play {
@@ -154,7 +160,7 @@ export default {
          display: none;
       }
       @media (max-width: 768.98px){
-         .track__body {
+         .album__body {
             border-radius: 10px;
             background: rgba(24, 36, 59, 0.704);
          }
@@ -277,6 +283,10 @@ export default {
    opacity: 0;
    background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
    transition: all 0.2s ease 0s;
+   @media (hover: none) {
+      background: linear-gradient(180deg, rgba(25, 24, 38, 0.250) 60%, rgba(74, 111, 181, 0.183));
+      opacity: 1;
+   }
    // .controls__more
    &__more {
       pointer-events: all;
@@ -311,6 +321,7 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+
       svg {
          width: 30px;
          height: 30px;
@@ -327,26 +338,6 @@ export default {
       pointer-events: all;
    }
 }
-.dialog {
-      position: absolute;
-      top: 18%;
-      right: -10%;
-      z-index: 5;
-		// .dialog__body
-		&__body {
-         padding: 10px;
-         background-color: rgb(33, 33, 33, 0.95);
-      }
-      // .dialog__items
-      &__items {
-         display: flex;
-         flex-direction: column;
-      }
-		// .dialog__btn
-		&__btn {
-         padding: 10px;
-         color: $white;
-      }
-}
+
 
 </style>

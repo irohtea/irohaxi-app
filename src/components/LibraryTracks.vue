@@ -49,4 +49,15 @@ export default {
     }
 }
 
+.slide-enter-active,
+.slide-leave-active {
+  -webkit-transition: all 1s cubic-bezier(0.68, 0.16, 0.42, 0.75);
+  transition: all .3s cubic-bezier(0.68, 0.16, 0.42, 0.75);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  //  transform: translateX(100%);
+   opacity: 0;
+}
 </style>

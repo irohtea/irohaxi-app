@@ -14,8 +14,8 @@
          <div class="track__img">
             <img :src="track.song_poster" alt="Song Poster">
             <div class="track__controls controls">
-               <button class="controls__more">
-                 <more-button />
+               <button class="controls__more" >
+                 <more-button @click="isModalOpen = !isModalOpen"/>
                </button>
                <button class="controls__play">
                   <play-button @click="$store.dispatch('player/addUserTrackToPlayList', {track})" />
@@ -34,9 +34,26 @@
             </div>
          </div>
          <button class="track__more">
-            <more-button />
+            <more-button @click="isModalOpen = !isModalOpen"/>
          </button>
       </div>
+      <modal-menu v-show="isModalOpen" ref="modalMenu">
+         <template #buttons>
+            <button @click="isModalPlaylistsOpen = !isModalPlaylistsOpen, isModalOpen = false">
+               <svg width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 8H0V12H24V8ZM24 0H0V4H24V0ZM32 16V8H28V16H20V20H28V28H32V20H40V16H32ZM0 20H16V16H0V20Z" fill="black"/>
+               </svg>
+               <span>Add to playlist</span>
+            </button>
+            <button>
+               <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 32C2 34.21 3.79 36 6 36H22C24.21 36 26 34.21 26 32V8H2V32ZM28 2H21L19 0H9L7 2H0V6H28V2Z" fill="black"/>
+               </svg>
+               <span>Delete track</span>
+            </button>
+         </template>
+      </modal-menu>
+      <modal-playlists v-show="isModalPlaylistsOpen" ref="modalPlaylists" @close="close" :isModalPlaylistsOpen="isModalPlaylistsOpen"></modal-playlists>
    </div>
 </template>
 
@@ -44,7 +61,12 @@
 import PlayButton from '@/components/UI/Controls/PlayButton.vue';
 import PauseButton from '@/components/UI/Controls/PauseButton.vue';
 import MoreButton from '@/components/UI/Controls/MoreButton.vue';
+import ModalMenu from '@/components/ModalMenu.vue'
+import ModalPlaylists from '@/components/ModalPlaylists.vue'
 
+
+import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 export default {
    name: 'my-track',
@@ -53,6 +75,8 @@ export default {
       PlayButton,
       PauseButton,
       MoreButton,
+      ModalMenu,
+      ModalPlaylists,
    },
    props: {
       track: {
@@ -60,6 +84,31 @@ export default {
          required: true,
       },
    },
+   setup() {
+      const isModalOpen = ref(false)
+      const isModalPlaylistsOpen = ref(false)
+      const modalMenu = ref(null)
+      const modalPlaylists = ref(null)
+
+      onClickOutside(modalMenu, () => {
+         isModalOpen.value = false
+      })
+      onClickOutside(modalPlaylists, () => {
+         isModalPlaylistsOpen.value = false
+      })
+      const close = () => {
+         isModalOpen.value = false
+         isModalPlaylistsOpen.value = false
+         
+      }
+      return {
+         isModalOpen,
+         isModalPlaylistsOpen,
+         modalMenu,
+         modalPlaylists,
+         close
+      }
+   }
 }
 </script>
 <style lang="scss" scoped>

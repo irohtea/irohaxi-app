@@ -18,7 +18,7 @@
       <section class="library__section">
          <div class="library__container">
             <keep-alive>
-               <component :is="comp"/>
+               <component :is="comp" />
             </keep-alive>
          </div>
       </section>
@@ -97,5 +97,6 @@ export default {
       // .library__loader
       &__loader {}
 }
+
 
 </style>

@@ -31,7 +31,7 @@
                {{ playlist.name }}
             </div>
             <div class="playlist__band">
-               <span>playlist</span> &middot; {{ playlist.band }}
+               <span>playlist</span>
             </div>
          </div>
       </div>
@@ -80,7 +80,7 @@ export default {
 
       }
    
-      const deleteplaylist = async (id) => {
+      const deletePlaylist = async (id) => {
          const config = {
             headers: {
                'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
@@ -104,7 +104,7 @@ export default {
       }
 
       return {
-         deleteplaylist,
+         deletePlaylist,
          isModalOpen,
          onClickOutside
       }

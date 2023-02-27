@@ -33,7 +33,6 @@ export default ({
     mutations: {
         ADD_ALBUM(state, playlist) {
           state.playlist = playlist 
-          console.log('added');
         },
         ALBUM_ID(state, albumId) {
           state.albumId = albumId 

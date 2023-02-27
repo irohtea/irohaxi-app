@@ -8,8 +8,8 @@
     "lint": "vue-cli-service lin,t"
   },
   "dependencies": {
+    "@vueuse/core": "^9.13.0",
     "axios": "^1.2.1",
-    "click-outside-vue3": "^4.0.1",
     "core-js": "^3.8.3",
     "rgbaster": "^2.1.1",
     "v-click-outside": "^3.2.0",

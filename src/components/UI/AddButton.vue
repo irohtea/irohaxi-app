@@ -5,7 +5,7 @@
             <path d="M26 12H16V2C16 0.896 15.104 0 14 0C12.896 0 12 0.896 12 2V12H2C0.896 12 0 12.896 0 14C0 15.104 0.896 16 2 16H12V26C12 27.104 12.896 28 14 28C15.104 28 16 27.104 16 26V16H26C27.104 16 28 15.104 28 14C28 12.896 27.104 12 26 12Z" fill="black"/>
          </svg>
       </button>
-      <div><slot></slot></div>
+      <span><slot></slot></span>
   </div>
 </template>
 
@@ -50,6 +50,7 @@ export default {
       border-radius: 10px;
       transition: 0.3s ease 0s;
       @media (max-width: 768.98px){
+         flex-direction: column;
          width: 100px;
          height: 100px;
       }  
@@ -68,7 +69,7 @@ export default {
          }
       }
    }
-   div {
+   span {
       align-self: flex-start;
       margin-top: 6px;
       font-weight: 700;

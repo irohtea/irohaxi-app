@@ -1,20 +1,20 @@
 <template>
    <div class="playlists__items">
-       <router-link to="/upload-playlist">
+       <!-- <router-link to="/upload-playlist"> -->
          <add-button>Playlists</add-button>
-       </router-link>
-       <!-- <my-playlist
+       <!-- </router-link> -->
+       <my-playlist
        v-for="playlist in playlists" 
        :key="playlist.id"
        :playlist="playlist" 
-       /> -->
+       />
    </div>
    <my-loader v-if="$store.state.is_loading" class="library__loader"></my-loader>
  </template>
  
  <script>
  import AddButton from '@/components/UI/AddButton.vue';
-//  import MyPlaylist from '@/components/MyPlaylist.vue'
+ import MyPlaylist from '@/components/MyPlaylist.vue'
  import MyLoader from '@/components/UI/MyLoader.vue'
  
  import { userPlaylists } from '@/use/userPlaylists'
@@ -22,7 +22,7 @@
  export default {
    name: 'library-albums',
    components: { 
-   //   MyPlaylist,
+     MyPlaylist,
      AddButton,
      MyLoader
    },
