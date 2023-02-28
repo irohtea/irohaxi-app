@@ -28,7 +28,6 @@ export default {
    top: 18%;
    right: 0;
    z-index: 15;
-   
    @media (max-width: 768.98px){
         top: 80%;
    }

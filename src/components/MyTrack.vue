@@ -37,7 +37,10 @@
             <more-button @click="isModalOpen = !isModalOpen"/>
          </button>
       </div>
-      <modal-menu v-show="isModalOpen" ref="modalMenu">
+      <modal-menu 
+         v-show="isModalOpen" 
+         ref="modalMenu"
+      >
          <template #buttons>
             <button @click="isModalPlaylistsOpen = !isModalPlaylistsOpen, isModalOpen = false">
                <svg width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +56,39 @@
             </button>
          </template>
       </modal-menu>
-      <modal-playlists v-show="isModalPlaylistsOpen" ref="modalPlaylists" @close="close" :isModalPlaylistsOpen="isModalPlaylistsOpen"></modal-playlists>
+      <modal-playlists 
+         v-show="isModalPlaylistsOpen" 
+         ref="modalPlaylists" 
+         @close="close"
+         @openTeleport="isTeleportOpen = true"
+         :trackId="track.id" 
+      >
+      </modal-playlists>
+      <Teleport to="#modal">
+         <transition name="modals">
+            <div class="modal-create-playlist" v-if="isTeleportOpen">
+               <div class="modal-create-playlist__body" ref="modalCreate">
+                  <div class="modal-create-playlist__title">New Playlist</div>
+                  <form @submit.prevent="" class="modal-create-playlist__form modal-form">
+                     <div class="modal-form__body">
+                        <div class="modal-form__inputs">
+                           <input type="text" class="modal-form__input" placeholder="name">
+                           <input type="text" class="modal-form__input" placeholder="description">
+                           <div class="modal-form__item">
+                              <label class="modal-form__label">Make private?</label>
+                              <input type="checkbox" class="modal-form__checkbox">
+                           </div>
+                        </div>
+                        <div class="modal-form__buttons">
+                           <button type="button" class="modal-form__close">Cancel</button>
+                           <button type="submit" class="modal-form__create">Create</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </transition>
+      </Teleport>
    </div>
 </template>
 
@@ -87,14 +122,21 @@ export default {
    setup() {
       const isModalOpen = ref(false)
       const isModalPlaylistsOpen = ref(false)
+      const isTeleportOpen = ref(false)
       const modalMenu = ref(null)
       const modalPlaylists = ref(null)
+      const modalCreate = ref(null)
 
       onClickOutside(modalMenu, () => {
          isModalOpen.value = false
       })
       onClickOutside(modalPlaylists, () => {
          isModalPlaylistsOpen.value = false
+      })
+      onClickOutside(modalCreate, () => {
+         isTeleportOpen.value = false
+         isModalPlaylistsOpen.value = true
+
       })
       const close = () => {
          isModalOpen.value = false
@@ -104,8 +146,10 @@ export default {
       return {
          isModalOpen,
          isModalPlaylistsOpen,
+         isTeleportOpen,
          modalMenu,
          modalPlaylists,
+         modalCreate,
          close
       }
    }
@@ -316,93 +360,132 @@ export default {
          pointer-events: all;
       }
 }
-// .album-tracks {
 
-//    .track {
-//       display: flex;
-//       max-width: 100%;
-//       transition: all 0.3s ease 0s;
-//       cursor: pointer;
-//       border-bottom: 2px solid rgba(255, 255, 255, 0.09);
-//       &.playing {
-//       .controls {
-//          opacity: 1;
-//       }
-//       .controls__play {
-//          display: none;
-//       }
-//       .controls__pause {
-//          display: block;
-//       }
-
-//    }
-//    &.paused {
-//       .controls {
-//          opacity: 1;
-//       }
-//       .controls__play {
-//          display: block;
-//       }
-//       .controls__pause {
-//          display: none;
-
-//       }
-//    }
-//       &:last-child {
-//          border-bottom: none;
-//       }
-//       &:hover{
-//          background-color: rgba(255, 255, 255, 0.09);              
-//       }
-//       &__body {
-//          display: flex;
-//          align-items: center;
-//          gap: 15px;
-//          padding: 10px;
-//       }
-//       // .track__img
-//       &__img {
-//          position: relative;
-//          width: 80px;
-//          height: 80px;
-//          @media (max-width: 425px){
-//              width: 40px;           
-//              height: 40px;
-//          }
-//          img {
-//             width: 100%;            
-//             height: auto;
-//             object-fit: cover;
-//             border-radius: 0px;
-//          }
-//       }
-//       // .track__info
-//       &__info {
-//          display: flex;
-//          flex-direction: column;
-//          gap: 5px;
-//          margin-top: 10px;
-//       }
-//       // .track__name
-//       &__name {
-//          font-weight: 700;
-//          color: #fff;
+.modal-create-playlist {
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 1000;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgb(0, 0, 0, 0.5);
+   display: flex;
+   justify-content:center;
+   align-items: center;
+		// .modal-create-playlist__body
+		&__body {
+         min-width: 500px;
+         padding: 50px 50px;
+         background-color: rgba(9, 33, 52, 0.95);
+         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+         border: 1px solid #323b48;
        
-//       }
-//       // .track__controls
-//       &__controls {
-//          position: absolute;
-//          left: 50%;
-//          transform: translateX(-50%);
-//          border-radius: 0px;
-//       }
-//       // .track__author
-//       &__author {
-//          white-space: nowrap;
-//          @media (max-width: 425px){
-//              white-space: normal; 
-//          }
-//       }
-//    }
-// }
+      }
+		// .modal-create-playlist__form
+		&__form {}
+		// .modal-create-playlist__title
+		&__title {
+         margin-bottom: 20px;
+         font-size: 20px;
+      }
+	
+
+}
+.modal-form {
+		// .modal-form__body
+		&__body {
+       
+      }
+		// .modal-form__inputs
+		&__inputs {
+         display: flex;
+         flex-direction: column;
+         gap: 15px;
+      }
+		// .modal-form__input
+		&__input {
+         display: block;
+         width: 100%;
+         height: 50px;
+         padding: 0 15px;
+         font-size: 18px;
+         background-color: transparent;
+         appearance: none;
+         color: $white;
+         border: none;
+         border-bottom: 1px solid rgba(97, 123, 161, 0.472);
+         transition: all 0.2s ease 0s;
+         &::placeholder {
+            transition: opacity 0.2s ease 0s;
+         }
+         &:focus {
+            border-bottom: 1px solid $blue;
+            background-color: #111127;
+            outline: none;
+         &::placeholder {
+            opacity: 0;
+            }
+       }
+         &:hover {
+            background-color: #182a3b;
+            border-bottom: 1px solid $blue;
+         }
+      }
+		// .modal-form__item
+		&__item {
+         display: flex;
+         gap: 5px;
+      }
+		// .modal-form__label
+		&__label {}
+		// .modal-form__checkbox
+		&__checkbox {}
+      // .modal-form__buttons
+		&__buttons {
+         display: flex;
+         justify-content: flex-end;
+         margin-top: 10px;
+         gap: 10px;
+      }
+		// .modal-form__close
+		&__close {
+         background-color: #b8dcfd;
+         color: $blue;
+         &:hover {
+            background-color: #c9e5ff;
+         }
+      }
+		// .modal-form__create
+		&__create {
+         background-color: $lightBlue;
+         color: $white;
+         &:hover {
+            background-color: #399fff;
+         }
+      }
+
+		&__close,
+		&__create {
+         display: inline-flex;
+         align-items: center;
+         align-self: flex-end;
+         gap: 5px;
+         padding: 8px 15px;
+         margin-right: 10px;
+         border-radius: 5px;
+         transition: background-color 0.3s ease 0s;
+      }
+}
+
+
+.modals-enter-active,
+.modals-leave-active {
+   transition: all 0.25s ease 0s;
+}
+
+.modals-enter-from,
+.modals-leave-to {
+   opacity: 0;
+   transform: scale(1.1);
+}
 </style>

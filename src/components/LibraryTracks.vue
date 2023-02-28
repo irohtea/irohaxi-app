@@ -18,7 +18,8 @@ import MyTrack from '@/components/MyTrack.vue'
 import MyLoader from '@/components/UI/MyLoader.vue'
 
 import { userTracks } from '@/use/userTracks'
-
+import { onMounted } from 'vue';
+import { useStore } from 'vuex'
 export default {
   name: 'library-tracks',
   components: {
@@ -27,8 +28,12 @@ export default {
     MyLoader
   },
   setup() {
+    const store = useStore()
     const { tracks } = userTracks()
-    
+
+    onMounted(() => {
+      store.dispatch('getPlaylists')
+    })
     return {
       tracks
     }

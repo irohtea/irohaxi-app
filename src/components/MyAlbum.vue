@@ -38,7 +38,10 @@
             <more-button @click="isModalOpen = !isModalOpen" />
          </button>
       </div>
-      <modal-menu v-show="isModalOpen" ref="modal">
+      <modal-menu 
+         v-show="isModalOpen" 
+         ref="modal"
+      >
          <template #buttons>
             <button>
                <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
