@@ -12,7 +12,9 @@ import image from './modules/image.module'
 export default createStore({
   state: {
     is_loading: false,
-    userPlaylists: [] 
+    userPlaylists: [], 
+    addedPlaylist: {},
+    isAdded: false,
   },
   getters: {
 
@@ -23,7 +25,13 @@ export default createStore({
    },
     GET_PLAYLIST(state, userPlaylists) {
       state.userPlaylists = userPlaylists
-   }
+   },
+   SET_ADDED(state, addedPlaylist) {
+      state.addedPlaylist = addedPlaylist
+   },
+   IS_ADDED(state, isAdded) {
+      state.isAdded = isAdded
+   },
   },
   actions: {
     setLoadingTrue({ commit }) {
@@ -46,6 +54,10 @@ export default createStore({
       } catch (error) {
           console.log(error);
       }
+    },
+    setAddedPlaylist({commit}, details) {
+      commit('SET_ADDED', details)
+      commit('IS_ADDED', true)
     }
   },
   modules: {

@@ -1,30 +1,21 @@
 <template>
-   <div class="album"
-      :class="[
-      {playing: $store.state.player.playlist.length > 0 
-      && $store.state.player.albumId === album.id
-      && $store.state.player.isPlaying},
-      
-      {paused: $store.state.player.playlist.length > 0 
-      && $store.state.player.albumId === album.id
-      && !$store.state.player.isPlaying}
-      ]">
+   <div class="album" :class="playingState">
       <div class="album__body">
          <div class="album__img">
             <router-link :to="`/album/${album.id}`">
                <img :src="album.poster" alt="Song Poster">
             </router-link>
-               <div class="album__controls controls">
-                  <button class="controls__more">
-                     <more-button @click="isModalOpen = !isModalOpen" />
-                  </button>
-                  <button class="controls__play">
-                     <play-button @click="$store.dispatch('player/addAlbumToPlayList', album)"/>
-                  </button>
-                  <button class="controls__pause" >
-                     <pause-button @click="$store.dispatch('player/setPause', false)" />
-                  </button>
-               </div>
+            <my-controls>
+               <template #more>
+                  <more-button @click="isModalOpen = !isModalOpen"/>
+               </template>
+               <template #play>
+                  <play-button @click="$store.dispatch('player/addAlbumToPlayList', album)" />
+               </template>
+               <template #pause>
+                  <pause-button @click="$store.dispatch('player/setPause', false)" />
+               </template>
+            </my-controls>
          </div>
          <div class="album__info">
             <div class="album__name">
@@ -59,10 +50,12 @@ import PlayButton from '@/components/UI/Controls/PlayButton.vue'
 import PauseButton from '@/components/UI/Controls/PauseButton.vue'
 import MoreButton from '@/components/UI/Controls/MoreButton.vue'
 import ModalMenu from '@/components/ModalMenu.vue'
+import MyControls from '@/components/MyControls.vue'
 
 import router from '@/router'
 import axios from 'axios'
-import { ref } from 'vue'
+
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { onClickOutside } from '@vueuse/core'
 
@@ -74,6 +67,7 @@ export default {
       PauseButton,
       MoreButton,
       ModalMenu,
+      MyControls
    },
    props: {
       album: {
@@ -81,8 +75,19 @@ export default {
          required: true,
       },
    },
-   setup() {
+   setup(props) {
       const store = useStore()
+      const playingState = computed(() => {
+
+         return store.state.player.playlist.length > 0 
+         && store.state.player.albumId === props.album.id
+         && store.state.player.isPlaying ? 'playing' : 
+
+         store.state.player.playlist.length > 0 
+         && store.state.player.albumId === props.album.id
+         && !store.state.player.isPlaying ? 'paused' : ''
+      })
+      
       const isModalOpen = ref(false)
       const modal = ref(null)
 
@@ -114,6 +119,7 @@ export default {
       }
 
       return {
+         playingState,
          deleteAlbum,
          isModalOpen,
          modal,
@@ -133,35 +139,8 @@ export default {
       width: 100%;
       display: flex;
    }
-   &.playing {
-      .controls {
-         background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
-         opacity: 1;
-      }
-      .controls__play {
-         display: none;
-      }
-      .controls__pause {
-         display: block;
-      }
-      @media (max-width: 768.98px){
-         .album__body {
-            border-radius: 10px;
-            background: rgba(24, 36, 59, 0.704);
-         }
-      }
-   }
-   &.paused {
-      .controls {
-         background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
-         opacity: 1;
-      }
-      .controls__play {
-         display: block;
-      }
-      .controls__pause {
-         display: none;
-      }
+   &.playing,
+   &.paused  {
       @media (max-width: 768.98px){
          .album__body {
             border-radius: 10px;
@@ -276,38 +255,8 @@ export default {
 }
 //Controls========================================================================================================================================================
 .controls {
-   position: absolute;
-   width: 100%;
-   height: 100%;
-   top: 0;
-   left: 0;
-   border-radius: 10px;
-   pointer-events: none;
-   opacity: 0;
-   background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
-   transition: all 0.2s ease 0s;
-   @media (hover: none) {
-      background: linear-gradient(180deg, rgba(25, 24, 38, 0.250) 60%, rgba(74, 111, 181, 0.183));
-      opacity: 1;
-   }
    // .controls__more
    &__more {
-      pointer-events: all;
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      padding: 10px;
-      border-radius: 50%;
-      transition: 0.2s ease 0s;
-      @media (max-width: 768.98px){
-         display: none;
-      }  
-      &:active {
-         background: rgba(79, 103, 139, 0.718);
-      }
-      &.active {
-         background: rgba(79, 103, 139, 0.718);
-      }
       svg {
          width: 20px;
          height: 20px;
@@ -332,13 +281,6 @@ export default {
             fill: $white;
          }
       }
-   }
-   // .controls__play
-   &__play {}
-   // .controls__pause
-   &__pause {
-      display: none;
-      pointer-events: all;
    }
 }
 

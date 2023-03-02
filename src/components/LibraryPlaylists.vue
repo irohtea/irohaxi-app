@@ -1,8 +1,8 @@
 <template>
    <div class="playlists__items">
-       <!-- <router-link to="/upload-playlist"> -->
+       <router-link to="/upload-playlist">
          <add-button>Playlists</add-button>
-       <!-- </router-link> -->
+       </router-link>
        <my-playlist
        v-for="playlist in playlists" 
        :key="playlist.id"

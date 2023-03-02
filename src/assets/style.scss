@@ -89,6 +89,30 @@ svg {
   padding: 0 15px;
 }
 
+.modal-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 1000;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgb(0, 0, 0, 0.5);
+   display: flex;
+   justify-content:center;
+   align-items: center;
+}
+// =======================================================================
+.modals-enter-active,
+.modals-leave-active {
+   transition: all 0.25s ease 0s;
+}
+
+.modals-enter-from,
+.modals-leave-to {
+   opacity: 0;
+   transform: scale(1.1);
+}
+
 /* width */
 ::-webkit-scrollbar {
    width: 5px;

@@ -39,6 +39,7 @@
 import axios from 'axios'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+
 export default {
    props: {
       trackId: {
@@ -49,6 +50,7 @@ export default {
    setup( props, {emit}) {
       const store = useStore()
       const isOpen = ref(false)
+
       const close = () => {
          emit('close')
       }
@@ -69,7 +71,6 @@ export default {
             },
             "tracks": []
          }
-         // console.log(playlist);
          playlist.track.forEach(element => {
             payload.tracks.push(element.id)
          });
@@ -78,7 +79,12 @@ export default {
          try {
             await axios.put(`https://irohaxi.site/api/v1/user/playlist/${playlist.id}`, payload, config)
             .then(response => {
-               console.log(response);
+
+               store.dispatch('setAddedPlaylist', response.data)
+               setTimeout(() => {
+                  store.commit('IS_ADDED', false)
+               }, 5000);
+
                store.dispatch('getPlaylists')
                close()
             })
@@ -102,7 +108,7 @@ export default {
    position: absolute;
    top: 18%;
    right: 0;
-   z-index: 15;
+   z-index: 1000;
    min-width: 300px;
    @media (max-width: 768.98px){
       top: 80%;
@@ -152,6 +158,7 @@ export default {
          margin-bottom: 10px;
          max-height: 300px;
          overflow-y: scroll;
+         box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.5);
       }
 		// .modal-playlist__item
 		&__item {}
@@ -211,9 +218,14 @@ export default {
 		// .playlist__info
 		&__info {}
 		// .playlist__name
-		&__name {}
+		&__name {
+         font-weight: 700;
+      }
 		// .playlist__length
-		&__length {}
+		&__length {
+         color: $grey;
+         font-weight: 500;
+      }
 }
 
 .fade-up-enter-active,

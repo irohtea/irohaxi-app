@@ -23,6 +23,9 @@
          </div>
       </section>
   </main>
+  <transition name="modals">
+     <modal-added v-if="$store.state.isAdded"></modal-added>
+  </transition>
 </template>
 
 <script>
@@ -30,6 +33,7 @@ import { ref } from 'vue'
 import LibraryAlbums from '@/components/LibraryAlbums.vue'
 import LibraryTracks from '@/components/LibraryTracks.vue'
 import LibraryPlaylists from '@/components/LibraryPlaylists.vue'
+import ModalAdded from '@/components/ModalAdded.vue'
 import TabButton from '@/components/UI/TabButton.vue'
 
 export default {
@@ -37,7 +41,8 @@ export default {
       LibraryAlbums, 
       LibraryTracks,
       LibraryPlaylists,
-      TabButton, 
+      TabButton,
+      ModalAdded, 
    },
    setup() {
       const tabs = ref([
