@@ -174,6 +174,8 @@ export default {
             @media (max-width: 765px) {
                 width: 60px;
                 height: 60px;
+            }
+    }
     // .settings__username
     &__item {
         display: flex;
@@ -198,7 +200,7 @@ export default {
                 }
             }
         }
-    
+    }
     &__username {
         display: none;
         justify-content: center;
