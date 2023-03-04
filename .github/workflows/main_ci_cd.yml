@@ -29,7 +29,7 @@ jobs:
 
     - name: SSH to Instance
       env:
-        AWS_PRIVATE_KEY: irohaxi.pem
+        AWS_PRIVATE_KEY: iroh.pem
         AWS_HOSTNAME: 18.197.38.72
         AWS_USERNAME : ubuntu
 
