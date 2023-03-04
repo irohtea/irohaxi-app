@@ -10,8 +10,8 @@
             <div class="upload-form__body">
                <div class="upload-form__inputs">
                  <div class="upload-form__item">
-                    <label for="band" class="upload-form__label">Band:</label>
-                    <input type="text" id="band" class="upload-form__input" placeholder="band" v-model="newAlbum.band">
+                    <label for="band" class="upload-form__label">Author:</label>
+                    <input type="text" id="band" class="upload-form__input" placeholder="author" v-model="newAlbum.band">
                  </div>
                  <div class="upload-form__item">
                   <label for="name" class="upload-form__label">Name:</label>
@@ -49,8 +49,12 @@
                </div>
             </div>
             <button type="submit" class="upload__btn">Upload</button>
-            <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
-            <div class="upload__message" v-if="success != ''">{{ success }}</div>
+            <transition name="fade">
+              <div class="upload__error" v-if="errorMessage != ''"> {{ errorMessage }}</div>
+            </transition>
+            <transition name="fade">
+              <div class="upload__message" v-if="success != ''">{{ success }}</div>
+            </transition>
          </form>
          </div>
       </div>
@@ -118,8 +122,9 @@ export default {
       
       const formData = new FormData();
 
-      for (let g in newAlbum.value.genre) {
-        formData.append("genre", g)
+      for(let i = 0; i < newAlbum.value.genre.length; i++) {
+        formData.append("genre", newAlbum.value.genre[i])
+        console.log(newAlbum.value.genre[i])
       }
       formData.append("name", newAlbum.value.name)
       formData.append("band", newAlbum.value.band)
@@ -145,13 +150,21 @@ export default {
         .then(response => {
           if(response.status == 200) {
             success.value = 'uploaded!'
+            setTimeout(() => {
+              success.value = ''
+            }, 3000)
+
             errorMessage.value = ''
-             newAlbum.value = ({
-               name: '',
-               img_src: '',
-               poster: '',
-               description: '',
-               is_hidden: false,
+
+            newAlbum.value = ({
+              name: '',
+              band: '',
+              img_src: '',
+              poster: '',
+              description: '',
+              genre: [],
+              release_year: '',
+              is_hidden: false,
             })
           }
         })
@@ -159,7 +172,11 @@ export default {
       } catch (error) {
         switch(error.response.status) {
           case 422:
-            errorMessage.value = 'Error'
+            errorMessage.value = 'Something went wrong'
+            setTimeout(() => {
+              errorMessage.value = ''
+
+            }, 3000)
             break;
         }
       } finally {

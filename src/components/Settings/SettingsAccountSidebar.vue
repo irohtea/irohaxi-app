@@ -60,9 +60,10 @@
 </template>
 
 <script>
-import {useStore} from 'vuex'
-import {ref, onMounted} from 'vue'
+import { useStore } from 'vuex'
+import { ref, onMounted } from 'vue'
 import QuestionItem from '../Question/QuestionItem.vue'
+
 export default {
     setup() {
         const store = useStore()
