@@ -37,5 +37,5 @@ jobs:
           chmod 600 ${AWS_PRIVATE_KEY}
           ssh -o StrictHostKeyChecking=no -i iroh.pem ${AWS_USERNAME}@${AWS_HOSTNAME} '
             # 📌 Start your instance/server related tasks form here.
-            bash ~/.scripts/docker-deploy.sh
+            bash ~/.scripts/front-deploy.sh
           '
