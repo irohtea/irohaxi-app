@@ -95,14 +95,19 @@ const routes = [
     component: () => import('../views/UploadAlbumView')
   },
   {
+    path: '/upload-playlist',
+    name: 'upload-playlist',
+    component: () => import('../views/UploadPlaylistView')
+  },
+  {
     path: '/album/:id',
     name: 'album',
     component: () => import('../views/AlbumView')
   },
   {
-    path: '/playlist',
+    path: '/playlist/:id',
     name: 'playlist',
-    component: () => import('../views/PlayerExtendedView')
+    component: () => import('../views/PlaylistView')
   },
   {
     path: '/all-genres',

@@ -1,12 +1,11 @@
 import axios from 'axios'
-import { useStore } from 'vuex'
 import { ref, onMounted } from 'vue'
 import analyze from 'rgbaster'
+import { useStore } from 'vuex'
 
-export function albumRetrieve(id) {
+export function playlistRetrieve(id) {
    const store = useStore()
-
-   const album = ref({})
+   const playlist = ref({})
    const bgColor = ref('')
    const background = ref({})
    const ignor = [
@@ -24,40 +23,43 @@ export function albumRetrieve(id) {
       }
 
       try {
-         store.dispatch('setLoadingTrue')
-         await axios.get(`https://irohaxi.site/api/v1/album/${id}`, config)
+      store.dispatch('setLoadingTrue')
+        await axios.get(`https://irohaxi.site/api/v1/playlist/${id}`, config)
          .then(response => {
-            album.value = response.data
+            playlist.value = response.data
          }).then()
       } catch (error) {
          console.log(error);
+         store.dispatch('setLoadingFalse')
       } finally {
          store.dispatch('setLoadingFalse')
       }
       try {
-         store.dispatch('setLoadingTrue')
-         const result = await analyze(album.value.poster, { ignore: [ ignor ] }) 
+       store.dispatch('setLoadingTrue')
+         const result = await analyze(playlist.value.poster, { ignore: [ ignor ] }) 
          bgColor.value = result[12].color
+         console.log(bgColor.value );
          background.value = {
-            'background': `linear-gradient(180deg, ${result[0].color} 0%, ${result[12].color})`,
+            'background': `linear-gradient(-180deg, #0d0d13 30%, ${result[12].color})`,
             'opacity': '1',
             'box-shadow': `0px 0px 20px ${result[12].color}`,
          }
       } catch (error) {
+      store.dispatch('setLoadingFalse')
          console.log(error);
       } finally {
          store.dispatch('setLoadingFalse')
-
       }
       
    }
    onMounted(getAlbum)
 
       return {
-         album,
+         playlist,
          getAlbum,
          bgColor,
-         background
+         background,
+         ignor
       }
 }
 

@@ -12,7 +12,12 @@
                <div class="player-extended__tabs tabs">
                  <div class="tabs__body">
                      <div class="tabs__navigation">
-                        <tab-button class="tabs__button" v-for="tab in tabs" :key="tab" @click="comp = tab.component">
+                        <tab-button
+                        :class="{ active: comp === tab.component }"
+                        class="tabs__button" 
+                        v-for="tab in tabs" 
+                        :key="tab" 
+                        @click="comp = tab.component">
                            {{ tab.text }}
                         </tab-button>
                      </div>
@@ -126,7 +131,7 @@ import TabButton from '@/components/UI/TabButton.vue'
       min-width: 260px;
       img {
          max-width: 100%;
-         height: 100%;
+         height: auto;
          width: 100%;
          object-fit: cover;
          box-shadow: 0 0 25px $darkBlue;

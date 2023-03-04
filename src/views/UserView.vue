@@ -1,6 +1,6 @@
 <template>
     <main class="main">
-        <div class="section" >
+        <div class="section__container">
         <Loader class="loader" v-if="isLoader"></Loader>
             <div class="section__profile" v-else>
                 <div class="section__upper">
@@ -56,36 +56,32 @@ export default {
 </script>
 <style lang="scss" scoped>
 .main {
+    padding: 20px;
+
 }
 .loader {
-}
+    }
 .section {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100vh;
+    &__container {
+        height: 100%;
+    }
     &__profile {
-        width: 1240px;
-        height: 750px;
-        @media (max-width: 1200px) {
-            width: 700px;
-            height: 500px;
+        width: 100%;
+        min-height: 100%;
+        @media (max-width: 992px) {
+            min-height: 80%;
         }
-        @media (max-width: 800px) {
-            width: 450px;
-            height: 250px;
-        }
-        @media (max-width: 600px) {
-            width: 200px;
-            height: 250px;
+        @media (max-width: 768px) {
+            min-height: 60%;
         }
         @media (max-width: 425px) {
-            width: 200px;
-            height: 200px;
+            
         }
         background-color: rgba(10, 10, 10, 0.4);
-        border-radius: 20px;
+        border-radius: 50px;
     }
 
     // .section__upper
@@ -94,7 +90,6 @@ export default {
         display: flex;
         flex-direction: column;
         height: 100%;
-
     }
 
     // .section__profile-image
@@ -113,7 +108,11 @@ export default {
                 width: 200px;
                 height: 200px;
             }
-            @media (max-width: 800px) {
+            @media (max-width: 992px) {
+                width: 150px;
+                height: 150px;
+            }
+            @media (max-width: 768px) {
                 width: 100px;
                 height: 100px;
             }

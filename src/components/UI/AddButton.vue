@@ -5,7 +5,7 @@
             <path d="M26 12H16V2C16 0.896 15.104 0 14 0C12.896 0 12 0.896 12 2V12H2C0.896 12 0 12.896 0 14C0 15.104 0.896 16 2 16H12V26C12 27.104 12.896 28 14 28C15.104 28 16 27.104 16 26V16H26C27.104 16 28 15.104 28 14C28 12.896 27.104 12 26 12Z" fill="black"/>
          </svg>
       </button>
-      <div><slot></slot></div>
+      <span><slot></slot></span>
   </div>
 </template>
 
@@ -23,6 +23,12 @@ export default {
    max-width: 160px;
    margin: 0 auto;
    gap: 5px;
+   @media (max-width: 768.98px){
+      display: inline-flex;
+      gap: 10px;
+      margin: 0;
+   }
+
    &:hover {
       button {
          border: 1px solid $lightBlue;
@@ -32,7 +38,6 @@ export default {
             fill: $lightBlue;
          }
       }
-      
    }
    button {
       background-color: rgba(25, 24, 38, 0.5);
@@ -44,6 +49,19 @@ export default {
       border: 1px solid $grey;
       border-radius: 10px;
       transition: 0.3s ease 0s;
+      @media (max-width: 768.98px){
+         flex-direction: column;
+         width: 100px;
+         height: 100px;
+      }  
+      @media (max-width: 460px){
+         width: 70px;
+         height: 70px;
+         svg {
+            width: 20px;
+            height: 20px;
+         }
+      }  
       svg {
          transition: 0.3s ease 0s;
          path {
@@ -51,11 +69,17 @@ export default {
          }
       }
    }
-   div {
+   span {
       align-self: flex-start;
       margin-top: 6px;
       font-weight: 700;
       color: #fff;
+      @media (max-width: 768.98px){
+         display: inline-flex;
+         display: none;
+         align-items: center;
+         align-self: auto;
+      }
       &:hover {
          text-decoration: underline;
       }

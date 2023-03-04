@@ -45,9 +45,6 @@ export default {
         margin-top: 50px;
     }
     // .delete-page__section
-    
-    
-    
     &__image-svg {
         margin-bottom: 20px;
         svg {

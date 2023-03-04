@@ -174,6 +174,28 @@ export default {
             @media (max-width: 765px) {
                 width: 60px;
                 height: 60px;
+    // .settings__username
+    &__item {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        padding: 15px;
+        font-size: 20px;
+        text-decoration: none;
+        gap: 10px;
+        &:hover {
+            color: $light;
+            background-color: rgba(79, 103, 139, 0.16);
+            border-right: 5px solid $light;
+            box-shadow: 0 0 2px $light;
+            transition: all 0.4s ease 0s;
+            .settings__icon {
+                svg {
+                    path {
+                        fill: $light;
+                        transition: all 0.4s ease 0s;
+                    }
+                }
             }
         }
     

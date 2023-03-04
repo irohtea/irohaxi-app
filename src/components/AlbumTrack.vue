@@ -1,29 +1,22 @@
 <template>
-   <div class="track" :class="playingState">
-      <div class="track__body">
-         <div class="track__img">
-            <img :src="track.song_poster" alt="Song Poster">
+   <div class="album-track" :class="playingState">
+      <div class="album-track__body">
+         <div class="album-track__img">
+            <img :src="track.song_poster" :alt="track.name">
             <my-controls>
-               <template #more>
-                  <more-button @click="isModalOpen = !isModalOpen"/>
-               </template>
                <template #play>
-                  <play-button @click="$store.dispatch('player/addUserTrackToPlayList', {track})" />
+                  <play-button @click="$store.dispatch('player/changeTrack', track)" />
                </template>
                <template #pause>
                   <pause-button @click="$store.dispatch('player/setPause', false)" />
                </template>
             </my-controls>
          </div>
-         <div class="track__info">
-            <div class="track__name">
-               {{ track.name }}
-            </div>
-            <div class="track__author">
-               {{ track.track_author }}
-            </div>
+         <div class="album-track__info">
+            <div class="album-track__name">{{ track.name }}</div>
+            <div class="album-track__band">{{ track.track_author }}</div>
          </div>
-         <button class="track__more">
+         <button class="album-track__more">
             <more-button @click="isModalOpen = !isModalOpen"/>
          </button>
       </div>
@@ -38,12 +31,6 @@
                   <path d="M24 8H0V12H24V8ZM24 0H0V4H24V0ZM32 16V8H28V16H20V20H28V28H32V20H40V16H32ZM0 20H16V16H0V20Z" fill="black"/>
                </svg>
                <span>Add to playlist</span>
-            </button>
-            <button @click="deleteTrack(track.id)">
-               <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 32C2 34.21 3.79 36 6 36H22C24.21 36 26 34.21 26 32V8H2V32ZM28 2H21L19 0H9L7 2H0V6H28V2Z" fill="black"/>
-               </svg>
-               <span>Delete track</span>
             </button>
          </template>
       </modal-menu>
@@ -76,14 +63,11 @@ import ModalPlaylists from '@/components/ModalPlaylists.vue'
 import ModalCreate from '@/components/ModalCreate.vue'
 import MyControls from '@/components/MyControls.vue'
 
-import axios from 'axios'
 import { ref, computed } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useStore }from 'vuex'
 
 export default {
-   name: 'my-track',
-
    components: {
       PlayButton,
       PauseButton,
@@ -133,29 +117,6 @@ export default {
       onClickOutside(modalCreate, () => {
          isTeleportOpen.value = false
       })
-      
-      const deleteTrack = async (id) => {
-         const config = {
-            headers: {
-               'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
-            }
-         }
-
-         store.dispatch('setLoadingTrue')
-
-         try {
-            await axios.delete(`https://irohaxi.site/api/v1/users/track/${id}`, config)
-            .then(response => {
-               console.log(response);
-            })
-            // router.push('/library')
-            // .then(() => { router.go() })
-         } catch (error) {
-            console.log(error);
-         } finally {
-            store.dispatch('setLoadingFalse')
-         }
-      }
       const close = () => {
          isModalOpen.value = false
          isModalPlaylistsOpen.value = false
@@ -171,44 +132,51 @@ export default {
          modalMenu,
          modalPlaylists,
          modalCreate,
-         deleteTrack,
          close,
          closeTeleport
       }
    }
 }
 </script>
+
 <style lang="scss" scoped>
-.track {
+.album-track {
    position: relative;
-   display: grid;
-   justify-items: center;
-   margin: 0 auto;
-   width: 200px;
-   @media (max-width: 768.98px){
-      width: 100%;
-      display: flex;
+   transition: all 0.3 ease;
+   border-radius: 5px;
+   &.playing {
+      background: rgba(34, 35, 38, 0.4);
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: none;
+      }
+      .controls__pause {
+         display: block;
+      }
+
    }
-   &.playing,
-   &.paused  {
-   
-      @media (max-width: 768.98px){
-         .track__body {
-            border-radius: 10px;
-            background: rgba(24, 36, 59, 0.704);
-         }
+   &.paused {
+      background: rgba(34, 35, 38, 0.4);
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: block;
+      }
+      .controls__pause {
+         display: none;
       }
    }
-   // // .track__body
+   // .album-track__body
    &__body {
-      position: relative;
-      @media (max-width: 768.98px){
-         display: flex;
-         flex: 1 1 100%;
-         align-items: center;
-         gap: 10px;
-      }
+      display: flex;
+      gap: 10px;
+      align-items: center;
       &:hover {
+         transition: all 0.3 ease;
+         background: rgba(34, 35, 38, 0.4);
          .controls {
             opacity: 1;
          }
@@ -220,65 +188,43 @@ export default {
          }
       }
    }
-   // .track__img
+   // .album-track__img
    &__img {
       position: relative;
-      z-index: 5;
-      width: 200px;
-      height: 200px;
-      @media (max-width: 768.98px){
-         width: 100px;
-         height: 100px;
-      }
+      flex: 0 0 100px;
+      height: 100px;
       @media (max-width: 460px){
-         width:  70px;
+         flex: 0 0 70px;
          height: 70px;
       }
       img {
-         width: 200px;
-         height: 200px;
+         width: 100%;
+         height: 100%;
          object-fit: cover;
-         border-radius: 10px;
-         transition: all 0.3s ease 0s;
-         @media (max-width: 768px){
-            width: 100px;
-            height: 100px;
-         }
-         @media (max-width: 460px){
-            width:  70px;
-            height: 70px;
-         }
+         border-radius: 5px;
+        
       }
    }
-   // .track__info
+   // .album-track__info
    &__info {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-top: 10px;
-      @media (max-width: 768.98px){
-         flex: 1 1 100%;
-      }
-      @media (max-width: 460px){
-         font-size: 14px;
-      }
+      flex: 1 1 100%;
    }
-   // .track__name
+   // .album-track__name
    &__name {
-      font-weight: 700;
-      color: #fff;
+      color: $white;
    }
-   // .track__controls
+   
+   // .album-track__band
+   &__band {}
+   // .album-track__controls 
    &__controls {
+      border-radius: 0px;
    }
-   // .track__author
-   &__author {
-
-   }
-   // .track__more
+   // .controls__more
    &__more {
+      display: flex;
       pointer-events: all;
-      // margin-right: 15px;
+      margin-right: 15px;
       padding: 10px;
       border-radius: 50%;
       transition: 0.2s ease 0s;
@@ -292,33 +238,9 @@ export default {
          width: 20px;
          height: 20px;
       }
-      @media (min-width: 768.98px){
-         display: none;
-      }
    }
 }
-//Controls========================================================================================================================================================
 .controls {
-   // .controls__more
-   &__more {
-      svg {
-         width: 20px;
-         height: 20px;
-         path {
-            fill: $white;
-         }
-      }
-   }
-   // .controls__play
-   &__play,
-   &__pause {
-      svg {
-         width: 30px;
-         height: 30px;
-         path {
-            fill: $white;
-         }
-      }
-   }
+   border-radius: 5px;
 }
 </style>
