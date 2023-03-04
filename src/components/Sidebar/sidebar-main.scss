@@ -1,0 +1,110 @@
+.sidebar {
+   position: relative;
+   // z-index: 5;
+   display: flex;
+   flex-direction: column;
+   width: calc(2rem + 32px);
+   min-height: 100vh;
+   overflow: hidden;
+   padding: 16px;
+   backdrop-filter: blur(3px);
+   -webkit-backdrop-filter: blur(3px);
+   background-color: rgba(10, 10, 10, 0.3);
+   box-shadow: 0 8px 32px rgb(2, 4, 24);
+   border-right: 2px solid rgba(255, 255, 255, 0.09);
+   transition: 0.2s ease-out;
+   @media (max-width: 768px){
+         position: fixed;
+         z-index: 100;
+   }
+   &.expanded {
+      width: 300px;
+		.menu__toggle {
+         // top: -48px;
+      }
+      .menu__btn {
+         transform: rotate(-180deg);
+      }
+      .menu__text {
+         opacity: 1;
+      }
+      .menu__icon {
+         margin-right: 16px;
+      }
+      .sidebar__user-icon {
+         img {
+            width: 64px;
+            height: 64px;
+         }
+      } 
+		.sidebar__user-name {
+         opacity: 1;
+      }
+		.dropdown__text {
+         opacity: 1;
+
+      }
+		.dropdown__chevron-down {
+         left: 50%;
+         transform: rotate(0deg);
+         opacity: 1;
+         transition: all 0.2s ease-out 0s;
+         &.rotate {
+            transform: rotate(180deg);
+         }
+      }
+      .dropdown__avatar {
+         svg {
+            height: 48px;
+            width: 48px;
+         }
+      }
+   }
+       // .sidebar__dropdown
+		&__dropdown {}
+      // .sidebar__logo
+      &__logo {
+         cursor: pointer;
+         margin-bottom: 16px;
+         img {
+            width: 32px;
+         }
+      }
+		// .sidebar__user
+		&__user {
+         display: flex;
+         align-items: center;
+         background-color: rgba(74, 111, 181, 0.3);
+         backdrop-filter: blur(3px);
+         gap: 10px;
+         padding: 20px 0px 20px 16px;
+         margin: 0 -16px 16px -16px;
+         overflow-x: hidden;
+      }
+      // .sidebar__user-icon
+      &__user-icon {
+         img {
+            transition: all 0.2s ease-out 0s;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+         }
+      }  
+		// .sidebar__user-name
+		&__user-name {
+         color: $white;
+         opacity: 0;
+         transition: 0.2s ease-out 0s;
+         // padding-right: 10px;
+         margin-right: 10px;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+      }
+
+   // .sidebar__body
+   &__body {}
+   // .sidebar__menu
+   &__menu {}
+}

@@ -1,0 +1,268 @@
+<template>
+    <main class="main">
+        <div class="section__container">
+        <Loader class="loader" v-if="isLoader"></Loader>
+            <div class="section__profile" v-else>
+                <div class="section__upper">
+                    <div class="section__profile-image">
+                        <img class="section__profile-image_avatar" :src="user.avatar" alt="User Avatar">
+                    </div>
+                    <div class="section__profile-group">
+                        <div class="section__profile-nameis">
+                            <div class="section__profile-name">
+                                <div>{{user.first_name}}</div>
+                            </div>
+                            <div class="section__profile-surname">
+                                <div>{{user.last_name}}</div>
+                            </div>
+                        </div>
+                        <div class="section__profile-email">
+                                <p>{{user.email}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </main>
+</template>
+<script>
+import {useStore} from 'vuex'
+import {onMounted, ref} from 'vue'
+import Loader from '../components/UI/MyLoader.vue'
+
+export default {
+  setup() {
+      const store = useStore()
+      const user = ref({})
+
+      const isLoader = ref(true)
+
+      onMounted( async () => {
+        isLoader.value = true
+        user.value = await store.dispatch('auth/toUser')
+        isLoader.value = false
+      })
+
+      return {
+          user,
+          isLoader,
+      }
+  },
+  components: {
+    Loader,
+    // MyInput
+  }
+}
+</script>
+<style lang="scss" scoped>
+.main {
+    padding: 20px;
+
+}
+.loader {
+    }
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__container {
+        height: 100%;
+    }
+    &__profile {
+        width: 100%;
+        min-height: 100%;
+        @media (max-width: 992px) {
+            min-height: 80%;
+        }
+        @media (max-width: 768px) {
+            min-height: 60%;
+        }
+        @media (max-width: 425px) {
+            
+        }
+        background-color: rgba(10, 10, 10, 0.4);
+        border-radius: 50px;
+    }
+
+    // .section__upper
+
+    &__upper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    // .section__profile-image
+
+    &__profile-image {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+
+        &_avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            @media (max-width: 1200px) {
+                width: 200px;
+                height: 200px;
+            }
+            @media (max-width: 992px) {
+                width: 150px;
+                height: 150px;
+            }
+            @media (max-width: 768px) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
+
+    // .section__profile-group
+
+    &__profile-group {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        @media (max-width: 800px) {
+            gap: 10px;
+        }
+    }
+
+    // .section__profile-nameis
+
+    &__profile-nameis {
+        display: flex;
+        gap: 20px;
+    }
+
+    // .section__profile-name
+
+    &__profile-name {
+        font-size: 32px;
+        // padding: 0px 0px 10px 0px;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+
+        @media (max-width: 800px) {
+            font-size: 22px;
+        }
+        @media (max-width: 800px) {
+                font-size: 16px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            // height: 30px;
+            color: #fff;
+            background-color: rgba(10, 10, 10, 0.3);
+            outline: none;
+            border: none;
+            padding: 0px 0px 0px 10px;
+            @media (max-width: 800px) {
+                width: 100%;
+                // height: 20px;
+            }
+        }
+    }
+
+    // .section__profile-surname
+
+    &__profile-surname {
+        font-size: 32px;
+        @media (max-width: 1200px) {
+            font-size: 28px;
+        }
+        @media (max-width: 800px) {
+            font-size: 22px;
+        }
+        @media (max-width: 800px) {
+            font-size: 16px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            // height: 30px;
+            color: #fff;
+            background-color: rgba(10, 10, 10, 0.3);
+            outline: none;
+            border: none;
+            padding: 0px 0px 0px 10px;
+            @media (max-width: 800px) {
+                width: 100%;
+                // height: 20px;
+            }
+        }
+    }
+
+    // .section__profile-email
+
+    &__profile-email {
+        @media (max-width: 800px) {
+            font-size: 14px;
+        }
+        @media (max-width: 800px) {
+            font-size: 10px;
+        }
+    }
+
+    // .section__profile-number
+
+    &__profile-number {
+        // font-size: 20px;
+    }
+
+    // .section__profile-sms
+
+    &__profile-sms {
+        // font-size: 16px;
+    }
+
+    // .section__profile-button
+
+    &__profile-button {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        align-items: center;
+        // margin-top: 10px;
+        width: 100%;
+        height: 50px;
+
+        // .section__profile-button_edit
+
+        &_edit {
+            display: block;
+            padding: 4px 10px;
+            background-color: rgba(10, 10, 10, 0.3);
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid rgb(68, 32, 32);
+        }
+
+        // .section__profile-button_save
+
+        &_save {
+            display: block;
+            padding: 4px 10px;
+            background-color: rgba(10, 10, 10, 0.3);
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid rgb(68, 32, 32);
+        }
+        div {
+            font-size: 40px;
+            margin-left: 50px;
+            color: #fff;
+        }
+    }
+}
+.close {
+    margin-right: 10px;
+}
+
+</style>
+
+        

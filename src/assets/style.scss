@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic&display=swap');
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Montserrat', sans-serif;
+
+}
+button {
+   cursor: pointer;
+   border: none;
+   appearance: none;
+   background: none;
+   color: none;
+}
+
+li {
+   list-style: none;
+}
+a {
+   text-decoration: none;
+}
+//Colors========================================================================================================================================================
+$backgroundColor: #221c36;
+$darkBlue: #191826;
+$blue: #4a6fb5;
+$lightBlue: #0074e0;
+$mainText: #000;
+$light: #03d15f;
+$white: #c2c2c9; 
+$accentColor: rgb(240, 57, 37); 
+$grey: #4f678b;
+
+$rainbow_segments: 10;
+$s-min: 30;
+$s-max: 90;
+$l-min: 10;
+$l-max: 90;
+//========================================================================================================================================================
+
+//Markup========================================================================================================================================================
+html,
+body {
+//   height: 100%;
+  color: $white;
+}
+body{
+background: url('@/assets/img/bg.webp') left no-repeat;
+background-size: cover;
+// background: linear-gradient(90deg, rgba(6, 34, 50, 0.9) 0%, rgba(2, 0, 9, 0.9) 100%);
+
+  &.lock {
+		overflow: hidden;
+		touch-action: none;
+		transition: all 0.3s ease 0s;
+	}
+}
+svg {
+   width: 28px;
+   height: 28px;
+}
+.app {
+   display: flex;
+   main {
+      flex: 1 1 0;
+      min-height: 100vh;
+      // padding: 32px;
+      @media (max-width: 768px) {
+         // padding-left: 96px;
+         padding-left: 60px;
+
+      }
+      @media (max-width: 475px) {
+         padding-left: 60px;
+      }
+   }
+}
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1 1 0;
+  min-height: 100vh;
+}
+[class*="__container"] {
+  max-width: 1270px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+[class*="__container-lg"] {
+  max-width: 1670px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.modal-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 1000;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgb(0, 0, 0, 0.5);
+   display: flex;
+   justify-content:center;
+   align-items: center;
+}
+// =======================================================================
+.modals-enter-active,
+.modals-leave-active {
+   transition: all 0.25s ease 0s;
+}
+
+.modals-enter-from,
+.modals-leave-to {
+   opacity: 0;
+   transform: scale(1.1);
+}
+
+/* width */
+::-webkit-scrollbar {
+   width: 5px;
+ }
+ 
+ /* Track */
+ ::-webkit-scrollbar-track {
+   background: rgb(21, 21, 21);
+ }
+ 
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+    background: rgba(88, 88, 88, 0.563);
+ }
+ 
+ /* Handle on hover */
+ ::-webkit-scrollbar-thumb:hover {
+    background: $grey;
+ }
