@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          
+
   aws-deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -35,7 +35,7 @@ jobs:
 
       run: |
           chmod 600 ${AWS_PRIVATE_KEY}
-          ssh -o StrictHostKeyChecking=no -i irohaxi.pem ${AWS_USERNAME}@${AWS_HOSTNAME} '
+          ssh -o StrictHostKeyChecking=no -i iroh.pem ${AWS_USERNAME}@${AWS_HOSTNAME} '
             # 📌 Start your instance/server related tasks form here.
             bash ~/.scripts/docker-deploy.sh
           '
