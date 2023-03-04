@@ -18,7 +18,7 @@ export default {
       tracks: {
          type: Array,
          required: true,
-      },
+      }
    },
 }
 </script>

@@ -83,7 +83,9 @@
 }
 .track,
 .album,
-.playlist {
+.playlist,
+.album-track,
+.playlist-track {
 
    &.playing {
       .controls {
@@ -108,4 +110,5 @@
       }
    }
 }
+
 </style>

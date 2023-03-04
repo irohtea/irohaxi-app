@@ -49,9 +49,9 @@ export default {
         left: -20px;
         animation-delay: 0s;
     }
-    @keyframes animloader {
-      0% { height: 40px;}
-      100% { height: 4px;}
-    }
-  }
+   }
+   @keyframes animloader {
+     0% { height: 40px;}
+     100% { height: 4px;}
+   }
 </style>

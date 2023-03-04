@@ -156,11 +156,9 @@ export default {
             store.dispatch('setLoadingFalse')
          }
       }
-
       const close = () => {
          isModalOpen.value = false
          isModalPlaylistsOpen.value = false
-         
       }
       const closeTeleport = () => {
          isTeleportOpen.value = false

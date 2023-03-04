@@ -28,6 +28,7 @@ export default {
    top: 18%;
    right: 0;
    z-index: 15;
+   z-index: 1000;
    @media (max-width: 768.98px){
         top: 80%;
    }
@@ -66,7 +67,12 @@ export default {
    }
 
 }
-
+.album-track,
+.playlist-track {
+   .modal-menu {
+      top: 80%;
+   }
+}
 
 .fade-up-enter-active,
 .fade-up-leave-active {

@@ -1,51 +1,81 @@
 <template>
-   <div class="album-track" 
-      :class="[
-      {playing: $store.state.player.playlist.length > 0 
-      && $store.state.player.currentTrack.id === track.id
-      && $store.state.player.isPlaying},
-      
-      {paused: $store.state.player.playlist.length > 0 
-      && $store.state.player.currentTrack.id === track.id
-      && !$store.state.player.isPlaying}
-   ]">
+   <div class="album-track" :class="playingState">
       <div class="album-track__body">
-         <!-- <play-button @click="$store.dispatch('player/albumTrack')"/> -->
          <div class="album-track__img">
             <img :src="track.song_poster" :alt="track.name">
-            <div class="album-track__controls controls">
-            <!-- <button class="controls__btn">
-               <play-button />
-            </button> -->
-            <button class="controls__play">
-               <play-button @click="$store.dispatch('player/changeTrack', track)" />
-            </button>
-            <button class="controls__pause">
-               <pause-button @click="$store.dispatch('player/setPause', false)" />
-            </button>
-         </div>
+            <my-controls>
+               <template #play>
+                  <play-button @click="$store.dispatch('player/changeTrack', track)" />
+               </template>
+               <template #pause>
+                  <pause-button @click="$store.dispatch('player/setPause', false)" />
+               </template>
+            </my-controls>
          </div>
          <div class="album-track__info">
             <div class="album-track__name">{{ track.name }}</div>
             <div class="album-track__band">{{ track.track_author }}</div>
          </div>
          <button class="album-track__more">
-               <more-button />
+            <more-button @click="isModalOpen = !isModalOpen"/>
          </button>
       </div>
+
+      <modal-menu 
+         v-show="isModalOpen" 
+         ref="modalMenu"
+      >
+         <template #buttons>
+            <button @click="isModalPlaylistsOpen = !isModalPlaylistsOpen, isModalOpen = false">
+               <svg width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 8H0V12H24V8ZM24 0H0V4H24V0ZM32 16V8H28V16H20V20H28V28H32V20H40V16H32ZM0 20H16V16H0V20Z" fill="black"/>
+               </svg>
+               <span>Add to playlist</span>
+            </button>
+         </template>
+      </modal-menu>
+
+      <modal-playlists 
+         v-show="isModalPlaylistsOpen" 
+         ref="modalPlaylists" 
+         @close="close"
+         @openTeleport="isTeleportOpen = true"
+         :trackId="track.id" 
+      >
+      </modal-playlists>
+
+      <Teleport to="#modal">
+         <transition name="modals">
+            <div class="modal-wrapper" v-if="isTeleportOpen" >
+               <modal-create ref="modalCreate" @closeTeleport="isTeleportOpen = false" :trackId="track.id"/>
+            </div>
+         </transition> 
+      </Teleport>
    </div>
 </template>
 
 <script>
-import PlayButton from '@/components/UI/Controls/PlayButton.vue';
-import PauseButton from '@/components/UI/Controls/PauseButton.vue';
-import MoreButton from '@/components/UI/Controls/MoreButton.vue';
+import PlayButton from '@/components/UI/Controls/PlayButton.vue'
+import PauseButton from '@/components/UI/Controls/PauseButton.vue'
+import MoreButton from '@/components/UI/Controls/MoreButton.vue'
+import ModalMenu from '@/components/ModalMenu.vue'
+import ModalPlaylists from '@/components/ModalPlaylists.vue'
+import ModalCreate from '@/components/ModalCreate.vue'
+import MyControls from '@/components/MyControls.vue'
+
+import { ref, computed } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+import { useStore }from 'vuex'
 
 export default {
    components: {
       PlayButton,
       PauseButton,
       MoreButton,
+      ModalMenu,
+      ModalPlaylists,
+      ModalCreate,
+      MyControls
    },
    props: {
       track: {
@@ -53,16 +83,69 @@ export default {
          required: true,
       },
    },
- 
+   setup(props) {
+      const store = useStore()
+
+      const playingState = computed(() => {
+         return store.state.player.playlist.length > 0 
+         && store.state.player.currentTrack.id === props.track.id
+         && store.state.player.isPlaying ? 'playing' : 
+
+         store.state.player.playlist.length > 0 
+         && store.state.player.currentTrack.id === props.track.id
+         && !store.state.player.isPlaying ? 'paused' : ''
+      })
+
+      const isModalOpen = ref(false)
+      const isModalPlaylistsOpen = ref(false)
+      const isTeleportOpen = ref(false)
+
+      const modalMenu = ref(null)
+      const modalPlaylists = ref(null)
+      const modalCreate = ref(null)
+      
+      onClickOutside(modalMenu, () => {
+         isModalOpen.value = false
+      })
+      onClickOutside(modalPlaylists, () => {
+         if(isTeleportOpen.value) {
+            isModalPlaylistsOpen.value = true
+         } else {
+            isModalPlaylistsOpen.value = false
+         }
+      })
+      onClickOutside(modalCreate, () => {
+         isTeleportOpen.value = false
+      })
+      const close = () => {
+         isModalOpen.value = false
+         isModalPlaylistsOpen.value = false
+      }
+      const closeTeleport = () => {
+         isTeleportOpen.value = false
+      }
+      return {
+         playingState,
+         isModalOpen,
+         isModalPlaylistsOpen,
+         isTeleportOpen,
+         modalMenu,
+         modalPlaylists,
+         modalCreate,
+         close,
+         closeTeleport
+      }
+   }
 }
 </script>
 
 <style lang="scss" scoped>
 .album-track {
+   position: relative;
    transition: all 0.3 ease;
    border-radius: 5px;
    &.playing {
-      background: rgba(34, 35, 38, 0.9);
+      background: rgba(34, 35, 38, 0.4);
       .controls {
          opacity: 1;
       }
@@ -75,7 +158,7 @@ export default {
 
    }
    &.paused {
-      background: rgba(34, 35, 38, 0.9);
+      background: rgba(34, 35, 38, 0.4);
       .controls {
          opacity: 1;
       }
@@ -93,7 +176,7 @@ export default {
       align-items: center;
       &:hover {
          transition: all 0.3 ease;
-         background: rgba(34, 35, 38, 0.9);
+         background: rgba(34, 35, 38, 0.4);
          .controls {
             opacity: 1;
          }
@@ -158,42 +241,6 @@ export default {
    }
 }
 .controls {
-   position: absolute;
-   width: 100%;
-   height: 100%;
-   top: 0;
-   left: 0;
-   pointer-events: none;
-   opacity: 0;
-   background: linear-gradient(180deg, rgba(25, 24, 38, 0.407) 60%, rgba(74, 111, 181, 0.283));
-   transition: all 0.2s ease 0s;
-   @media (max-width: 375px){
-      position: static;
-      display: block;
-   }
-   // .controls__play
-   &__play,
-   &__pause{
-      pointer-events: all;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      svg {
-         width: 30px;
-         height: 30px;
-         path {
-            fill: $white;
-         }
-      }
-   }
-   // .controls__play
-   &__play {}
-   // .controls__pause
-   &__pause {
-      display: none;
-      pointer-events: all;
-
-   }
+   border-radius: 5px;
 }
 </style>
