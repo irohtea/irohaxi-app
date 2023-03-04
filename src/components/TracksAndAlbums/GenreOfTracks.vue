@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import PlayButton from '@/components/Controls/PlayButton.vue';
-import PauseButton from '@/components/Controls/PauseButton.vue';
-import MoreButton from '@/components/Controls/MoreButton.vue';
+import PlayButton from '@/components/UI/Controls/PlayButton.vue';
+import PauseButton from '@/components/UI/Controls/PauseButton.vue';
+import MoreButton from '@/components/UI/Controls/MoreButton.vue';
 
 export default {
     components: {
