@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="albums__section-button" v-if="albumsToShow < $store.state.genre.albums.length || $store.state.genre.albums.length > albumsToShow">
-                <button @click="loadMore">Load More</button>
+            <button @click="loadMore">Load More</button>
         </div>
     </div>
 </template>
