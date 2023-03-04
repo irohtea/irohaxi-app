@@ -67,7 +67,6 @@ const routes = [
         path: 'account',
         component: () => import('../components/Settings/SettingsAccountSidebar'),
         meta: {
-          sidebar: 'SettingsAccount',
           auth: true,
         }
       },
@@ -109,6 +108,11 @@ const routes = [
     path: '/playlist/:id',
     name: 'playlist',
     component: () => import('../views/PlaylistView')
+  },
+  {
+    path: '/all-genres',
+    name: 'alltracks',
+    component: () => import('..//components/TracksAndAlbums/СomplexOfGenres.vue'),
   },
 ]
 

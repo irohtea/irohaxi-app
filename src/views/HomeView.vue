@@ -1,4 +1,31 @@
 <template>
+    <main class="home">
+        <div class="home__container">
+            <div v-if="ourAlbum.length === 0 || ourTrack.length === 0" class="pre-loader">
+                <MyLoaderVue></MyLoaderVue>
+            </div>
+            <div class="home__body" v-else>
+                <SliderBarAlbum :ourAlbum="ourAlbum"></SliderBarAlbum>
+                <SliderBarGenre></SliderBarGenre>
+                <SliderBarTrack :ourTrack="ourTrack"></SliderBarTrack>
+            </div>
+        </div>
+    </main>
+</template>
+<script>
+import axios from 'axios'
+import {ref, onMounted} from 'vue'
+// import {useStore} from 'vuex'
+import SliderBarAlbum from '@/components/Slider/SliderBarAlbum.vue'
+import SliderBarGenre from '@/components/Slider/SliderBarGenre.vue'
+import SliderBarTrack from '@/components/Slider/SliderBarTrack.vue'
+import MyLoaderVue from '../components/UI/MyLoader.vue'
+export default {
+    components: {
+        SliderBarAlbum,
+        SliderBarGenre,
+        SliderBarTrack,
+        MyLoaderVue
   <main class="home">
     <div class="home__container">
       <div class="home__albums">
@@ -73,7 +100,39 @@ import axios from 'axios';
       Slide,
     },
     setup() {
+        // const store = useStore()
+        const ourAlbum = ref([])
+        const ourTrack = ref([])
 
+        onMounted( async () => {
+            const config = {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+                }
+            }
+            try {
+                await axios.get(`https://irohaxi.site/api/v1/albums/`, config)
+                    .then(response => {
+                        ourAlbum.value = response.data
+                    })
+                } catch (error) {
+                    console.log(error);
+            }
+            try {
+                await axios.get(`https://irohaxi.site/api/v1/tracks/`, config)
+                    .then(response => {
+                        ourTrack.value = response.data
+                    })
+            }catch(error) {
+                console.log(error);
+            }
+        })
+        return {
+            ourAlbum,
+            ourTrack
+        }
+    }
+}
       const popularAlbums = ref([])
       const myCarousel = ref(null)
       const next = () => {
@@ -126,8 +185,15 @@ import axios from 'axios';
     },
   };
 </script>
+
 <style lang="scss" scoped>
 .home {
+    min-width: 0;
+    &__container {
+    }
+    &__body {
+        padding: 25px 0px 25px 0px;
+    }
    min-width: 0;
 }
 .albums__slider {
@@ -135,91 +201,9 @@ import axios from 'axios';
    flex-direction: column;
 }
 
-.album {
-   position: relative;
-   display: grid;
-   justify-items: center;
-   margin: 0 auto;
-   width: 200px;
-
-   &.playing {
-      .controls {
-         opacity: 1;
-      }
-      .controls__play {
-         display: none;
-      }
-      .controls__pause {
-         display: block;
-      }
-   }
-   &.paused {
-      .controls {
-         opacity: 1;
-      }
-      .controls__play {
-         display: block;
-      }
-      .controls__pause {
-         display: none;
-
-      }
-   }
-   // .album__body
-   &__body {
-      position: relative;
-      &:hover {
-         .controls {
-            opacity: 1;
-         }
-         .album__img {
-         }
-         .controls__more {
-         }
-         .controls__play {
-         }
-      }
-   }
-   // .album__img
-   &__img {
-      position: relative;
-      z-index: 5;
-      width: 200px;
-      height: 200px;
-      img {
-         width: 200px;
-         height: 200px;
-         object-fit: cover;
-         border-radius: 10px;
-         transition: all 0.3s ease 0s;
-      }
-   }
-   // .album__info
-   &__info {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-top: 10px;
-   }
-   // .album__name
-   &__name {
-      font-weight: 700;
-      color: #fff;
-   }
-   // .album__band
-   &__band {
-      font-size: 14px;
-   }
-   // .album__controls
-   &__controls {
-
-   }
-   // .album__author
-   &__author {
-
-   }
-   &__dialog {}
-
+.pre-loader {
+    height: 100vh;
+    display: flex;
+    align-items: center;
 }
-
 </style>

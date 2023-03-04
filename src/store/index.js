@@ -8,6 +8,7 @@ import edit from './modules/edit.module'
 import deleteUser from './modules/deleteUser.module'
 import image from './modules/image.module'
 
+import genre from './modules/genre.module'
 
 export default createStore({
   state: {
@@ -66,6 +67,7 @@ export default createStore({
     reg, 
     edit,
     deleteUser,
-    image
+    image,
+    genre
   }
 })
