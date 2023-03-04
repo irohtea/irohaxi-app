@@ -5,12 +5,17 @@
 export default {
     namespaced: true,
     state: {
-        genres: [],
+        tracks: [],
+        albums: []
     },
     mutations: {
-        showAllGenre(state, genre) {
-            state.genres.push(genre)
-            console.log(genre);
+        currentGenreTrack(state, track) {
+            state.tracks.push(track)
+            console.log(track);
+        },
+        currentGenreAlbum(state, album) {
+            state.albums.push(album)
+            console.log(album);
         }
     },
     actions: {

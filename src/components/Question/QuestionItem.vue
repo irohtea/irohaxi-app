@@ -40,8 +40,10 @@ export default {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 100%;
     margin-top: 100px;
+    @media (max-width: 768px) {
+        margin-top: 50px;
+    }
     // .delete-page__section
     
     
@@ -51,19 +53,26 @@ export default {
         svg {
             width: 80px;
             height: 80px;
+            @media (max-width: 420px) {
+                display: none;
+            }
         }
     }
 
     &__section {
         display: flex;
-        align-items: center;
+        text-align: center;
         flex-direction: column;
-        background-color: #fff;
-        padding: 30px 50px 0px 50px;
+        background: rgba(25, 24, 38);
+        border: 1px solid #4f678b;
         border-radius: 10px;
-        width: 40%;
-        height: 40%;
-    }
+        max-width: 300px;
+        height: 100%;
+        padding: 10px;
+        @media (max-width: 420px) {
+            padding: 0px;
+        }
+    }   
 
     // .delete-page__title
 
@@ -71,9 +80,20 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: #000;
+        color: $white;
         gap: 10px;
         margin-bottom: 10px;
+        h2{
+            color: #fff;
+            @media (max-width: 768px) {
+                font-size: 14px;
+            }
+        }
+        small {
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
         small {
             opacity: 0.5;
         }
@@ -86,22 +106,32 @@ export default {
         display: flex;
         justify-content: space-around;
         width: 100%;
+        @media (max-width: 425px) {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        button {
+            max-width: 130px;
+            padding: 10px 30px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            @media (max-width: 768px) {
+                padding: 4px 6px;
+            }
+        }
     }
 
     // .delete-page__button-delete
 
     &__button-delete {
-        background: #FA8072;
-        padding: 10px 30px;
-        border-radius: 10px;
+        background: #dc230e85;
+        color: $white;
     }
 
     // .delete-page__button-cancel
 
     &__button-cancel {
-        background: #D8BFD8;
-        padding: 10px 30px;
-        border-radius: 10px;
+        background: #ebd4eb;
     }
 }
 </style>

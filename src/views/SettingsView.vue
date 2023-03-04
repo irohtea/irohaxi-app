@@ -1,12 +1,14 @@
 <template>
-    <main class="wrapper">
-        <div class="wrapper__container">
-            <Loader v-if="isLoader"></Loader>
-            <div class="settings" v-else>
-                <div class="settings__header">
-                    <div class="settings__header-profile">
+    <main class="settings">
+        <div class="settings__container">
+            <div v-if="isLoader" class="settings__loader">
+                <Loader></Loader>
+            </div>
+            <div class="settings__body" v-else>
+                <div class="settings__upper">
+                    <div class="settings__upper-profile">
                         <div class="settings__image-profile">
-                            <img @click="test" class="settings__avatar" :src="user.avatar" alt="profile-image">
+                            <img class="settings__avatar" :src="user.avatar" alt="profile-image">
                             <label for="img">
                                 <img src="../assets/img/camera.png" alt="camera">
                                 <input
@@ -26,7 +28,7 @@
                     <aside class="settings__sidebar">
                         <div class="settings__navigation">
                             <router-link to="/settings/account"> 
-                                <div class="settings__account settings__item"> 
+                                <div class="settings__item"> 
                                     <div class="settings__icon">
                                         <svg width="20px" height="20px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g id="profile_x2C__person"> <g> <g> <g>
                                             <path d="M16,31C7.729,31,1,24.271,1,16S7.729,1,16,1s15,6.729,15,15S24.271,31,16,31z M16,2C8.28,2,2,8.28,2,16      s6.28,14,14,14s14-6.28,14-14S23.72,2,16,2z" fill="#fff"/> </g> </g> </g> <g> <g id="team_3_"> <g> <g> <g> <g>
@@ -68,11 +70,6 @@ export default {
             user.value =  await store.dispatch('image/uploadImage', formData)
         }
 
-        const test = () => {
-            console.log(user.value);
-        }
-
-
         onMounted( async () => {
             isLoader.value = true
             user.value = await store.dispatch('auth/toUser')
@@ -86,7 +83,6 @@ export default {
             user,
             avatar,
             isLoader,
-            test
         }
     },
     components: {
@@ -95,21 +91,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 50px;
-    &__container {
-        width: 100%;
-        padding: 0px;
-        border-radius: 10px;
-        background-color: rgba(10, 10, 10, 0.3);
-    }
-}
 .settings {
-    display: flex;
-    min-height: 700px;
-
+    &__container {
+    }
+    &__loader {
+        display: flex;
+        align-items: center;
+        height: 100vh;
+    }
+    &__body {
+        display: flex;
+        border-radius: 10px;
+        padding: 0px;
+        background-color: rgba(10, 10, 10, 0.3);
+        height: 700px;
+        margin-top: 50px;
+    }
     // height: 100%;
     @media (max-width: 560px){
         flex-direction: column;
@@ -118,47 +115,30 @@ export default {
     }
     // .settings__header
 
-    &__header {
+    &__upper {
         display: flex;
         flex: 0 0 29%;
         flex-direction: column;
     }
 
-    &__header-profile {
+    &__upper-profile {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        // width: 300px;
         min-height: 180px;
         border-right: 2px solid rgba(255, 255, 255, 0.09);
         border-bottom: 2px solid rgba(255, 255, 255, 0.09);
         @media (max-width: 560px){
             border: none;
         }
-        img {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            @media (max-width: 765px) {
-                width: 70px;
-                height: 70px;
-            }
-        }
-        // @media (max-width: 924px) {
-        //     width: 230px;
-        // }
-        // @media (max-width: 765px) {
-        //     width: 180px;
-        // }
+        
     }
 
     &__image-profile {
         display: flex;
         flex-direction: row-reverse;
         align-items: flex-end;
-        width: 120px;
         @media (max-width: 765px) {
             display: flex;
             justify-content: center;
@@ -167,15 +147,16 @@ export default {
         
         label {
             position: absolute;
-            margin: 0px -5px 0px 0px;
+            margin: 0px 5px 0px 0px;
             img {
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
                 cursor: pointer;
                 @media (max-width: 765px) {
-                    width: 20px;
-                    height: 20px;
+                    width: 26px;
+                    height: 26px;
+                    margin: 0px -30px -10px 10px;
                 }
             }
             input {
@@ -184,39 +165,20 @@ export default {
         }
         
     }
-    // .settings__username
-    &__item {
-        display: flex;
-        align-items: center;
-        color: #fff;
-        padding: 15px;
-        font-size: 20px;
-        text-decoration: none;
-        transition: all 0.4s ease 0s;
-        gap: 10px;
-        &:hover {
-            color: $light;
-            background-color: rgba(79, 103, 139, 0.16);
-            border-right: 5px solid $light;
-            box-shadow: 0 0 2px $light;
-            .settings__icon {
-                svg {
-                    path {
-                        fill: $light;
-                        transition: all 0.4s ease 0s;
-                    }
-                }
+
+    &__avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            @media (max-width: 765px) {
+                width: 60px;
+                height: 60px;
             }
         }
-        
-    }
-
-    .settings__icon {
-        display: flex;
-    }
     
     &__username {
-        display: flex;
+        display: none;
         justify-content: center;
         flex-wrap: wrap;
         width: 100%;
@@ -242,6 +204,7 @@ export default {
 
     &__sidebar {
         border-right: 2px solid rgba(255, 255, 255, 0.09);
+        width: 100%;
         height: 100%;
         @media (max-width: 560px){
               border: none;
@@ -253,8 +216,43 @@ export default {
     &__navigation {
     }
 
+    &__item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        color: #fff;
+        padding: 15px;
+        font-size: 20px;
+        text-decoration: none;
+        gap: 10px;
+        @media (max-width: 450px){
+            font-size: 14px;
+            padding: 2px;
+        }
+        &:hover {
+            color: $light;
+            background-color: rgba(79, 103, 139, 0.16);
+            border-right: 5px solid $light;
+            box-shadow: 0 0 2px $light;
+            transition: all 0.4s ease 0s;
+            .settings__icon {
+                svg {
+                    path {
+                        fill: $light;
+                        transition: all 0.4s ease 0s;
+                    }
+                }    
+            }
+        }
+    }
+    .settings__icon {
+        display: flex;
+        // align-items: center;
+        @media (max-width: 450px){
+            display: none;
+        }
+    }
     // .settings__account
-
     &__account {
     }
 

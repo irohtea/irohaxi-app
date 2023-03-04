@@ -1,29 +1,36 @@
 <template>
-    <div class="slider-bar__genre">
-        <div class="slider-bar__body">
-            <h2 class="slider-bar__title">Genres</h2>
-            <div class="slider-bar__buttons" v-if="ourGenres.length > 5">
-                <button class="slider-bar__prev" @click="prev">
-                    <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#fff" d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
-                    </svg>
-                </button>
-                <button class="slider-bar__next" @click="next">
-                    <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#fff" d="M338.752 104.704a64 64 0 0 0 0 90.496l316.8 316.8-316.8 316.8a64 64 0 0 0 90.496 90.496l362.048-362.048a64 64 0 0 0 0-90.496L429.248 104.704a64 64 0 0 0-90.496 0z"/>
-                    </svg>
-                </button>
+    <div class="slider-bar__genre genre">
+        <div class="genre__body">
+            <div class="genre__title">
+                <div class="genre__subtitle">
+                    <h2>Genres</h2>
+                    <router-link to="/all-genres">
+                        <button @click="getAllGenresOfAlbumsAndTracks" class="genre__botton-more">More..</button>
+                    </router-link>
+                </div>
+                <div class="genre__button" v-if="ourGenres.length > 5">
+                    <button class="genre__botton-prev" @click="prev">
+                        <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#fff" d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
+                        </svg>
+                    </button>
+                    <button class="genre__botton-next" @click="next">
+                        <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#fff" d="M338.752 104.704a64 64 0 0 0 0 90.496l316.8 316.8-316.8 316.8a64 64 0 0 0 90.496 90.496l362.048-362.048a64 64 0 0 0 0-90.496L429.248 104.704a64 64 0 0 0-90.496 0z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <Carousel :settings="settings" :breakpoints="breakpoints" ref="myCarousel">
-                <slide v-for="genre in ourGenres" :key="genre">
-                    <router-link to="/all-tracks">
-                        <div class="slider-bar__item" @click="filter(genre.name)">
-                            <small class="slider-bar__link">
+            <Carousel :settings="settings" :breakpoints="breakpoints" ref="myCarousel" class="carouselWidth">
+                <Slide v-for="genre in ourGenres" :key="genre">
+                    <router-link to="/all-genres">
+                        <div class="genre__item" @click="filter(genre.name)">
+                            <div class="genre__link">
                                 {{genre.name}}
-                            </small>
+                            </div>
                         </div>
                     </router-link>
-                </slide>
+                </Slide>
             </Carousel>
         </div>
     </div>
@@ -36,6 +43,7 @@ import {ref, onMounted} from 'vue'
 import {useStore} from 'vuex'
 
 import 'vue3-carousel/dist/carousel.css'
+
 import { Carousel, Slide } from 'vue3-carousel'
 export default {
     components: {
@@ -46,31 +54,11 @@ export default {
         const store = useStore()
         
         const ourGenres = ref([])
-        const myCarousel = ref([])
+        const myCarousel = ref(null)
 
 
         const ourTracks = ref([])
-        const filtredTracks = ref([])
-
-        const testArr = ref([
-            {name: 'rock  1'},
-            {name: 'rap 2'},
-            {name: 'rockasasdasd 3'},
-            {name: 'rocasdak 4'},
-            {name: 'rocasdasdk 5'},
-            {name: 'rocasdask 6'},
-            {name: 'rosdasdack 7'},
-            {name: 'roasdasdasdasdack 8'},
-            {name: 'roasdasdck 9'},
-            {name: 'rosdas asdasck 10'},
-            {name: 'rocdk 11'},
-            {name: 'rocasdask 12'},
-            {name: 'rocasdasd 13'},
-            {name: 'roack 14'},
-            {name: 'rock 15'},
-            {name: 'roasdck 16'},
-            {name: 'rock 17'},
-        ])
+        const ourAlbums = ref([])
 
         const settings = {
             itemsToScroll: 5,
@@ -78,27 +66,53 @@ export default {
         }
 
         const breakpoints = {
-            700: {
+            320: {
+                itemsToShow: 1,
+                itemsToScroll: 1,
+                snapAlign: 'start',
+            },
+            420: {
+                itemsToShow: 2,
+                snapAlign: 'start',
+            },
+            768: {
                 itemsToShow: 3,
-                snapAlign: 'start',  
+                snapAlign: 'start',
             },
             1024: {
-                itemsToShow: 5,
+                itemsToShow: 4,
                 snapAlign: 'start',
             },
-            1440: {
-                itemsToShow: 5,
-                snapAlign: 'start',
+        }
+        const  getAllGenresOfAlbumsAndTracks = () => {
+            store.state.genre.tracks = []
+            store.state.genre.albums = []
+
+            for(let item of ourTracks.value) {
+                store.commit('genre/currentGenreTrack', item)
+            }
+
+            for(let item of ourAlbums.value) {
+                store.commit('genre/currentGenreAlbum', item)
             }
         }
 
         const filter = (genre) => {
-            store.state.genre.genres = []
+            store.state.genre.tracks = []
+            store.state.genre.albums = []
 
             for(let item of ourTracks.value) {
                 for(let itemOfGenre of item.genre) {
                     if(itemOfGenre.name === genre) {
-                        store.commit('genre/showAllGenre', item)
+                        store.commit('genre/currentGenreTrack', item)
+                    }
+                }
+            }
+
+            for(let item of ourAlbums.value) {
+                for(let itemOfGenre of item.genre) {
+                    if(itemOfGenre.name === genre) {
+                        store.commit('genre/currentGenreAlbum', item)
                     }
                 }
             }
@@ -129,10 +143,17 @@ export default {
                 await axios.get('https://irohaxi.site/api/v1/tracks/', config)
                     .then(response => {
                         ourTracks.value = response.data
-                        // store.commit('genre/showAllGenre', response.data)
 
                     })
             }catch(error) {
+                console.log(error);
+            }
+            try {
+                await axios.get(`https://irohaxi.site/api/v1/albums/`, config)
+                    .then(response => {
+                        ourAlbums.value = response.data
+                    })
+            } catch (error) {
                 console.log(error);
             }
         })
@@ -144,9 +165,9 @@ export default {
             ourTracks,
             breakpoints,
             myCarousel,
-            testArr,
             filter,
-            filtredTracks,
+            ourAlbums,
+            getAllGenresOfAlbumsAndTracks
         }
     }
 }

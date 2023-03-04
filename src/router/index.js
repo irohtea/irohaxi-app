@@ -105,14 +105,9 @@ const routes = [
     component: () => import('../views/PlayerExtendedView')
   },
   {
-    path: '/all-albums',
-    name: 'allalbum',
-    component: () => import('..//components/TheAllAlbums')
-  },
-  {
-    path: '/all-tracks',
+    path: '/all-genres',
     name: 'alltracks',
-    component: () => import('..//components/Tracks/TheAllTracks.vue'),
+    component: () => import('..//components/TracksAndAlbums/СomplexOfGenres.vue'),
   },
 ]
 
