@@ -5,7 +5,7 @@
     }
     &__body {
         display: grid;
-        grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill,minmax(250px, 1fr));
         gap: 20px;
     }
 
@@ -26,10 +26,6 @@
     }
 }
 .track {
-   display: grid;
-   justify-items: center;
-//    margin: 0 auto;
-   transition: all 0.3 ease;
    &.playing {
       .controls {
          opacity: 1;
@@ -55,7 +51,9 @@
     }
    // .track__body
     &__play {
-        max-width: 200px;
+        display: flex;
+        width: 100%;
+        align-items: center;
         position: relative;
         &:hover {
             .controls {
@@ -73,11 +71,11 @@
    &__img {
         position: relative;
         z-index: 5;
-        width: 200px;
-        height: 200px;
+        width: 60px;
+        height: 60px;
         img {
-            width: 200px;
-            height: 200px;
+            width: 60px;
+            height: 60px;
             object-fit: cover;
             border-radius: 10px;
             transition: all 0.3s ease 0s;
@@ -87,8 +85,7 @@
    &__info {
         display: flex;
         flex-direction: column;
-        gap: 5px;
-        margin-top: 10px;
+        padding-left: 16px;
     }
    // .track__name
    &__name {

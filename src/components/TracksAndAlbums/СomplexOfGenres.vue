@@ -1,7 +1,7 @@
 <template>
     <main class="selective">
         <div class="selective__container">
-            <div class="selective__body">
+            <div class="selective__body" v-if="ourTracks.length !== 0 && ourAlbums.length !== 0">
                 <div class="selective__genre" v-if="$store.state.genre.tracks.length !== 0 || $store.state.genre.albums.length !== 0">
                     <GenreOfAlbums></GenreOfAlbums>
                     <GenreOfTracks></GenreOfTracks>
@@ -20,20 +20,25 @@
                     </div>
                 </div>
             </div>
+            <div class="pre-loader" v-else>
+                <MyLoaderVue></MyLoaderVue>
+            </div>
         </div>
     </main>
 </template>
 
 <script>
-import GenreOfTracks from './GenreOfTracks.vue'
-import GenreOfAlbums from './GenreOfAlbums.vue'
+import axios from 'axios'
 import {ref, onMounted} from 'vue'
 import {useStore} from 'vuex'
-import axios from 'axios'
+import GenreOfTracks from './GenreOfTracks.vue'
+import GenreOfAlbums from './GenreOfAlbums.vue'
+import MyLoaderVue from '@/components/UI/MyLoader.vue'
 export default {
     components: {
         GenreOfTracks,
-        GenreOfAlbums
+        GenreOfAlbums,
+        MyLoaderVue
     },
     setup() {
         const store = useStore()
@@ -165,5 +170,10 @@ export default {
         cursor: pointer;
         color: $white;
     }
+}
+.pre-loader {
+    height: 100vh;
+    display: flex;
+    align-items: center;
 }
 </style>
