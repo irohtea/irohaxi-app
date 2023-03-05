@@ -117,22 +117,17 @@ export default {
         justify-content: space-between;
         align-items: center;
         color: #fff;
-        padding-bottom: 70px;
         min-height: 180px;
         h1 {
-            @media (max-width: 450px){
+            @media (max-width: 560px){
                 font-size: 20px;
             }
         }
-        @media (max-width: 924px) {
-            font-size: 12px;
-        }
-        @media (max-width: 450px){
+        @media (max-width: 560px){
             display: flex;
-            align-items: flex-start;
-            flex-direction: column;
-            margin-top: 20px;
-            min-height: 160px;
+            align-items: center;
+            margin: 20px 0px 20px 0px;
+            min-height: 0px;
         }
     }
     &__fields {
@@ -147,8 +142,8 @@ export default {
         display: flex;
         flex-direction: column;
         padding: 0 30px;
-        @media (max-width: 450px){
-            padding: 10;
+        @media (max-width: 560px){
+            padding: 0 20px;
         }
     }
 

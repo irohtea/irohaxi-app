@@ -1,5 +1,5 @@
 <template>
-   <main class="album" :style="background">
+   <main class="album">
       <div class="album__wrapper" :style="background">
          <div class="album__container">
             <div class="album__body">

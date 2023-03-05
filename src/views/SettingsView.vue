@@ -37,7 +37,7 @@
                                             <path d="M16,18.039c-2.779,0-4.192-1.844-4.201-6.469c-0.002-1.174,0.123-2.363,1.227-3.469          C13.729,7.396,14.729,7.039,16,7.039s2.271,0.357,2.975,1.063c1.104,1.105,1.229,2.295,1.227,3.469          C20.192,16.195,18.779,18.039,16,18.039z M16,8.039c-1.009,0-1.75,0.252-2.267,0.769c-0.632,0.633-0.938,1.2-0.935,2.761          c0.008,4.018,1.055,5.471,3.201,5.471s3.193-1.453,3.201-5.471c0.003-1.561-0.303-2.128-0.935-2.761          C17.75,8.291,17.009,8.039,16,8.039z" fill="#fff"/> </g> </g> </g> </g> </g> </g> </g> </g>
                                         </svg>
                                     </div>
-                                    <p>Account</p> 
+                                    <p class="settings__item-name">Account</p> 
                                 </div> 
                             </router-link> 
                         </div>
@@ -93,7 +93,7 @@ export default {
 <style lang="scss" scoped>
 .settings {
     &__container {
-    }
+    }   
     &__loader {
         display: flex;
         align-items: center;
@@ -105,18 +105,20 @@ export default {
         padding: 0px;
         background-color: rgba(10, 10, 10, 0.3);
         height: 700px;
-        margin-top: 50px;
+        margin: 50px 0px 25px 0px;
+        @media (max-width: 560px){
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+        }
     }
-    // height: 100%;
-    @media (max-width: 560px){
-        flex-direction: column;
-        justify-content:center;
-        align-items: center;
-    }
+   
     // .settings__header
 
     &__upper {
         display: flex;
+        width: 100%;
         flex: 0 0 29%;
         flex-direction: column;
     }
@@ -126,7 +128,7 @@ export default {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        min-height: 180px;
+        min-height: 200px;
         border-right: 2px solid rgba(255, 255, 255, 0.09);
         border-bottom: 2px solid rgba(255, 255, 255, 0.09);
         @media (max-width: 560px){
@@ -135,16 +137,17 @@ export default {
         
     }
 
+    &__avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
     &__image-profile {
         display: flex;
         flex-direction: row-reverse;
-        align-items: flex-end;
-        @media (max-width: 765px) {
-            display: flex;
-            justify-content: center;
-            flex-direction: row-reverse;
-        }
-        
+        align-items: flex-end; 
         label {
             position: absolute;
             margin: 0px 5px 0px 0px;
@@ -153,11 +156,6 @@ export default {
                 height: 30px;
                 border-radius: 50%;
                 cursor: pointer;
-                @media (max-width: 765px) {
-                    width: 26px;
-                    height: 26px;
-                    margin: 0px -30px -10px 10px;
-                }
             }
             input {
                 display: none;
@@ -165,41 +163,9 @@ export default {
         }
         
     }
-
-    &__avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            @media (max-width: 765px) {
-                width: 60px;
-                height: 60px;
-            }
-    }
     // .settings__username
-    &__item {
-        display: flex;
-        align-items: center;
-        color: #fff;
-        padding: 15px;
+    &__item-name {
         font-size: 20px;
-        text-decoration: none;
-        gap: 10px;
-        &:hover {
-            color: $light;
-            background-color: rgba(79, 103, 139, 0.16);
-            border-right: 5px solid $light;
-            box-shadow: 0 0 2px $light;
-            transition: all 0.4s ease 0s;
-            .settings__icon {
-                svg {
-                    path {
-                        fill: $light;
-                        transition: all 0.4s ease 0s;
-                    }
-                }
-            }
-        }
     }
     &__username {
         display: none;
@@ -228,7 +194,6 @@ export default {
 
     &__sidebar {
         border-right: 2px solid rgba(255, 255, 255, 0.09);
-        width: 100%;
         height: 100%;
         @media (max-width: 560px){
               border: none;
@@ -243,16 +208,9 @@ export default {
     &__item {
         display: flex;
         align-items: center;
-        width: 100%;
         color: #fff;
-        padding: 15px;
-        font-size: 20px;
         text-decoration: none;
-        gap: 10px;
-        @media (max-width: 450px){
-            font-size: 14px;
-            padding: 2px;
-        }
+        padding: 5px 0px 5px 20px;
         &:hover {
             color: $light;
             background-color: rgba(79, 103, 139, 0.16);
@@ -265,17 +223,19 @@ export default {
                         fill: $light;
                         transition: all 0.4s ease 0s;
                     }
-                }    
+                }
             }
         }
+        
     }
     .settings__icon {
-        display: flex;
-        // align-items: center;
-        @media (max-width: 450px){
-            display: none;
+        svg {
+            @media (max-width: 560px) {
+                display: none;
+            } 
         }
     }
+
     // .settings__account
     &__account {
     }
