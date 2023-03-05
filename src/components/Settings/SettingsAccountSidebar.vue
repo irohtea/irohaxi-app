@@ -18,20 +18,21 @@
                 <div class="main-page__body">
                     <div class="main-page__column field">
                         <div class="field__name field-size">
-                            <label for="firstname">First Name</label>
+                            <label for="firstname">First name</label>
                             <input
                                 id="firstName"
                                 type="text"
-                                :placeholder="user.first_name"
+                                :placeholder="getData.first_name"
                                 v-model="firstName"
+                                @click="test"
                             />
                         </div>
                         <div class="field__surname field-size">
-                            <label for="lastname">Last Name</label>
+                            <label for="lastname">Last name</label>
                             <input
                                 id="lastName"
                                 type="text"
-                                :placeholder="user.last_name"
+                                :placeholder="getData.last_name"
                                 v-model="lastName"
                             />
                         </div>
@@ -40,7 +41,7 @@
                             <input
                                 id="email"
                                 type="email"
-                                :placeholder="user.email"
+                                :placeholder="getData.email"
                                 disabled
                             />
                         </div>
@@ -54,8 +55,8 @@
 
 <script>
 import { useStore } from 'vuex'
-import { ref, onMounted } from 'vue'
-import QuestionItem from '../Question/QuestionItem.vue'
+import { ref, computed } from 'vue'
+import QuestionItem from '../Question/ItemDeleteAccount.vue'
 
 export default {
     setup() {
@@ -65,7 +66,7 @@ export default {
         const firstName = ref('')
         
         const avatar = ref()
-
+        const getData = computed(() => store.state.auth.myData)
         const user = ref({})
 
         const isDelete = ref(false)
@@ -75,12 +76,13 @@ export default {
                 first_name: firstName.value,
                 last_name: lastName.value
             })
-            user.value.first_name = firstName.value
-            user.value.last_name = lastName.value
+            store.state.auth.myData.first_name = firstName.value
+            store.state.auth.myData.last_name = lastName.value
             await store.dispatch('edit/updateProfile', {...name.value})
-            window.location.reload();
+            firstName.value = ''
+            lastName.value = ''
+            
         }
-
         const deleteUser = () => {
             isDelete.value = true
         }
@@ -88,10 +90,6 @@ export default {
         const close = function() {
             isDelete.value = false
         }
-
-        onMounted( async () => {
-            user.value = await store.dispatch('auth/toUser')
-        })
         return {
             updateProfile,
             deleteUser,
@@ -101,6 +99,7 @@ export default {
             user,
             avatar,
             isDelete,
+            getData,
         }
     },
     components: {
@@ -118,6 +117,7 @@ export default {
         align-items: center;
         color: #fff;
         min-height: 180px;
+        gap: 15px;
         h1 {
             @media (max-width: 560px){
                 font-size: 20px;
@@ -173,20 +173,6 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    // .field__name
-
-    &__name {
-    }
-
-    // .field__surname
-
-    &__surname {
-    }
-
-    // .field__email
-
-    &__email {
-    }
 }
 .field-size {
     label {

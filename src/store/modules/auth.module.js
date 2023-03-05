@@ -9,6 +9,7 @@ export default {
    namespaced: true,
    state: {
       token: localStorage.getItem(TOKEN_KEY),
+      myData: []
    },
    getters: {
       getToken(state) {
@@ -51,8 +52,7 @@ export default {
          } catch (e) {
             console.log(e);
          }
-      }
-
+      },
    },
    modules: {
    }

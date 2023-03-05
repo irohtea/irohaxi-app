@@ -1,14 +1,14 @@
 <template>
     <main class="settings">
         <div class="settings__container">
-            <div v-if="isLoader" class="settings__loader">
+            <!-- <div v-if="isLoader" class="settings__loader">
                 <Loader></Loader>
-            </div>
-            <div class="settings__body" v-else>
+            </div> -->
+            <div class="settings__body">
                 <div class="settings__upper">
                     <div class="settings__upper-profile">
                         <div class="settings__image-profile">
-                            <img class="settings__avatar" :src="user.avatar" alt="profile-image">
+                            <img class="settings__avatar" :src="getData.avatar" alt="profile-image">
                             <label for="img">
                                 <img src="../assets/img/camera.png" alt="camera">
                                 <input
@@ -19,10 +19,6 @@
                                     @change="editImage"
                                 />
                             </label>
-                        </div>
-                        <div class="settings__username">
-                            <p class="settings__name">{{user.first_name}}</p>
-                            <p class="settings__surname">{{user.last_name}}</p>
                         </div>
                     </div>
                     <aside class="settings__sidebar">
@@ -52,48 +48,38 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import {ref, computed} from 'vue'
 import {useStore} from 'vuex'
-import Loader from '../components/UI/MyLoader.vue'
 export default {
     setup() {
         const store = useStore()
 
-        const avatar = ref()
+        const avatar = ref([])
         const user = ref({})
         const isLoader = ref(true)
-
+        const getData = computed(() => store.state.auth.myData)
         const editImage = async function(event) {
             const formData = new FormData()
             avatar.value = event.target.files[0]
             formData.append('file', avatar.value)
-            user.value =  await store.dispatch('image/uploadImage', formData)
+            store.state.auth.myData = await store.dispatch('edit/uploadImage', formData)
         }
-
-        onMounted( async () => {
-            isLoader.value = true
-            user.value = await store.dispatch('auth/toUser')
-            isLoader.value = false
-        })
-
-
 
         return {
             editImage,
             user,
             avatar,
             isLoader,
+            getData
         }
     },
     components: {
-        Loader
+        // Loader
     }
 }
 </script>
 <style lang="scss" scoped>
 .settings {
-    &__container {
-    }   
     &__loader {
         display: flex;
         align-items: center;
@@ -105,7 +91,7 @@ export default {
         padding: 0px;
         background-color: rgba(10, 10, 10, 0.3);
         height: 700px;
-        margin: 50px 0px 25px 0px;
+        margin: 50px 0px 0px 0px;
         @media (max-width: 560px){
             display: flex;
             flex-direction: column;
@@ -138,8 +124,8 @@ export default {
     }
 
     &__avatar {
-        width: 110px;
-        height: 110px;
+        width: 180px;
+        height: 180px;
         border-radius: 50%;
         object-fit: cover;
     }
@@ -167,28 +153,6 @@ export default {
     &__item-name {
         font-size: 20px;
     }
-    &__username {
-        display: none;
-        justify-content: center;
-        flex-wrap: wrap;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    // .settings__name
-
-    &__name {
-        display: block;
-        font-size: 20px;
-    }
-
-    // .settings__surname
-
-    &__surname {
-        display: block;
-        font-size: 20px;
-        margin-left: 10px;
-    }
 
     // .settings__sidebar
 
@@ -201,9 +165,6 @@ export default {
     }
 
     // .settings__navigation
-
-    &__navigation {
-    }
 
     &__item {
         display: flex;
@@ -229,20 +190,14 @@ export default {
         
     }
     .settings__icon {
+        display: flex;
+        align-items: center;
         svg {
+            margin-right: 5px;
             @media (max-width: 560px) {
                 display: none;
             } 
         }
-    }
-
-    // .settings__account
-    &__account {
-    }
-
-    // .settings__delete
-
-    &__delete {
     }
 
     &__tools {

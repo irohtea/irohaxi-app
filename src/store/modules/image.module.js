@@ -19,12 +19,11 @@ export default {
                 }).then((res) => { 
                     response.value = res.data
                 })
-                // console.log(response.value);
+                console.log(response.value);
                 return response.value
             } catch(e) {
                 console.log(e);
             }
-            
         }
     }
 }

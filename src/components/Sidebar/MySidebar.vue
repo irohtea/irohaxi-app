@@ -40,10 +40,10 @@
          <router-link to="/user">
             <div class="sidebar__user" v-if="isTokenActive">
                <div class="sidebar__user-icon">
-                 <img :src="user.avatar" alt="user icon">
+                 <img :src="getData.avatar" alt="user icon">
                </div>
                <div class="sidebar__user-name">
-                  {{ user.email }}
+                  {{ getData.email }}
                </div>
             </div>
          </router-link>
@@ -117,7 +117,7 @@
 </template>
 <script>
 //========================================================================================================================================================
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 //styles========================================================================================================================================================
 import '@/components/Sidebar/sidebar-main.scss'
@@ -128,6 +128,7 @@ export default {
    setup() {
       const user = ref({})
       const store = useStore()
+      const getData = computed(() => store.state.auth.myData)
       const isTokenActive = ref(localStorage.getItem('jwt_token'))
       
       // sidebar functional
@@ -148,7 +149,7 @@ export default {
       // get user info
       onMounted( async () => {
          if(isTokenActive.value) {
-            user.value = await store.dispatch('auth/toUser')
+            store.state.auth.myData = await store.dispatch('auth/toUser')
          }
       })
      
@@ -159,7 +160,8 @@ export default {
          menuToggle,
          isDropdowned,
          openDropdown,
-         closeDropdown
+         closeDropdown,
+         getData
       }
    }
 }

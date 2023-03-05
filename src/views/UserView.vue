@@ -1,23 +1,22 @@
 <template>
     <main class="main">
         <div class="section__container">
-        <Loader class="loader" v-if="isLoader"></Loader>
-            <div class="section__profile" v-else>
+            <div class="section__profile">
                 <div class="section__upper">
                     <div class="section__profile-image">
-                        <img class="section__profile-image_avatar" :src="user.avatar" alt="User Avatar">
+                        <img class="section__profile-image_avatar" :src="getData.avatar" alt="User Avatar">
                     </div>
                     <div class="section__profile-group">
                         <div class="section__profile-nameis">
                             <div class="section__profile-name">
-                                <div>{{user.first_name}}</div>
+                                <div>{{getData.first_name}}</div>
                             </div>
                             <div class="section__profile-surname">
-                                <div>{{user.last_name}}</div>
+                                <div>{{getData.last_name}}</div>
                             </div>
                         </div>
                         <div class="section__profile-email">
-                                <p>{{user.email}}</p>
+                                <p>{{getData.email}}</p>
                         </div>
                     </div>
                 </div>
@@ -27,30 +26,23 @@
 </template>
 <script>
 import {useStore} from 'vuex'
-import {onMounted, ref} from 'vue'
-import Loader from '../components/UI/MyLoader.vue'
+import {ref, computed} from 'vue'
 
 export default {
   setup() {
       const store = useStore()
+      const getData = computed(() => store.state.auth.myData)
       const user = ref({})
 
       const isLoader = ref(true)
 
-      onMounted( async () => {
-        isLoader.value = true
-        user.value = await store.dispatch('auth/toUser')
-        isLoader.value = false
-      })
-
       return {
           user,
           isLoader,
+          getData
       }
   },
   components: {
-    Loader,
-    // MyInput
   }
 }
 </script>
@@ -67,6 +59,10 @@ export default {
     align-items: center;
     &__container {
         height: 100%;
+    }
+    &__upper {
+        display: flex;
+        flex-direction: column;
     }
     &__profile {
         width: 100%;
@@ -86,11 +82,7 @@ export default {
 
     // .section__upper
 
-    &__upper {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
+    
 
     // .section__profile-image
 
