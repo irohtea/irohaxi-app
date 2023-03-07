@@ -1,19 +1,19 @@
 <template>
    <div class="modal-update" >
-      <div class="modal-update__title">New Playlist</div>
-      <form @submit.prevent="createPlaylist" class="modal-update__form modal-form" ref="modalCreate">
+      <div class="modal-update__title">{{ $props.playlist.name }}</div>
+      <form @submit.prevent="updatePlaylist" class="modal-update__form modal-form" ref="modalCreate">
          <div class="modal-form__body">
             <div class="modal-form__inputs">
-               <input type="text" class="modal-form__input" placeholder="name" v-model="newPlaylist.name">
-               <input type="text" class="modal-form__input" placeholder="description" v-model="newPlaylist.description">
+               <input type="text" class="modal-form__input" placeholder="name" v-model="updatedPlaylist.name" ref="firstInput">
+               <input type="text" class="modal-form__input" placeholder="description" v-model="updatedPlaylist.description">
                <div class="modal-form__item">
                   <label class="modal-form__label">Make private?</label>
-                  <input type="checkbox" class="modal-form__checkbox" v-model="newPlaylist.is_hidden">
+                  <input type="checkbox" class="modal-form__checkbox" v-model="updatedPlaylist.is_hidden">
                </div>
             </div>
             <div class="modal-form__buttons">
                <button type="button" class="modal-form__close" @click="closeTeleport">Cancel</button>
-               <button type="submit" class="modal-form__create" >Create</button>
+               <button type="submit" class="modal-form__create" >Update</button>
             </div>
          </div>
       </form>
@@ -22,83 +22,69 @@
 
 <script>
 
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import axios from 'axios'
 import { useStore } from 'vuex'
-// import { useRoute } from 'vue-router'
 
 export default {
    props: {
-      trackId: {
-         type: Number,
-         required: true
-      },
-      playlistId: {
-         type: Number, String,
+      playlist: {
+         type: Object,
          required: true,
       },
    },
    setup (props, {emit}) {
       const store = useStore()
-      // const route = useRoute()
-      const newPlaylist = ref({
-         name: '',
-         description: '',
-         is_hidden: false,
-         track: props.trackId 
+      const firstInput = ref(null);
+      onMounted(() => {
+         nextTick(() => {
+            firstInput.value.focus();
+         });
+      });
+      const updatedPlaylist = ref({
+         name: props.playlist.name,
+         description: props.playlist.description,
+         is_hidden: props.playlist.is_hidden,
+         tracks: props.playlist.track
       })
       
       const updatePlaylist = async () => {
          
-         const formData = new FormData();
-
-         formData.append("name", newPlaylist.value.name)
-         formData.append("description", newPlaylist.value.description)
-         formData.append("is_hidden", newPlaylist.value.is_hidden)
-         formData.append("track", newPlaylist.value.track)
-      
          const config = {
             headers: {
-               'Content-Type': 'multipart/form-data',
-               'Access-Control-Allow-Origin': '*',
-               'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+                  'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
             }
          }
+         let payload = {
+            "playlist": {
+               "name": updatedPlaylist.value.name,
+               "description": updatedPlaylist.value.description,
+               "is_hidden": updatedPlaylist.value.is_hidden
+            },
+            "tracks": []
+         }
+         props.playlist.track.forEach(element => {
+            payload.tracks.push(element.id)
+         });
          store.dispatch('setLoadingTrue')
          
          try {
-            await axios.post(`https://irohaxi.site/api/v1/playlist/`, formData, config)
+            await axios.put(`https://irohaxi.site/api/v1/user/playlist/${props.playlist.id}`, payload, config)
             .then(response => {
                console.log(response);
                if(response.status == 200) {
-                  store.dispatch('setAddedPlaylist', response.data)
-                  setTimeout(() => {
-                     store.commit('IS_ADDED', false)
-                  }, 5000);
-                  store.dispatch('getPlaylists')
+                  updatedPlaylist.value = ({
+                     name: '',
+                     description: '',
+                     is_hidden: false,
+                  })
+                  update()
                   closeTeleport()
-
-               newPlaylist.value = ({
-                  name: '',
-                  img_src: '',
-                  poster: '',
-                  description: '',
-                  is_hidden: false,
-               })
                }
             })
             store.dispatch('setLoadingFalse')
          } catch (error) {
             console.log(error);
-            // switch(error.response.status) {
-            //    case 422:
-            //    errorMessage.value = 'Something went wrong'
-            //    setTimeout(() => {
-            //       errorMessage.value = ''
-
-            //    }, 3000)
-            //    break;
-            // }
          } finally {
             store.dispatch('setLoadingFalse')
          }
@@ -107,10 +93,15 @@ export default {
       const closeTeleport = () => {
          emit('closeTeleport')
       }
+      const update = () => {
+         emit('update')
+      }
       return {
-         newPlaylist,
+         updatedPlaylist,
          updatePlaylist,
-         closeTeleport
+         closeTeleport,
+         firstInput,
+         update
       }
    }
 }

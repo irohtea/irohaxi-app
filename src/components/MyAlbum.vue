@@ -268,15 +268,13 @@ export default {
    // .controls__play
    &__play,
    &__pause {
-      pointer-events: all;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-
       svg {
          width: 30px;
          height: 30px;
+         @media (max-width: 460px){
+              width: 20px;
+              height: 20px;
+         }
          path {
             fill: $white;
          }

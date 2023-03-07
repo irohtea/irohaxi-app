@@ -28,3 +28,14 @@ export default {
    }
 }
 </script>
+<style lang="scss" scoped>
+.playlist {
+   // .playlist__list
+   &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+   }
+}
+
+</style>

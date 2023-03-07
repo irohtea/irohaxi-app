@@ -22,19 +22,12 @@ const routes = [
     }
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView'),
-    meta: {
-      auth: false
-    }
-  },
-  {
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterView'),
     meta: {
-      auth: false
+      auth: false,
+      header: false,
     }
   },
   {
@@ -42,15 +35,8 @@ const routes = [
     name: 'login',
     component: () => import('../views/LoginView'),
     meta: {
-      auth: false
-    }
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: () => import('../views/UserView'),
-    meta: {
-      auth: true
+      auth: false,
+      header: false,
     }
   },
   {

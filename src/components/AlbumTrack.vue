@@ -224,7 +224,6 @@ export default {
    &__more {
       display: flex;
       pointer-events: all;
-      margin-right: 15px;
       padding: 10px;
       border-radius: 50%;
       transition: 0.2s ease 0s;
@@ -242,5 +241,11 @@ export default {
 }
 .controls {
    border-radius: 5px;
+   @media (max-width: 460px){
+        svg {
+         width: 20px;
+         height: 20px;
+        }
+   }
 }
 </style>

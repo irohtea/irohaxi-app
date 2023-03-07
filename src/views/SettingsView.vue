@@ -92,6 +92,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .settings {
+    margin-top: 100px;
     &__container {
     }
     &__loader {

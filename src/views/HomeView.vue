@@ -50,7 +50,7 @@ export default {
                     .then(response => {
                         ourTrack.value = response.data
                     })
-            }catch(error) {
+            } catch(error) {
                 console.log(error);
             }
         })
@@ -65,6 +65,7 @@ export default {
 <style lang="scss" scoped>
 .home {
     min-width: 0;
+    margin-top: 100px;
     &__container {
     }
     &__body {

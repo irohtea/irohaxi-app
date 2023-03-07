@@ -15,9 +15,6 @@
                </div>
             </div>
             <div class="player__controls player-controls" >
-               <button class="player-controls__btn mix-btn">
-                 <player-mix/>
-               </button>
                <button class="player-controls__btn prev-btn" @click="prev">
                   <player-prev />
                </button>
@@ -27,9 +24,6 @@
                </button>
                <button class="player-controls__btn next-btn" @click="next">
                   <player-next />
-               </button>
-               <button class="player-controls__btn repeat-btn">
-                 <player-repeat />
                </button>
             </div>
             <div class="player__actions player-actions">
@@ -65,12 +59,10 @@
 </template>
 
 <script>
-import PlayerMix from '@/components/UI/Player/PlayerMix.vue'
 import PlayerPlay from '@/components/UI/Player/PlayerPlay.vue'
 import PlayerPause from '@/components/UI/Player/PlayerPause.vue'
 import PlayerPrev from '@/components/UI/Player/PlayerPrev.vue'
 import PlayerNext from '@/components/UI/Player/PlayerNext.vue'
-import PlayerRepeat  from '@/components/UI/Player/PlayerRepeat.vue'
 
 import { computed, ref, watch, watchEffect, } from 'vue'
 import { useStore } from 'vuex'
@@ -78,12 +70,10 @@ import { useStore } from 'vuex'
 export default {
    name: 'my-player',
    components: {
-      PlayerMix,
       PlayerPlay,
       PlayerPause,
       PlayerPrev,
       PlayerNext,
-      PlayerRepeat
    },
    setup() {
       const store = useStore()
@@ -356,6 +346,8 @@ export default {
 .player-controls {
    display: flex;
    gap: 15px;
+   padding: 10px 0px;
+   border-radius: 5px;
    // .controls__btn
    &__btn {
       display: flex;
@@ -454,24 +446,15 @@ export default {
          display: flex;
          flex-direction: column;
          gap: 7px;
-         // @media (max-width: 375px){
-         //    width: 100px;
-         //    white-space: nowrap;
-         //    overflow: hidden;
-         // }
       }
 		// .track__name
 		&__name {
          color: $white;
          font-size: 18px;
          font-weight: 700;
-         // animation: trackText infinite 7s linear;
          @media (max-width: 768px){
             font-size: 15px;
          }
-         // @media (max-width: 375px){
-         //    animation: trackText infinite 7s linear;
-         // }
       }
 		// .track__band
 		&__band {
@@ -479,9 +462,6 @@ export default {
          @media (max-width: 768px){
             font-size: 14px;
          }
-         // @media (max-width: 375px){
-         //    animation: trackText infinite 7s linear;
-         // }
       }
 }
 @keyframes trackText {
@@ -505,11 +485,7 @@ export default {
       gap: 15px;
       align-items: center;
       padding: 15px 0;
-      @media screen and (max-width: 768px){
-         // display: flex;
-         // align-items: center;
-         // gap: 15px;
-         // padding: 15px 0;
+      @media (hover: none) {
          visibility: hidden;
          display: none;
       }

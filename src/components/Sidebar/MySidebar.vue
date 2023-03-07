@@ -1,128 +1,116 @@
 <template>
-  <aside class="sidebar" :class="`${ isToggled ? 'expanded' : '' }`">
-      <div class="sidebar__body">
-         <router-link to="/">
-            <div class="sidebar__logo">
+<header class="header" :class="`${ isToggled ? 'expanded' : '' }`">
+   <div class="header__container">
+      <div class="header__body">
+         <div class="header__logo">
+            <router-link to="/">
                <img src="@/assets/img/logo.png" alt="Logo">
-            </div>
-         </router-link>
-         <div class="sidebar__dropdown dropdown" v-if="!isTokenActive" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-            <div class="dropdown__content" :class="`${ isDropdowned ? 'hovered' : '' }`">
-               <div class="dropdown__avatar">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M12 0C5.4 0 0 5.4 0 12C0 18.6 5.4 24 12 24C18.6 24 24 18.6 24 12C24 5.4 18.6 0 12 0ZM12 4C14.2 4 16 6.2 16 9C16 11.8 14.2 14 12 14C9.8 14 8 11.8 8 9C8 6.2 9.8 4 12 4ZM18.6 19.5C16.9 21 14.5 22 12 22C9.5 22 7.1 21 5.4 19.5C5 19.1 4.9 18.5 5.3 18.1C6.4 16.8 7.9 15.9 9.5 15.4C10.3 15.8 11.1 16 12 16C12.9 16 13.7 15.8 14.5 15.4C16.2 15.9 17.6 16.8 18.7 18.1C19.1 18.5 19.1 19.1 18.6 19.5Z" fill="black"/>
-                  </svg>
-               </div>
-               <div class="dropdown__text">Account</div>
-            </div>
-            <nav class="dropdown__menu" :class="`${ isDropdowned ? 'expanded' : '' }`">
-               <router-link to="/login">
-                  <button type="button" class="dropdown__login">Login</button>
-               </router-link>
-               <router-link to="/register">
-                  <div class="dropdown__link">
-                     <div class="dropdown__icon">
-                        <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
-                           <path d="M90 9.64515e-07H30C29.2119 -0.000445981 28.4315 0.154444 27.7034 0.455813C26.9752 0.757183 26.3136 1.19912 25.7564 1.75636C25.1991 2.3136 24.7572 2.97522 24.4558 3.70337C24.1544 4.43153 23.9996 5.21194 24 6V18C24 19.5913 24.6321 21.1174 25.7574 22.2426C26.8826 23.3679 28.4087 24 30 24C31.5913 24 33.1174 23.3679 34.2426 22.2426C35.3679 21.1174 36 19.5913 36 18V12H84V84H36V78C36 76.4087 35.3679 74.8826 34.2426 73.7574C33.1174 72.6321 31.5913 72 30 72C28.4087 72 26.8826 72.6321 25.7574 73.7574C24.6321 74.8826 24 76.4087 24 78V90C23.9996 90.7881 24.1544 91.5685 24.4558 92.2966C24.7572 93.0248 25.1991 93.6864 25.7564 94.2436C26.3136 94.8009 26.9752 95.2428 27.7034 95.5442C28.4315 95.8456 29.2119 96.0004 30 96H90C90.7881 96.0004 91.5685 95.8456 92.2966 95.5442C93.0248 95.2428 93.6864 94.8009 94.2436 94.2436C94.8009 93.6864 95.2428 93.0248 95.5442 92.2966C95.8456 91.5685 96.0004 90.7881 96 90V6C96.0004 5.21194 95.8456 4.43153 95.5442 3.70337C95.2428 2.97522 94.8009 2.3136 94.2436 1.75636C93.6864 1.19912 93.0248 0.757183 92.2966 0.455813C91.5685 0.154444 90.7881 -0.000445981 90 9.64515e-07V9.64515e-07Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <div class="dropdown__text">Registration</div>
-                  </div>
-               </router-link>
-            </nav>
-            <div class="dropdown__chevron-down" :class="`${ isDropdowned ? 'rotate' : '' }`">
-               <svg width="768" height="384" viewBox="0 0 768 384" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 0L383.75 383.75L767.5 0H0Z" fill="black"/>
-               </svg>
-            </div>
+            </router-link>
          </div>
-         <router-link to="/user">
-            <div class="sidebar__user" v-if="isTokenActive">
-               <div class="sidebar__user-icon">
-                 <img :src="user.avatar" alt="user icon">
-               </div>
-               <div class="sidebar__user-name">
-                  {{ user.email }}
-               </div>
-            </div>
-         </router-link>
-         <div class="sidebar__menu menu">
-            <div class="menu__toggle">
-               <button class="menu__btn" @click="menuToggle">
-                  <svg width="32" height="32" viewBox="0 0 400 322" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M200.3 178L64.3 314C54.9 323.4 39.7 323.4 30.4 314L7.8 291.4C-1.6 282 -1.6 266.8 7.8 257.5L104.2 161.1L7.8 64.6999C-1.6 55.2999 -1.6 40.1 7.8 30.8L30.3 7.99995C39.7 -1.40005 54.9 -1.40005 64.2 7.99995L200.2 144C209.7 153.4 209.7 168.6 200.3 178V178ZM392.3 144L256.3 7.99995C246.9 -1.40005 231.7 -1.40005 222.4 7.99995L199.8 30.5999C190.4 39.9999 190.4 55.2 199.8 64.5L296.2 160.9L199.8 257.3C190.4 266.7 190.4 281.9 199.8 291.2L222.4 313.8C231.8 323.2 247 323.2 256.3 313.8L392.3 177.8C401.7 168.6 401.7 153.4 392.3 144Z" fill="black"/>
+         <nav class="header__nav nav">
+            <div class="nav__overlay" :class="`${isDrowerOpen ? 'menu-open' : ''}`"></div>
+            <button class="nav__open" @click="isDrowerOpen = !isDrowerOpen, isDropdowned = !isDropdowned">
+               <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 1C0 0.44771 0.44772 0 1 0H21C21.5523 0 22 0.44771 22 1C22 1.55229 21.5523 2 21 2H1C0.44772 2 0 1.55229 0 1Z" fill="black"/>
+                  <path d="M0 8C0 7.4477 0.44772 7 1 7H21C21.5523 7 22 7.4477 22 8C22 8.5523 21.5523 9 21 9H1C0.44772 9 0 8.5523 0 8Z" fill="black"/>
+                  <path d="M1 14C0.44772 14 0 14.4477 0 15C0 15.5523 0.44772 16 1 16H21C21.5523 16 22 15.5523 22 15C22 14.4477 21.5523 14 21 14H1Z" fill="black"/>
+               </svg>
+            </button>
+            <div class="nav__body" :class="`${isDrowerOpen ? 'menu-open' : ''}`" ref="drawer">
+               <button class="nav__close" @click="isDrowerOpen = false" v-if="isDrowerOpen">
+                  <svg width="49" height="49" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M2.29999 48.3L0 46L46 0L48.3 2.3L2.29999 48.3Z" fill="#134563"/>
+                     <path d="M46 48.3L0 2.3L2.29999 0L48.3 46L46 48.3Z" fill="#134563"/>
                   </svg>
                </button>
+               <ul class="nav__list">
+                  <li class="nav__link">
+                     <router-link to="/">
+                        <div class="nav__item">
+                           <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M27.7073 13.793L14.7073 0.793006C14.3163 0.402006 13.6843 0.402006 13.2933 0.793006L0.29325 13.793C-0.09775 14.184 -0.09775 14.816 0.29325 15.207C0.68425 15.598 1.31625 15.598 1.70725 15.207L14.0002 2.91401L22.0142 10.928C22.0132 10.953 22.0002 10.975 22.0002 11V26H6.00025V16C6.00025 15.447 5.55225 15 5.00025 15C4.44825 15 4.00025 15.447 4.00025 16V27C4.00025 27.553 4.44825 28 5.00025 28H23.0002C23.5532 28 24.0002 27.553 24.0002 27V12.914L26.2932 15.207C26.4882 15.402 26.7442 15.5 27.0002 15.5C27.2562 15.5 27.5123 15.402 27.7073 15.207C28.0983 14.816 28.0983 14.184 27.7073 13.793Z" fill="black"/>
+                           </svg>
+                           <span>Home</span>
+                        </div>
+                     </router-link>
+                  </li>
+                  <li class="nav__link">
+                     <router-link to="/library">
+                        <div class="nav__item">
+                           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M36 0H12C9.79 0 8 1.79 8 4V28C8 30.21 9.79 32 12 32H36C38.21 32 40 30.21 40 28V4C40 1.79 38.21 0 36 0ZM32 10H26V21C26 23.76 23.76 26 21 26C18.24 26 16 23.76 16 21C16 18.24 18.24 16 21 16C22.13 16 23.16 16.39 24 17.02V6H32V10ZM4 8H0V36C0 38.21 1.79 40 4 40H32V36H4V8Z" fill="black"/>
+                           </svg>
+                           <span>Library</span>
+                        </div>
+                     </router-link>
+                  </li>
+               </ul>
+               <div class="nav__user user-dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
+                  <button class="user-dropdown__button" >
+                     <div class="user-dropdown__icon">
+                        <img :src="user.avatar" alt="" v-if="isTokenActive">
+                        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="!isTokenActive">
+                           <path d="M22 24C28.6 24 34 18.6 34 12C34 5.4 28.6 0 22 0C15.4 0 10 5.4 10 12C10 18.6 15.4 24 22 24ZM22 2C27.5 2 32 6.5 32 12C32 17.5 27.5 22 22 22C16.5 22 12 17.5 12 12C12 6.5 16.5 2 22 2Z" fill="black"/>
+                           <path d="M31 26H13C5.8 26 0 31.8 0 39V44H2V39C2 32.9 6.9 28 13 28H31C37.1 28 42 32.9 42 39V44H44V39C44 31.8 38.2 26 31 26Z" fill="black"/>
+                        </svg>
+                     </div>
+                     <span class="user-dropdown__account">{{ isTokenActive ? user.email: 'account' }}</span>
+                     <div class="user-dropdown__chevron" :class="`${ isDropdowned ? 'rotate' : '' }`">
+                        <svg width="768" height="384" viewBox="0 0 768 384" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M0 0L383.75 383.75L767.5 0H0Z" fill="grey"/>
+                        </svg>
+                     </div>
+                  </button>
+            <transition name="fade">
+                  <div class="user-dropdown__content" v-if="isDropdowned" >
+                     <router-link to="/login" v-if="!isTokenActive">
+                        <button class="user-dropdown__login" >
+                           Login
+                        </button>
+                     </router-link>
+                     <router-link to="/register" v-if="!isTokenActive">
+                        <button class="user-dropdown__item">
+                           <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M17.293 30.707H23.707L47.707 6.70703L41.293 0.29303L17.293 24.293V30.707ZM44.879 6.70703L41.293 10.293L37.707 6.70703L41.293 3.12103L44.879 6.70703ZM19.293 25.121L36.293 8.12103L39.879 11.707L22.879 28.707H19.293V25.121Z" fill="black"/>
+                              <path d="M42.293 18.707H40.293V45.707H2.29297V7.70703H30.293V5.70703H0.292969V47.707H42.293V18.707Z" fill="black"/>
+                           </svg>
+                           <span>Register</span>
+                        </button>
+                     </router-link>
+                     <router-link to="/settings/account" v-if="isTokenActive">
+                        <button class="user-dropdown__item">
+                              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M30.391 12.68L27.327 12.066C27.173 11.623 26.991 11.193 26.79 10.777L28.526 8.17295C29.055 7.37995 28.95 6.32295 28.276 5.64995L26.352 3.72595C25.965 3.33895 25.454 3.13995 24.936 3.13995C24.553 3.13995 24.166 3.24995 23.829 3.47595L21.225 5.21095C20.807 5.00895 20.377 4.82895 19.934 4.67495L19.32 1.60995C19.134 0.673953 18.312 0.00195312 17.359 0.00195312H14.639C13.686 0.00195312 12.865 0.674953 12.678 1.60995L12.064 4.67495C11.621 4.82895 11.191 5.00995 10.775 5.21095L8.172 3.47595C7.833 3.24995 7.447 3.13995 7.063 3.13995C6.546 3.13995 6.035 3.33895 5.648 3.72595L3.725 5.64995C3.051 6.32395 2.946 7.37995 3.475 8.17295L5.21 10.777C5.008 11.194 4.828 11.624 4.674 12.067L1.608 12.68C0.673 12.867 0 13.688 0 14.641V17.361C0 18.314 0.673 19.136 1.608 19.322L4.673 19.937C4.827 20.38 5.008 20.81 5.209 21.226L3.475 23.83C2.946 24.623 3.051 25.68 3.725 26.353L5.649 28.277C6.036 28.664 6.547 28.863 7.064 28.863C7.448 28.863 7.835 28.752 8.172 28.527L10.776 26.791C11.193 26.994 11.623 27.174 12.066 27.328L12.679 30.392C12.866 31.328 13.687 32.001 14.64 32.001H17.36C18.313 32.001 19.135 31.327 19.321 30.392L19.936 27.328C20.379 27.174 20.809 26.992 21.225 26.791L23.829 28.527C24.167 28.752 24.554 28.863 24.936 28.863C25.454 28.863 25.965 28.664 26.352 28.277L28.276 26.353C28.95 25.679 29.055 24.623 28.526 23.83L26.79 21.226C26.993 20.808 27.173 20.378 27.327 19.935L30.391 19.322C31.326 19.137 32 18.314 32 17.361V14.641C32 13.688 31.326 12.867 30.391 12.68ZM26.934 17.975C26.239 18.114 25.67 18.61 25.438 19.28C25.309 19.649 25.159 20.007 24.991 20.354C24.68 20.993 24.733 21.747 25.126 22.336L26.862 24.94L24.938 26.864L22.334 25.128C22 24.905 21.613 24.792 21.225 24.792C20.928 24.792 20.629 24.858 20.354 24.991C20.006 25.159 19.649 25.311 19.278 25.44C18.61 25.672 18.114 26.241 17.975 26.936L17.36 30.002H14.64L14.027 26.936C13.888 26.241 13.392 25.672 12.723 25.44C12.354 25.311 11.995 25.161 11.648 24.993C11.372 24.858 11.074 24.792 10.776 24.792C10.387 24.792 10.001 24.905 9.667 25.128L7.063 26.864L5.139 24.94L6.874 22.336C7.267 21.746 7.318 20.992 7.011 20.356C6.843 20.008 6.692 19.651 6.563 19.28C6.331 18.612 5.761 18.116 5.067 17.977L2.002 17.362L2 14.641L5.066 14.028C5.76 13.889 6.33 13.393 6.562 12.724C6.691 12.355 6.84 11.996 7.009 11.649C7.319 11.011 7.267 10.257 6.873 9.66795L5.139 7.06395L7.062 5.13995L9.666 6.87495C10 7.09795 10.387 7.21095 10.775 7.21095C11.072 7.21095 11.37 7.14495 11.646 7.01195C11.993 6.84395 12.351 6.69295 12.721 6.56395C13.39 6.33195 13.886 5.76195 14.025 5.06795L14.639 2.00295L17.359 2.00195L17.972 5.06795C18.111 5.76195 18.607 6.33195 19.277 6.56395C19.646 6.69295 20.004 6.84195 20.351 7.01095C20.628 7.14495 20.925 7.21095 21.224 7.21095C21.613 7.21095 21.999 7.09795 22.333 6.87495L24.937 5.13995L26.861 7.06395L25.125 9.66795C24.732 10.258 24.682 11.011 24.988 11.648C25.156 11.995 25.308 12.353 25.437 12.723C25.669 13.392 26.238 13.888 26.933 14.027L29.997 14.641L30 17.361L26.934 17.975Z" fill="#333333"/>
+                                 <path d="M16 9.00098C12.135 9.00098 9 12.136 9 16.001C9 19.867 12.135 23.001 16 23.001C19.865 23.001 23 19.866 23 16.001C23 12.136 19.865 9.00098 16 9.00098ZM16 22.127C12.618 22.127 9.875 19.383 9.875 16.002C9.875 12.62 12.618 9.87698 16 9.87698C19.381 9.87698 22.125 12.62 22.125 16.002C22.125 19.383 19.381 22.127 16 22.127Z" fill="#333333"/>
+                                 <path d="M16 12.001C13.79 12.001 12 13.791 12 16.001C12 18.21 13.79 20.001 16 20.001C18.209 20.001 20 18.21 20 16.001C20 13.792 18.209 12.001 16 12.001ZM16 19.002C14.344 19.002 13 17.658 13 16.002C13 14.346 14.344 13.002 16 13.002C17.656 13.002 19 14.346 19 16.002C19 17.658 17.656 19.002 16 19.002Z" fill="#333333"/>
+                              </svg>
+                              <span>Settings</span>
+                        </button>
+                     </router-link>
+                     <button class="user-dropdown__item" @click="$store.dispatch('reg/logout')" v-if="isTokenActive">
+                        <svg width="60" height="62" viewBox="0 0 60 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M41 62H1C0.45 62 0 61.55 0 61V1C0 0.45 0.45 0 1 0H41C41.55 0 42 0.45 42 1C42 1.55 41.55 2 41 2H2V60H41C41.55 60 42 60.45 42 61C42 61.55 41.55 62 41 62Z" fill="black"/>
+                           <path d="M44.2701 46.73C44.0101 46.73 43.7601 46.63 43.5601 46.44C43.1701 46.05 43.1701 45.42 43.5601 45.03L57.5901 31L43.5601 16.98C43.1701 16.59 43.1701 15.96 43.5601 15.57C43.9501 15.18 44.5801 15.18 44.9701 15.57L59.7001 30.3C59.8901 30.48 60.0001 30.74 60.0001 31C60.0001 31.26 59.8901 31.52 59.7101 31.71L44.9801 46.44C44.7801 46.63 44.5201 46.73 44.2701 46.73Z" fill="black"/>
+                           <path d="M19 32C18.45 32 18 31.55 18 31C18 30.45 18.45 30 19 30H59C59.55 30 60 30.45 60 31C60 31.55 59.55 32 59 32H19Z" fill="black"/>
+                        </svg>
+                        <span>Sign Out</span>
+                     </button>
+                  </div>
+            </transition>
+               </div>
             </div>
-            <h3 class="menu__title">Menu</h3>
-            <nav class="menu__list">
-               <router-link to="/">
-                  <div class="menu__link">
-                     <div class="menu__icon">
-                        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path fill-rule="evenodd" clip-rule="evenodd" d="M8 17.5V11.5H12V17.5H17V9.5H20L10 0.5L0 9.5H3V17.5H8Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">Home</span>
-                  </div>
-               </router-link>
-               <router-link to="/library" v-if="isTokenActive">
-                  <div class="menu__link">
-                     <div class="menu__icon">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M36 0H12C9.79 0 8 1.79 8 4V28C8 30.21 9.79 32 12 32H36C38.21 32 40 30.21 40 28V4C40 1.79 38.21 0 36 0ZM32 10H26V21C26 23.76 23.76 26 21 26C18.24 26 16 23.76 16 21C16 18.24 18.24 16 21 16C22.13 16 23.16 16.39 24 17.02V6H32V10ZM4 8H0V36C0 38.21 1.79 40 4 40H32V36H4V8Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">Library</span>
-                  </div>
-               </router-link>
-               <router-link to="/login">
-                  <div @click.stop="$store.dispatch('reg/logout')" class="menu__link" v-if="isTokenActive">
-                     <div class="menu__icon">
-                        <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M43.7578 61.7579C43.1982 62.3144 42.7538 62.9759 42.4503 63.7044C42.1467 64.433 41.9899 65.2142 41.9888 66.0035C41.9877 66.7928 42.1423 67.5745 42.4439 68.3039C42.7454 69.0333 43.1879 69.696 43.746 70.2541C44.3041 70.8122 44.9668 71.2546 45.6962 71.5562C46.4256 71.8577 47.2073 72.0123 47.9965 72.0112C48.7858 72.0102 49.5671 71.8533 50.2956 71.5498C51.0242 71.2462 51.6857 70.8019 52.2422 70.2423L70.2422 52.2422C70.7995 51.6853 71.2415 51.0239 71.5431 50.296C71.8448 49.5681 72 48.788 72 48C72 47.2121 71.8448 46.432 71.5431 45.7041C71.2415 44.9762 70.7995 44.3148 70.2422 43.7578L52.2422 25.7578C51.116 24.6379 49.5917 24.0102 48.0035 24.0125C46.4152 24.0147 44.8926 24.6466 43.7696 25.7696C42.6465 26.8927 42.0146 28.4153 42.0124 30.0035C42.0102 31.5918 42.6379 33.1161 43.7578 34.2422L51.5156 42H6C4.4087 42 2.88258 42.6322 1.75736 43.7574C0.632141 44.8826 0 46.4087 0 48C0 49.5913 0.632141 51.1175 1.75736 52.2427C2.88258 53.3679 4.4087 54 6 54H51.5156L43.7578 61.7579Z" fill="black"/>
-                           <path d="M90 9.64515e-07H30C29.2119 -0.000445981 28.4315 0.154444 27.7034 0.455813C26.9752 0.757183 26.3136 1.19912 25.7564 1.75636C25.1991 2.3136 24.7572 2.97522 24.4558 3.70337C24.1544 4.43153 23.9996 5.21194 24 6V18C24 19.5913 24.6321 21.1174 25.7574 22.2426C26.8826 23.3679 28.4087 24 30 24C31.5913 24 33.1174 23.3679 34.2426 22.2426C35.3679 21.1174 36 19.5913 36 18V12H84V84H36V78C36 76.4087 35.3679 74.8826 34.2426 73.7574C33.1174 72.6321 31.5913 72 30 72C28.4087 72 26.8826 72.6321 25.7574 73.7574C24.6321 74.8826 24 76.4087 24 78V90C23.9996 90.7881 24.1544 91.5685 24.4558 92.2966C24.7572 93.0248 25.1991 93.6864 25.7564 94.2436C26.3136 94.8009 26.9752 95.2428 27.7034 95.5442C28.4315 95.8456 29.2119 96.0004 30 96H90C90.7881 96.0004 91.5685 95.8456 92.2966 95.5442C93.0248 95.2428 93.6864 94.8009 94.2436 94.2436C94.8009 93.6864 95.2428 93.0248 95.5442 92.2966C95.8456 91.5685 96.0004 90.7881 96 90V6C96.0004 5.21194 95.8456 4.43153 95.5442 3.70337C95.2428 2.97522 94.8009 2.3136 94.2436 1.75636C93.6864 1.19912 93.0248 0.757183 92.2966 0.455813C91.5685 0.154444 90.7881 -0.000445981 90 9.64515e-07V9.64515e-07Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">Sign out</span>
-                  </div>
-               </router-link>
-               <router-link to="/about">
-                  <div class="menu__link">
-                     <div class="menu__icon">
-                        <svg width="1414" height="1704" viewBox="0 0 1414 1704" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M1253.48 0H161.702C72.889 0 0 71.166 0 159.98V1542.46C0 1631.28 72.889 1704 161.702 1704H803.392C820.916 1704 837.721 1696.81 850.111 1684.42L1394.92 1139.21C1407.31 1126.83 1414 1109.9 1414 1092.38V159.981C1414 71.166 1342.29 0 1253.48 0ZM132 1542.46V159.98C132 144.027 145.752 132 161.702 132H1253.48C1269.43 132 1282 144.027 1282 159.98V994H865.354C776.542 994 704 1065.53 704 1154.34V1572H161.702C145.752 1572 132 1558.42 132 1542.46ZM836 1510.99V1154.34C836 1138.39 849.403 1126 865.354 1126H1222L836 1510.99Z" fill="black"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">About</span>
-                  </div>
-               </router-link>
-               <router-link to="/settings/account" v-if="isTokenActive">
-                  <div class="menu__link">
-                     <div class="menu__icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                           <path d="M30.391 12.68L27.327 12.066C27.173 11.623 26.991 11.193 26.79 10.777L28.526 8.17295C29.055 7.37995 28.95 6.32295 28.276 5.64995L26.352 3.72595C25.965 3.33895 25.454 3.13995 24.936 3.13995C24.553 3.13995 24.166 3.24995 23.829 3.47595L21.225 5.21095C20.807 5.00895 20.377 4.82895 19.934 4.67495L19.32 1.60995C19.134 0.673953 18.312 0.00195312 17.359 0.00195312H14.639C13.686 0.00195312 12.865 0.674953 12.678 1.60995L12.064 4.67495C11.621 4.82895 11.191 5.00995 10.775 5.21095L8.172 3.47595C7.833 3.24995 7.447 3.13995 7.063 3.13995C6.546 3.13995 6.035 3.33895 5.648 3.72595L3.725 5.64995C3.051 6.32395 2.946 7.37995 3.475 8.17295L5.21 10.777C5.008 11.194 4.828 11.624 4.674 12.067L1.608 12.68C0.673 12.867 0 13.688 0 14.641V17.361C0 18.314 0.673 19.136 1.608 19.322L4.673 19.937C4.827 20.38 5.008 20.81 5.209 21.226L3.475 23.83C2.946 24.623 3.051 25.68 3.725 26.353L5.649 28.277C6.036 28.664 6.547 28.863 7.064 28.863C7.448 28.863 7.835 28.752 8.172 28.527L10.776 26.791C11.193 26.994 11.623 27.174 12.066 27.328L12.679 30.392C12.866 31.328 13.687 32.001 14.64 32.001H17.36C18.313 32.001 19.135 31.327 19.321 30.392L19.936 27.328C20.379 27.174 20.809 26.992 21.225 26.791L23.829 28.527C24.167 28.752 24.554 28.863 24.936 28.863C25.454 28.863 25.965 28.664 26.352 28.277L28.276 26.353C28.95 25.679 29.055 24.623 28.526 23.83L26.79 21.226C26.993 20.808 27.173 20.378 27.327 19.935L30.391 19.322C31.326 19.137 32 18.314 32 17.361V14.641C32 13.688 31.326 12.867 30.391 12.68ZM26.934 17.975C26.239 18.114 25.67 18.61 25.438 19.28C25.309 19.649 25.159 20.007 24.991 20.354C24.68 20.993 24.733 21.747 25.126 22.336L26.862 24.94L24.938 26.864L22.334 25.128C22 24.905 21.613 24.792 21.225 24.792C20.928 24.792 20.629 24.858 20.354 24.991C20.006 25.159 19.649 25.311 19.278 25.44C18.61 25.672 18.114 26.241 17.975 26.936L17.36 30.002H14.64L14.027 26.936C13.888 26.241 13.392 25.672 12.723 25.44C12.354 25.311 11.995 25.161 11.648 24.993C11.372 24.858 11.074 24.792 10.776 24.792C10.387 24.792 10.001 24.905 9.667 25.128L7.063 26.864L5.139 24.94L6.874 22.336C7.267 21.746 7.318 20.992 7.011 20.356C6.843 20.008 6.692 19.651 6.563 19.28C6.331 18.612 5.761 18.116 5.067 17.977L2.002 17.362L2 14.641L5.066 14.028C5.76 13.889 6.33 13.393 6.562 12.724C6.691 12.355 6.84 11.996 7.009 11.649C7.319 11.011 7.267 10.257 6.873 9.66795L5.139 7.06395L7.062 5.13995L9.666 6.87495C10 7.09795 10.387 7.21095 10.775 7.21095C11.072 7.21095 11.37 7.14495 11.646 7.01195C11.993 6.84395 12.351 6.69295 12.721 6.56395C13.39 6.33195 13.886 5.76195 14.025 5.06795L14.639 2.00295L17.359 2.00195L17.972 5.06795C18.111 5.76195 18.607 6.33195 19.277 6.56395C19.646 6.69295 20.004 6.84195 20.351 7.01095C20.628 7.14495 20.925 7.21095 21.224 7.21095C21.613 7.21095 21.999 7.09795 22.333 6.87495L24.937 5.13995L26.861 7.06395L25.125 9.66795C24.732 10.258 24.682 11.011 24.988 11.648C25.156 11.995 25.308 12.353 25.437 12.723C25.669 13.392 26.238 13.888 26.933 14.027L29.997 14.641L30 17.361L26.934 17.975Z" fill="#333333"/>
-                           <path d="M16 9.00098C12.135 9.00098 9 12.136 9 16.001C9 19.867 12.135 23.001 16 23.001C19.865 23.001 23 19.866 23 16.001C23 12.136 19.865 9.00098 16 9.00098ZM16 22.127C12.618 22.127 9.875 19.383 9.875 16.002C9.875 12.62 12.618 9.87698 16 9.87698C19.381 9.87698 22.125 12.62 22.125 16.002C22.125 19.383 19.381 22.127 16 22.127Z" fill="#333333"/>
-                           <path d="M16 12.001C13.79 12.001 12 13.791 12 16.001C12 18.21 13.79 20.001 16 20.001C18.209 20.001 20 18.21 20 16.001C20 13.792 18.209 12.001 16 12.001ZM16 19.002C14.344 19.002 13 17.658 13 16.002C13 14.346 14.344 13.002 16 13.002C17.656 13.002 19 14.346 19 16.002C19 17.658 17.656 19.002 16 19.002Z" fill="#333333"/>
-                        </svg>
-                     </div>
-                     <span class="menu__text">Settings</span>
-                  </div>
-               </router-link>
-            </nav> 
-         </div>
+         </nav>
       </div>
-  </aside>
+   </div>
+</header>
 </template>
 <script>
 //========================================================================================================================================================
 import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { onClickOutside } from '@vueuse/core'
+
 //styles========================================================================================================================================================
-import '@/components/Sidebar/sidebar-main.scss'
-import '@/components/Sidebar/SidebarDropdown/sidebar-dropdown.scss'
-import '@/components/Sidebar/SidebarMenu/sidebar-menu.scss'
 //========================================================================================================================================================
 export default {
    setup() {
@@ -138,13 +126,24 @@ export default {
          localStorage.setItem('isToggled', isToggled.value)
       }
       const openDropdown = () => {
+       
          isToggled.value = true
          isDropdowned.value = true
       }
       const closeDropdown = () => {
-         isDropdowned.value = false
+         if(isDrowerOpen.value) {
+            isDropdowned.value = true
+         } else {
+            isDropdowned.value = false
+         }
       }
-      
+      const isDrowerOpen = ref(false)
+      const drawer = ref(null)
+      onClickOutside(drawer, () => {
+         isDrowerOpen.value = false
+         isDropdowned.value = false
+
+      })
       // get user info
       onMounted( async () => {
          if(isTokenActive.value) {
@@ -159,9 +158,356 @@ export default {
          menuToggle,
          isDropdowned,
          openDropdown,
-         closeDropdown
+         closeDropdown,
+         isDrowerOpen,
+         drawer
       }
    }
 }
 
 </script>
+<style lang="scss" scoped>
+a {
+   width: 100%;
+}
+.header {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   z-index: 50;
+   // backdrop-filter: blur(7px);
+   // -webkit-backdrop-filter: blur(7px);
+   background-color: rgba(16, 29, 42, 0.7);
+   box-shadow: 0 8px 32px rgb(2, 4, 24);
+   border-bottom: 2px solid rgba(255, 255, 255, 0.09);
+   transition: 0.2s ease-out;
+   // .header__body
+   &__body {
+         height: 70px;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         gap: 30px;
+      }
+		// .header__logo
+		&__logo {
+         position: relative;
+         z-index: 100;
+         flex: 1 1 0%;
+         img {
+            height: 30px;
+            width: 30px;
+            object-fit: cover;
+         }
+      }
+		// .header__nav
+		&__nav {
+      }
+
+}
+.nav {
+       // nav__overlay
+      &__overlay {
+         position:fixed;
+         top: 0;
+         right: -100%;
+         width: 100%;
+         height: 100%;
+         transition: all 0.3s ease 0s;
+         z-index: 4;
+         &.menu-open {
+            right: 0%;
+            background: rgba(0, 0, 0, 0.368);
+            opacity: 1;
+         }
+      }
+      // .nav__open
+      &__open {
+         display: none;
+         @media (hover: none) {
+            display: block;
+            svg {
+            width: 30px;
+            height: 30px;
+               path {
+                  fill: $blue;
+               }
+            }
+         }
+      }
+
+      &__body {
+         position: relative;
+         display: flex;
+         gap: 30px;
+         @media (hover: none) {
+            flex-direction: column;
+            position:fixed;
+            top: 0%;
+            width: 400px;
+            height: 100%;
+            right: -100%;
+            overflow: auto;
+            background: rgb(13, 31, 46);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border-left: 1px solid #323b48;
+            padding: 60px 15px 50px 15px;
+            transition: all 0.3s ease 0s;
+            z-index: 5;
+            @media (max-width: 520px){
+                 width: 220px;
+            }
+            &.menu-open  {
+              right: 0%;
+            }
+         }
+      }
+      // .nav__close
+      &__close {
+         display: none;
+         @media (hover: none) {
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 10px;
+            background-color: rgba(74, 111, 181, 0.3);
+            border-radius: 5px;
+            svg {
+               width: 25px;
+               height: 25px;
+               path {
+                  fill: $blue;
+               }
+            }
+         }
+      }
+      // .nav__list
+      &__list {
+         display: flex;
+         justify-content:center;
+         align-items: center;
+         flex-wrap: wrap;
+         gap: 20px;
+         @media (hover: none) {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: start;
+            // order: 2;
+         }
+      }
+      // .nav__link
+      &__link {
+         
+      }
+      // .nav__item
+      &__item {
+         display: flex;
+         justify-content:center;
+         align-items: center;
+         gap: 10px;
+         &:hover {
+            span {
+               color: $light;
+
+            }
+         }
+         span {
+            color: $white;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease 0s;
+         }
+         svg {
+            display: none;
+            width: 25px;
+            height: 25px;
+            transition: all 0.3s ease 0s;
+            path {
+                  fill: $blue;
+            }
+            @media (hover: none) {
+               display: block;
+            }
+         }
+      }
+      // .nav__user
+		&__user {
+
+      }
+}
+.user-dropdown {
+   position: relative;
+   @media (hover: none) {
+      display: flex;
+      flex-direction: column;
+      background-color: rgba(74, 111, 181, 0.3);
+      margin: 0px -15px;
+   }
+		// .user-dropdown__button
+		&__button {
+         display: flex;
+         align-items: center;
+         gap: 7px;
+         padding: 10px;
+         border-radius: 5px;
+         transition: all 0.3s ease 0s;
+         margin-bottom: 15px;
+         margin-top: 15px;
+         width: 200px;
+         max-width: 200px;
+         @media (hover: none) {
+            max-width: none;
+            width: 100%;
+            margin: 0;
+
+         }
+         &:hover {
+            background-color: rgba(74, 111, 181, 0.3);
+         }
+      }
+		// .user-dropdown__icon
+		&__icon {
+         img {
+            width: 25px;
+            height: 25px;
+            object-fit: cover;
+            border-radius: 50%;
+            @media (hover: none) {
+               width: 50px;
+               height: 50px;
+            }
+         }
+         svg {
+            width: 25px;
+            height: 25px;
+            path {
+               fill: $blue;
+            }
+         }
+      }
+		// .user-dropdown__account
+		&__account {
+         color: $white;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         max-width: 110px;
+         @media (hover: none) {
+            overflow: visible;
+         }
+      }
+		// .user-dropdown__chevron
+		&__chevron {
+         transition: transform 0.2s ease 0s;
+         @media (hover: none) {
+              display: none;
+         }
+         &.rotate {
+            transform: rotate(180deg);
+         }
+         svg {
+            width: 15px;
+            height: 15px;
+            path {
+               fill: $blue;
+            }
+         }
+      }
+		// .user-dropdown__content
+		&__content {
+         position: absolute;
+         left: 0%;
+         width: 200px;
+         padding: 20px;
+         display: flex;
+         flex-direction: column;
+         gap: 20px;
+         background: rgba(9, 33, 52, 1);
+         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+         border: 1px solid #323b48;
+         border-radius: 5px;
+         @media (hover: none) {
+            position: relative;
+            width: 100%;
+            // order: 2;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 20px 15px;
+            gap: 20px;
+         }
+      }
+		// .user-dropdown__item
+		&__item {
+         display: flex;
+         align-items: center;
+         width: 100%;
+         gap: 10px;
+         color: $white;
+         padding: 10px;
+         border-radius: 5px;
+         @media (hover: none) {
+            padding: 0px;
+            width: auto;
+         }
+         &:hover {
+            background-color: rgb(42, 78, 108, 0.3);
+            svg {
+               path {
+                  fill: $light;
+               }
+            }
+            span {
+               color: $light;
+            }
+         }
+         svg {
+            width: 25px;
+            height: 25px;
+            path {
+               fill: $blue;
+               transition: all 0.3s ease 0s;
+            }
+         }
+         span {
+            transition: all 0.3s ease 0s;
+            @media (hover: none) {
+               font-size: 18px;
+               font-weight: 600;
+            }
+         }
+      }
+      // .user-dropdown__login
+		&__login {
+         width: 100%;
+         align-items: center;
+         gap: 5px;
+         padding: 10px 15px;
+         border-radius: 5px;
+         background-color: $lightBlue;
+         color: $white;
+         font-weight: 700;
+         transition: background-color 0.3s ease 0s;
+         &:hover {
+            background-color: #007bee;
+         }
+      }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all .2s cubic-bezier(0.68, 0.16, 0.42, 0.75);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+   transform: scale(1.1);
+   // transform: translateY(100%);
+   opacity: 0;
+}
+
+</style>

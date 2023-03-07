@@ -27,7 +27,7 @@ export function playlistRetrieve(id) {
         await axios.get(`https://irohaxi.site/api/v1/playlist/${id}`, config)
          .then(response => {
             playlist.value = response.data
-         }).then()
+         })
       } catch (error) {
          console.log(error);
          store.dispatch('setLoadingFalse')
@@ -38,7 +38,6 @@ export function playlistRetrieve(id) {
        store.dispatch('setLoadingTrue')
          const result = await analyze(playlist.value.poster, { ignore: [ ignor ] }) 
          bgColor.value = result[12].color
-         console.log(bgColor.value );
          background.value = {
             'background': `linear-gradient(-180deg, #0d0d13 30%, ${result[12].color})`,
             'opacity': '1',

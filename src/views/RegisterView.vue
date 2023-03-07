@@ -68,9 +68,10 @@ export default {
    &__container {}
    // .register__body
    &__body {
-      margin: 100px 0;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
+      justify-content:center;
+      align-items: center;
    }
    // .register__loader
    &__loader {
