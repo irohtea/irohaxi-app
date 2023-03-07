@@ -9,7 +9,8 @@ export default {
    namespaced: true,
    state: {
       token: localStorage.getItem(TOKEN_KEY),
-      is_loading: false
+      is_loading: false,
+      myData: [],
    },
    getters: {
       getToken(state) {
