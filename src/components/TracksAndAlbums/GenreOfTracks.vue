@@ -1,61 +1,30 @@
 <template>
     <div class="tracks">
-        <h2 class="tracks__title">Genre of Tracks</h2>
+        <h2 class="tracks__title">Tracks</h2>
         <div class="tracks__body">
-            <div class="track" 
-            v-for="track in $store.state.genre.tracks"
-            :key="track"
-            :class="[
-                {playing: $store.state.player.playlist.length > 0 
-                && $store.state.player.currentTrack.id === track.id
-                && $store.state.player.isPlaying},
-                
-                {paused: $store.state.player.playlist.length > 0 
-                && $store.state.player.currentTrack.id === track.id
-                && !$store.state.player.isPlaying}
-            ]">
-                <div class="track__play">
-                    <div class="track__img">
-                        <img :src="track.song_poster" alt="Song Poster">
-                        <div class="track__controls controls">
-                        <button class="controls__more">
-                            <more-button />
-                        </button>
-                        <button class="controls__play">
-                            <play-button @click="$store.dispatch('player/addUserATrackToPlayList', {track})" />
-                        </button>
-                        <button class="controls__pause">
-                            <pause-button @click="$store.dispatch('player/setPause', false)" />
-                        </button>
-                        </div>
-                    </div>
-                    <div class="track__info">
-                        <div class="track__name">
-                        {{ track.name }}
-                        </div>
-                        <div class="track__author">
-                        {{ track.track_author }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <genre-track 
+            v-for="track in $store.state.genre.tracks" 
+            :key="track.id"
+            :track="track"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import PlayButton from '@/components/UI/Controls/PlayButton.vue';
-import PauseButton from '@/components/UI/Controls/PauseButton.vue';
-import MoreButton from '@/components/UI/Controls/MoreButton.vue';
+import GenreTrack from '@/components/TracksAndAlbums/GenreTrack.vue'
 
+import { onMounted } from 'vue';
+import { useStore } from 'vuex'
 export default {
     components: {
-        PlayButton,
-        PauseButton,
-        MoreButton,
+        GenreTrack,
     },
     setup() {
-
+        const store = useStore()
+        onMounted(() => {
+            store.dispatch('getPlaylists')
+        })
         return {
         }
     }
@@ -63,5 +32,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './track-styles.scss';
+.tracks {
+    // .tracks__title
+    &__title {
+        margin-bottom: 25px;
+    }
+    // .tracks__body
+    &__body {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(250px, 1fr));
+        gap: 20px;
+        @media (max-width: 650px){
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+
 </style>

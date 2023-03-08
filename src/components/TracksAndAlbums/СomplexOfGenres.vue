@@ -1,7 +1,7 @@
 <template>
     <main class="selective">
         <div class="selective__container">
-            <div class="selective__body">
+            <div class="selective__body" v-if="ourTracks.length !== 0 && ourAlbums.length !== 0">
                 <div class="selective__genre" v-if="$store.state.genre.tracks.length !== 0 || $store.state.genre.albums.length !== 0">
                     <GenreOfAlbums></GenreOfAlbums>
                     <GenreOfTracks></GenreOfTracks>
@@ -20,27 +20,31 @@
                     </div>
                 </div>
             </div>
+            <div class="pre-loader" v-else>
+                <MyLoaderVue></MyLoaderVue>
+            </div>
         </div>
     </main>
 </template>
 
 <script>
-import GenreOfTracks from './GenreOfTracks.vue'
-import GenreOfAlbums from './GenreOfAlbums.vue'
+import axios from 'axios'
 import {ref, onMounted} from 'vue'
 import {useStore} from 'vuex'
-import axios from 'axios'
+import GenreOfTracks from './GenreOfTracks.vue'
+import GenreOfAlbums from './GenreOfAlbums.vue'
+import MyLoaderVue from '@/components/UI/MyLoader.vue'
 export default {
     components: {
         GenreOfTracks,
-        GenreOfAlbums
+        GenreOfAlbums,
+        MyLoaderVue
     },
     setup() {
         const store = useStore()
         const ourTracks = ref([])
         const ourGenres = ref([])
         const ourAlbums = ref([])
-
         const filter = async (genre) => {
             for(let item of store.state.genre.tracks) {
                 if(item) {
@@ -59,7 +63,6 @@ export default {
                     }
                 }
             }
-
             for(let item of ourAlbums.value) {
                 for(let itemOfGenre of item.genre) {
                     if(itemOfGenre.name === genre) {
@@ -68,7 +71,6 @@ export default {
                 }
             }
         }
-
         onMounted( async () => {
             const config = {
                 headers: {
@@ -83,17 +85,14 @@ export default {
             }catch(error) {
                 console.log(error);
             }
-
             try {
                 await axios.get('https://irohaxi.site/api/v1/tracks/', config)
                     .then(response => {
                         ourTracks.value = response.data
-
                     })
             }catch(error) {
                 console.log(error);
             }
-
             try {
                 await axios.get(`https://irohaxi.site/api/v1/albums/`, config)
                     .then(response => {
@@ -103,7 +102,6 @@ export default {
                 console.log(error);
             }
         })
-
         return {
             ourTracks,
             ourGenres,
@@ -119,38 +117,28 @@ export default {
     background: rgb(29,39,59);
     background: linear-gradient(45deg, rgba(29,39,59,1) 0%, rgba(6, 9, 18, 1) 100%);
     // .selective__container
-
     &__container {
     }
-
     // .selective__body
-
     &__body {
-        padding: 10px 0px;
+        padding: 120px 0px 350px 0px;
     }
-
     // .selective__genre
-
     &__genre {
     }
 }
 .genres {
     margin-top: 20px;
     // .genres__title
-
     &__title {
         margin-bottom: 30px;
     }
-
     // .genres__item
-
     &__item {
         display: inline-block;
         padding: 0px 20px 10px 0px;
     }
-
     // .genres__name
-
     &__name {
         display: flex;
         justify-content: flex-start;
@@ -165,5 +153,10 @@ export default {
         cursor: pointer;
         color: $white;
     }
+}
+.pre-loader {
+    height: 100vh;
+    display: flex;
+    align-items: center;
 }
 </style>

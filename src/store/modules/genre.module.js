@@ -11,11 +11,9 @@ export default {
     mutations: {
         currentGenreTrack(state, track) {
             state.tracks.push(track)
-            console.log(track);
         },
         currentGenreAlbum(state, album) {
             state.albums.push(album)
-            console.log(album);
         }
     },
     actions: {
