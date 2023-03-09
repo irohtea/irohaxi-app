@@ -88,12 +88,15 @@ export default {
             store.state.genre.tracks = []
             store.state.genre.albums = []
 
-            for(let item of ourTracks.value) {
-                store.commit('genre/currentGenreTrack', item)
+            for(let itemProxy of store.state.genre.getFiltredTracks) {
+                for(let itemArr of itemProxy) {
+                    store.commit('genre/currentGenreTrack', itemArr)
+                }
             }
 
-            for(let item of ourAlbums.value) {
-                store.commit('genre/currentGenreAlbum', item)
+            for(let itemProxy of store.state.genre.getFiltredAlbums) {
+                for(let itemArr of itemProxy)
+                store.commit('genre/currentGenreAlbum', itemArr)
             }
         }
 
@@ -101,18 +104,22 @@ export default {
             store.state.genre.tracks = []
             store.state.genre.albums = []
 
-            for(let item of ourTracks.value) {
-                for(let itemOfGenre of item.genre) {
-                    if(itemOfGenre.name === genre) {
-                        store.commit('genre/currentGenreTrack', item)
+            for(let itemProxy of store.state.genre.getFiltredTracks) {
+                for(let itemArr of itemProxy) {
+                    for(let itemCurrentArr of itemArr.genre) {
+                        if(itemCurrentArr.name === genre) {
+                            store.commit('genre/currentGenreTrack', itemArr)
+                        }
                     }
                 }
             }
 
-            for(let item of ourAlbums.value) {
-                for(let itemOfGenre of item.genre) {
-                    if(itemOfGenre.name === genre) {
-                        store.commit('genre/currentGenreAlbum', item)
+            for(let itemProxy of store.state.genre.getFiltredAlbums) {
+                for(let itemArr of itemProxy) {
+                    for(let itemCurrentArr of itemArr.genre) {
+                        if(itemCurrentArr.name === genre) {
+                            store.commit('genre/currentGenreAlbum', itemArr)
+                        }
                     }
                 }
             }
@@ -139,23 +146,7 @@ export default {
             }catch(error) {
                 console.log(error);
             }
-            try {
-                await axios.get('https://irohaxi.site/api/v1/tracks/', config)
-                    .then(response => {
-                        ourTracks.value = response.data
-
-                    })
-            }catch(error) {
-                console.log(error);
-            }
-            try {
-                await axios.get(`https://irohaxi.site/api/v1/albums/`, config)
-                    .then(response => {
-                        ourAlbums.value = response.data
-                    })
-            } catch (error) {
-                console.log(error);
-            }
+            console.log(store.state.genre.getFiltredTracks);
         })
         return {
             settings,

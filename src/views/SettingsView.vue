@@ -136,7 +136,7 @@ export default {
         align-items: flex-end; 
         label {
             position: absolute;
-            margin: 0px 5px 0px 0px;
+            margin: 0px 20px 0px 0px;
             img {
                 width: 30px;
                 height: 30px;

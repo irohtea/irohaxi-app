@@ -15,7 +15,7 @@
 <script>
 import axios from 'axios'
 import {ref, onMounted} from 'vue'
-
+import {useStore} from 'vuex'
 import SliderBarAlbum from '@/components/Slider/SliderBarAlbum.vue'
 import SliderBarGenre from '@/components/Slider/SliderBarGenre.vue'
 import SliderBarTrack from '@/components/Slider/SliderBarTrack.vue'
@@ -28,6 +28,7 @@ export default {
         MyLoaderVue
     },
     setup() {
+        const store = useStore()
         const ourAlbum = ref([])
         const ourTrack = ref([])
 
@@ -41,6 +42,7 @@ export default {
                 await axios.get(`https://irohaxi.site/api/v1/albums/`, config)
                     .then(response => {
                         ourAlbum.value = response.data
+                        store.commit('genre/filterAlbums', response.data)
                     })
                 } catch (error) {
                     console.log(error);
@@ -49,6 +51,7 @@ export default {
                 await axios.get(`https://irohaxi.site/api/v1/tracks/`, config)
                     .then(response => {
                         ourTrack.value = response.data
+                        store.commit('genre/filterTracks', response.data)
                     })
             }catch(error) {
                 console.log(error);
@@ -56,7 +59,7 @@ export default {
         })
         return {
             ourAlbum,
-            ourTrack
+            ourTrack,
         }
     }
 }

@@ -6,16 +6,22 @@ export default {
     namespaced: true,
     state: {
         tracks: [],
-        albums: []
+        albums: [],
+        getFiltredTracks: [],
+        getFiltredAlbums: []
     },
     mutations: {
         currentGenreTrack(state, track) {
             state.tracks.push(track)
-            console.log(track);
         },
         currentGenreAlbum(state, album) {
             state.albums.push(album)
-            console.log(album);
+        },
+        filterTracks(state, track) {
+            state.getFiltredTracks.push(track)
+        },
+        filterAlbums(state, album) {
+            state.getFiltredAlbums.push(album)
         }
     },
     actions: {
