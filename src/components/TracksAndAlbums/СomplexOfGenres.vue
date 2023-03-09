@@ -25,17 +25,24 @@
             </div>
         </div>
     </main>
+    <transition name="modals">
+        <modal-added v-if="$store.state.isAdded"></modal-added>
+    </transition>
 </template>
 
 <script>
+
 import axios from 'axios'
-import {ref, onMounted} from 'vue'
-import {useStore} from 'vuex'
 import GenreOfTracks from './GenreOfTracks.vue'
 import GenreOfAlbums from './GenreOfAlbums.vue'
 import MyLoaderVue from '@/components/UI/MyLoader.vue'
+import ModalAdded from '@/components/ModalAdded.vue'
+import {ref, onMounted} from 'vue'
+import {useStore} from 'vuex'
+
 export default {
     components: {
+        ModalAdded, 
         GenreOfTracks,
         GenreOfAlbums,
         MyLoaderVue

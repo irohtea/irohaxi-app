@@ -17,17 +17,22 @@
         </div>
         <Carousel :settings="settings" :breakpoints="breakpoints" ref="myCarousel">
             <Slide v-for="album in ourAlbum" :key="album">
-                <!-- <div class="albums__list"> -->
-                    <div class="album" >
+                    <div class="album"  
+                    :class="[
+                        {playing: $store.state.player.playlist.length > 0 
+                        && $store.state.player.albumId === album.id
+                        && $store.state.player.isPlaying },
+
+                        {paused: $store.state.player.playlist.length > 0 
+                        && $store.state.player.albumId === album.id
+                        && !$store.state.player.isPlaying} 
+                    ]">
                         <div class="album__body">
                             <div class="album__img">
                                 <router-link :to="`/album/${album.id}`">
                                 <img :src="album.poster" alt="Song Poster">
                                 </router-link>
                                 <my-controls>
-                                    <template #more>
-                                        <more-button @click="isModalOpen = !isModalOpen"/>
-                                    </template>
                                     <template #play>
                                         <play-button @click="$store.dispatch('player/addAlbumToPlayList', album)" />
                                     </template>
@@ -45,21 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <modal-menu 
-                            v-show="isModalOpen" 
-                            ref="modal"
-                        >
-                            <template #buttons>
-                                <button>
-                                <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2 32C2 34.21 3.79 36 6 36H22C24.21 36 26 34.21 26 32V8H2V32ZM28 2H21L19 0H9L7 2H0V6H28V2Z" fill="black"/>
-                                </svg>
-                                <span>Delete album</span>
-                                </button>
-                            </template>
-                        </modal-menu>
                     </div>
-                <!-- </div> -->
             </Slide>
         </Carousel>
     </div>
@@ -68,14 +59,11 @@
 <script>
 import PlayButton from '@/components/UI/Controls/PlayButton.vue'
 import PauseButton from '@/components/UI/Controls/PauseButton.vue'
-import MoreButton from '@/components/UI/Controls/MoreButton.vue'
-import ModalMenu from '@/components/ModalMenu.vue'
 import MyControls from '@/components/MyControls.vue'
 
 import {ref, } from 'vue'
 // import {useStore} from 'vuex'
 import 'vue3-carousel/dist/carousel.css'
-import { onClickOutside } from '@vueuse/core'
 import { Carousel, Slide } from 'vue3-carousel'
 export default {
     props: {
@@ -89,19 +77,17 @@ export default {
         Slide,
         PlayButton,
         PauseButton,
-        MoreButton,
-        ModalMenu,
         MyControls
     },
     setup() {
         // const store = useStore()
         // const playingState = computed(() => {
         //     return store.state.player.playlist.length > 0 
-        //     && store.state.player.albumId === props.ourAlbum.album.id
+        //     && store.state.player.albumId === album.id
         //     && store.state.player.isPlaying ? 'playing' : 
 
         //     store.state.player.playlist.length > 0 
-        //     && store.state.player.albumId === props.ourAlbum.album.id
+        //     && store.state.player.albumId === album.id
         //     && !store.state.player.isPlaying ? 'paused' : ''
         // })
 
@@ -146,12 +132,6 @@ export default {
             myCarousel.value.prev()
         }
 
-        const isModalOpen = ref(false)
-        const modal = ref(null)
-
-         onClickOutside(modal, () => {
-            isModalOpen.value = false
-         })
 
         return {
             // playingState,
@@ -160,8 +140,6 @@ export default {
             next,
             prev,
             myCarousel,
-            isModalOpen,
-            modal,
         }
     }
 }

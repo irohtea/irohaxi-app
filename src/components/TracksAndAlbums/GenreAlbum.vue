@@ -135,9 +135,24 @@ export default {
    justify-items: center;
    margin: 0 auto;
    width: 200px;
+
    @media (max-width: 768.98px){
       width: 100%;
       display: flex;
+   }
+   &.playing {
+      .controls {
+         opacity: 1;
+      }
+      .controls__play {
+         display: none;
+      }
+      .controls__pause {
+         svg {
+
+            display: block;
+         }
+      }
    }
    &.playing,
    &.paused  {
@@ -221,15 +236,10 @@ export default {
    &__band {
       font-size: 14px;
    }
-   // .album__controls
-   &__controls {
-
-   }
    // .album__author
    &__author {
 
    }
-   &__dialog {}
 
    // .album__more
    &__more {
@@ -247,14 +257,22 @@ export default {
       svg {
          width: 20px;
          height: 20px;
-      }
-      @media (min-width: 768.98px){
-         display: none;
+         @media (min-width: 768.98px){
+            display: none;
+         }
       }
    }
 }
 //Controls========================================================================================================================================================
 .controls {
+   &.playing {
+      .controls__pause {
+         svg {
+            display: block;
+         }
+      }
+   }
+
    // .controls__more
    &__more {
       svg {
@@ -263,6 +281,11 @@ export default {
          path {
             fill: $white;
          }
+      }
+   }
+   &__pause {
+      svg {
+         display: none;
       }
    }
    // .controls__play
