@@ -404,7 +404,7 @@ a {
          text-overflow: ellipsis;
          max-width: 110px;
          @media (hover: none) {
-            overflow: visible;
+            max-width: 150px;
          }
       }
 		// .user-dropdown__chevron
