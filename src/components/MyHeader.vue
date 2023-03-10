@@ -171,8 +171,6 @@ a {
    left: 0;
    width: 100%;
    z-index: 50;
-   // backdrop-filter: blur(7px);
-   // -webkit-backdrop-filter: blur(7px);
    background-color: rgba(16, 29, 42, 0.7);
    box-shadow: 0 8px 32px rgb(2, 4, 24);
    border-bottom: 2px solid rgba(255, 255, 255, 0.09);
