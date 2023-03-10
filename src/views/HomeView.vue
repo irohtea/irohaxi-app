@@ -68,7 +68,7 @@ export default {
 <style lang="scss" scoped>
 .home {
     min-width: 0;
-    margin-top: 100px;
+    padding: 100px 0px 125px;
     &__container {
     }
     &__body {

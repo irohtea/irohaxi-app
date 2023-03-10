@@ -77,6 +77,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .settings {
+    padding: 0px 0px 100px 0px;
     &__loader {
         display: flex;
         align-items: center;
