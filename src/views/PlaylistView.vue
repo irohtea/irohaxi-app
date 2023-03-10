@@ -10,12 +10,12 @@
                      </div>
                   </div>
                   <div class="playlist-info__right">
-                     <div class="playlist-info__name">{{ playlist.name }}</div>
+                     <div class="playlist-info__name"> {{ playlist.name }}</div>
                      <div class="playlist-info__description">
                         <p>{{ playlist.description }}</p>
                      </div>
                      <div class="playlist-info__owner">
-                        <!-- <p>{{ playlist.owner.first_name ? playlist.owner.first_name : '' }}</p> -->
+                       visible: <span>{{ playlist.is_hidden ? 'for you' : 'For everyone' }}</span> 
                      </div>
                   </div>
                </div>
@@ -26,7 +26,12 @@
                      </svg>
                      <span>Play</span>
                   </action-button>
-                  <more-button class="playlist-actions__more" @click="isTeleportOpen = true"/>
+                  <action-button class="playlist-actions__edit" @click="isTeleportOpen = true">
+                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 28.4999V35.9999H7.5L29.63 13.8699L22.13 6.36988L0 28.4999ZM35.41 8.08988C36.19 7.30988 36.19 6.03988 35.41 5.25988L30.74 0.589883C29.96 -0.190117 28.69 -0.190117 27.91 0.589883L24.25 4.24988L31.75 11.7499L35.41 8.08988Z" fill="black"/>
+                     </svg>
+                     <span>Edit</span>
+                  </action-button>
                </div>
                <div class="playlist__tracks playlist-tracks">
                  <album-playlist :tracks="playlist.track" /> 
@@ -38,7 +43,7 @@
    <Teleport to="#modalUpdate">
       <transition name="modals">
          <div class="modal-wrapper" v-if="isTeleportOpen" >
-            <modal-update ref="modalUpdate" @closeTeleport="isTeleportOpen = false" :playlistId="$route.params.id"/>
+            <modal-update ref="modalUpdate" @closeTeleport="isTeleportOpen = false" :playlist="playlist" @update="update"/>
          </div>
       </transition> 
    </Teleport>
@@ -50,7 +55,6 @@
 <script>
 
 import ActionButton from '@/components/UI/ActionButton.vue'
-import MoreButton from '@/components/UI/Controls/MoreButton.vue'
 import AlbumPlaylist from '@/components/AlbumPlaylist.vue'
 import ModalAdded from '@/components/ModalAdded.vue'
 import ModalUpdate from '@/components/ModalUpdate.vue'
@@ -61,12 +65,12 @@ import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { playlistRetrieve } from '@/use/playlistRetrieve'
 import { onClickOutside } from '@vueuse/core'
+import axios from 'axios'
  
  export default {
     components: {
        ActionButton,
        AlbumPlaylist,
-       MoreButton,
        ModalAdded,
        AlbumLoader,
        ModalUpdate
@@ -75,10 +79,29 @@ import { onClickOutside } from '@vueuse/core'
       const route = useRoute()
       const store = useStore()
       const isTeleportOpen = ref(false)
-      const modalUpdate = ref(null) 
+      const modalUpdate = ref(null)
 
       const { playlist, bgColor, background } = playlistRetrieve(route.params.id)
 
+      const update = async () => {
+         const config = {
+            headers: {
+               'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+            }
+         }
+         try {
+            store.dispatch('setLoadingTrue')
+            await axios.get(`https://irohaxi.site/api/v1/playlist/${route.params.id}`, config)
+            .then(response => {
+               playlist.value = response.data
+            })
+            } catch (error) {
+               console.log(error);
+               store.dispatch('setLoadingFalse')
+            } finally {
+               store.dispatch('setLoadingFalse')
+            }
+      }
       onMounted(() => {
          store.dispatch('getPlaylists')
       })
@@ -93,6 +116,7 @@ import { onClickOutside } from '@vueuse/core'
          background,
          isTeleportOpen,
          modalUpdate,
+         update,
       }
     }
  }
@@ -110,6 +134,7 @@ import { onClickOutside } from '@vueuse/core'
     background: #0d0d13;
        // .playlist__container
        &__wrapper {
+         min-height: 100vh;
          opacity: 0;
          transition: all 0.4s ease 0s;
        }
@@ -117,7 +142,7 @@ import { onClickOutside } from '@vueuse/core'
        &__container {}
        // .playlist__body
        &__body {
-         padding: 40px 0px 320px 0px;
+         padding: 100px 0px 320px 0px;
        }
        // .playlist__info
        &__info {}
@@ -133,6 +158,7 @@ import { onClickOutside } from '@vueuse/core'
     gap: 20px;
     @media (max-width: 375px){
        flex-direction: column;
+       align-items: flex-start;
     }
        // .playlist-info__left
        &__left {
@@ -175,6 +201,7 @@ import { onClickOutside } from '@vueuse/core'
           font-weight: 700;
           letter-spacing: 1.5px;
           margin-bottom: 20px;
+        
           @media (max-width: 480px){
              margin-bottom: 5px;
              font-size: 18px;
@@ -183,9 +210,10 @@ import { onClickOutside } from '@vueuse/core'
 
        // .playlist-info__description
        &__description {
-          @media (max-width: 768px){
-               display: none;
-          }
+         &:not(:last-child) {margin-bottom: 10px;}
+         //  @media (max-width: 768px){
+         //       display: none;
+         //  }
        }
  }
  .playlist-actions {
@@ -195,11 +223,13 @@ import { onClickOutside } from '@vueuse/core'
     flex-wrap: wrap;
     column-gap: 30px;
     row-gap: 10px;
+    @media (max-width: 375px){
+      justify-content: center;
+   }
        // .playlist-actions__play
        &__play {}
-       // .playlist-actions__play
-       &__more {
-         cursor: pointer;
+       // .playlist-actions__edit
+       &__edit {
        }
 
  }

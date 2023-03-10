@@ -1,14 +1,14 @@
 <template>
     <main class="settings">
         <div class="settings__container">
-            <div v-if="isLoader" class="settings__loader">
+            <!-- <div v-if="isLoader" class="settings__loader">
                 <Loader></Loader>
-            </div>
-            <div class="settings__body" v-else>
+            </div> -->
+            <div class="settings__body">
                 <div class="settings__upper">
                     <div class="settings__upper-profile">
                         <div class="settings__image-profile">
-                            <img class="settings__avatar" :src="user.avatar" alt="profile-image">
+                            <img class="settings__avatar" :src="getData.avatar" alt="profile-image">
                             <label for="img">
                                 <img src="../assets/img/camera.png" alt="camera">
                                 <input
@@ -19,10 +19,6 @@
                                     @change="editImage"
                                 />
                             </label>
-                        </div>
-                        <div class="settings__username">
-                            <p class="settings__name">{{user.first_name}}</p>
-                            <p class="settings__surname">{{user.last_name}}</p>
                         </div>
                     </div>
                     <aside class="settings__sidebar">
@@ -37,7 +33,7 @@
                                             <path d="M16,18.039c-2.779,0-4.192-1.844-4.201-6.469c-0.002-1.174,0.123-2.363,1.227-3.469          C13.729,7.396,14.729,7.039,16,7.039s2.271,0.357,2.975,1.063c1.104,1.105,1.229,2.295,1.227,3.469          C20.192,16.195,18.779,18.039,16,18.039z M16,8.039c-1.009,0-1.75,0.252-2.267,0.769c-0.632,0.633-0.938,1.2-0.935,2.761          c0.008,4.018,1.055,5.471,3.201,5.471s3.193-1.453,3.201-5.471c0.003-1.561-0.303-2.128-0.935-2.761          C17.75,8.291,17.009,8.039,16,8.039z" fill="#fff"/> </g> </g> </g> </g> </g> </g> </g> </g>
                                         </svg>
                                     </div>
-                                    <p>Account</p> 
+                                    <p class="settings__item-name">Account</p> 
                                 </div> 
                             </router-link> 
                         </div>
@@ -52,48 +48,35 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import {ref, computed} from 'vue'
 import {useStore} from 'vuex'
-import Loader from '../components/UI/MyLoader.vue'
 export default {
+    components: {
+    },
     setup() {
         const store = useStore()
-
-        const avatar = ref()
+        const avatar = ref([])
         const user = ref({})
         const isLoader = ref(true)
-
+        const getData = computed(() => store.state.auth.myData)
         const editImage = async function(event) {
             const formData = new FormData()
             avatar.value = event.target.files[0]
             formData.append('file', avatar.value)
-            user.value =  await store.dispatch('image/uploadImage', formData)
+            store.state.auth.myData = await store.dispatch('edit/uploadImage', formData)
         }
-
-        onMounted( async () => {
-            isLoader.value = true
-            user.value = await store.dispatch('auth/toUser')
-            isLoader.value = false
-        })
-
-
-
         return {
             editImage,
             user,
             avatar,
             isLoader,
+            getData
         }
-    },
-    components: {
-        Loader
     }
 }
 </script>
 <style lang="scss" scoped>
 .settings {
-    &__container {
-    }
     &__loader {
         display: flex;
         align-items: center;
@@ -105,28 +88,28 @@ export default {
         padding: 0px;
         background-color: rgba(10, 10, 10, 0.3);
         height: 700px;
-        margin-top: 50px;
+        margin: 100px 0px 0px 0px;
+        @media (max-width: 560px){
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+        }
     }
-    // height: 100%;
-    @media (max-width: 560px){
-        flex-direction: column;
-        justify-content:center;
-        align-items: center;
-    }
+   
     // .settings__header
-
     &__upper {
         display: flex;
+        width: 100%;
         flex: 0 0 29%;
         flex-direction: column;
     }
-
     &__upper-profile {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        min-height: 180px;
+        min-height: 200px;
         border-right: 2px solid rgba(255, 255, 255, 0.09);
         border-bottom: 2px solid rgba(255, 255, 255, 0.09);
         @media (max-width: 560px){
@@ -134,17 +117,17 @@ export default {
         }
         
     }
-
+    &__avatar {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
     &__image-profile {
         display: flex;
         flex-direction: row-reverse;
-        align-items: flex-end;
-        @media (max-width: 765px) {
-            display: flex;
-            justify-content: center;
-            flex-direction: row-reverse;
-        }
-        
+        align-items: flex-end; 
         label {
             position: absolute;
             margin: 0px 5px 0px 0px;
@@ -153,11 +136,6 @@ export default {
                 height: 30px;
                 border-radius: 50%;
                 cursor: pointer;
-                @media (max-width: 765px) {
-                    width: 26px;
-                    height: 26px;
-                    margin: 0px -30px -10px 10px;
-                }
             }
             input {
                 display: none;
@@ -165,26 +143,25 @@ export default {
         }
         
     }
-
-    &__avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            @media (max-width: 765px) {
-                width: 60px;
-                height: 60px;
-            }
-    }
     // .settings__username
+    &__item-name {
+        font-size: 20px;
+    }
+    // .settings__sidebar
+    &__sidebar {
+        border-right: 2px solid rgba(255, 255, 255, 0.09);
+        height: 100%;
+        @media (max-width: 560px){
+              border: none;
+        }
+    }
+    // .settings__navigation
     &__item {
         display: flex;
         align-items: center;
         color: #fff;
-        padding: 15px;
-        font-size: 20px;
         text-decoration: none;
-        gap: 10px;
+        padding: 5px 0px 5px 20px;
         &:hover {
             color: $light;
             background-color: rgba(79, 103, 139, 0.16);
@@ -200,91 +177,18 @@ export default {
                 }
             }
         }
-    }
-    &__username {
-        display: none;
-        justify-content: center;
-        flex-wrap: wrap;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    // .settings__name
-
-    &__name {
-        display: block;
-        font-size: 20px;
-    }
-
-    // .settings__surname
-
-    &__surname {
-        display: block;
-        font-size: 20px;
-        margin-left: 10px;
-    }
-
-    // .settings__sidebar
-
-    &__sidebar {
-        border-right: 2px solid rgba(255, 255, 255, 0.09);
-        width: 100%;
-        height: 100%;
-        @media (max-width: 560px){
-              border: none;
-        }
-    }
-
-    // .settings__navigation
-
-    &__navigation {
-    }
-
-    &__item {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        color: #fff;
-        padding: 15px;
-        font-size: 20px;
-        text-decoration: none;
-        gap: 10px;
-        @media (max-width: 450px){
-            font-size: 14px;
-            padding: 2px;
-        }
-        &:hover {
-            color: $light;
-            background-color: rgba(79, 103, 139, 0.16);
-            border-right: 5px solid $light;
-            box-shadow: 0 0 2px $light;
-            transition: all 0.4s ease 0s;
-            .settings__icon {
-                svg {
-                    path {
-                        fill: $light;
-                        transition: all 0.4s ease 0s;
-                    }
-                }    
-            }
-        }
+        
     }
     .settings__icon {
         display: flex;
-        // align-items: center;
-        @media (max-width: 450px){
-            display: none;
+        align-items: center;
+        svg {
+            margin-right: 5px;
+            @media (max-width: 560px) {
+                display: none;
+            } 
         }
     }
-    // .settings__account
-    &__account {
-    }
-
-    // .settings__delete
-
-    &__delete {
-    }
-
     &__tools {
         width: 100%;
     }

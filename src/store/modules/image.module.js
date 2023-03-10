@@ -1,7 +1,5 @@
 import axios from "axios"
 import store from '../index'
-// import router from '@/router'
-
 
 export default {
     namespaced: true,
@@ -19,12 +17,10 @@ export default {
                 }).then((res) => { 
                     response.value = res.data
                 })
-                // console.log(response.value);
                 return response.value
             } catch(e) {
                 console.log(e);
             }
-            
         }
     }
 }

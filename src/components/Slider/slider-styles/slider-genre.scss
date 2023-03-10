@@ -21,17 +21,18 @@
     }
 
     // .genre__buttons
-    &__botton-more {
+    &__button-more {
         display: inline-block;
         height: 34px;
         min-width: 60px;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.446);
-        background-color: #000;
+        border-radius: 5px;
+        border: 1px solid $grey;
+        background-color: #111127;
         color: $white;
         white-space: nowrap;
+        transition: background-color 0.3s ease 0s;
         &:hover {
-            background-color: rgba(24, 24, 24, 0.992);
+            background-color: #202039;
         }
     }
     
@@ -52,14 +53,15 @@
             min-width: 40px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.446);
-            background-color: #000;
+            background-color: #111127;
             color: $white;
             white-space: nowrap;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background-color 0.3s ease 0s;
             &:hover {
-                background-color: rgba(44, 44, 44, 0.793);
+                background-color: #202039;
             }
             svg {
                 width: 16px;
@@ -72,15 +74,12 @@
                 min-width: 30px;
             }
         }
-        
     }
-
     // .genre__item
-
     &__item {
         min-width: 100%;
         border-radius: 4px;
-        border-left: 6px solid rgb(44, 129, 189);
+        border-left: 6px solid $blue;
         background: #111127;
         cursor: pointer;
         color: $white;

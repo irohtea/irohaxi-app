@@ -16,7 +16,7 @@ export default {
       gap: 5px;
       justify-content:center;
       align-items: center;
-      padding: 15px 25px;
+      padding: 12px 20px;
       font-size: 18px;
       font-weight: 500;
       background-color: rgba(42, 44, 46, 0.3);

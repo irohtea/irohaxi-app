@@ -8,7 +8,7 @@
                :class="{active: comp === tab.component}"
                v-for="tab in tabs" 
                :key="tab" 
-               @click="comp = tab.component"
+               @click="setComponent(tab.component)"
                >
                   {{ tab.text }}
                </tab-button>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import LibraryAlbums from '@/components/LibraryAlbums.vue'
 import LibraryTracks from '@/components/LibraryTracks.vue'
 import LibraryPlaylists from '@/components/LibraryPlaylists.vue'
@@ -50,10 +50,23 @@ export default {
          {text: 'Tracks', component: 'LibraryTracks'},
          {text: 'Playlists', component: 'LibraryPlaylists'},
       ])
-      const comp = ref('LibraryAlbums')
+      const comp = ref(tabs.value[0].component)
+      onMounted(() => {
+         if (!localStorage.getItem('isComponent')) {
+            return
+         } else {
+            comp.value = localStorage.getItem('isComponent')
+         }
+      })
+      const setComponent = (tab) => {
+         comp.value = tab
+         localStorage.setItem('isComponent', tab)
+         
+      }
       return {
          tabs,
          comp,
+         setComponent
       }
    }
 }
@@ -61,9 +74,13 @@ export default {
 
 <style lang="scss" scoped>
 .library {
-   padding-bottom: 120px;
+   padding-top: 70px;
+   padding-bottom: 170px;
    background: rgb(29,39,59);
    background: linear-gradient(45deg, rgba(29,39,59,1) 0%, rgba(6, 9, 18, 1) 100%);
+   @media (max-width: 768.98px){
+        padding-bottom: 370px;
+   }
 		// .library__navigation
 		&__navigation {
          background-color: rgba(10, 10, 10, 0.279);

@@ -34,6 +34,7 @@
                         </div>
                     </div>
                 </form>
+                <my-loader class="login__loader" v-if="$store.state.reg.is_loading"/>
             </div>
         </div>
     </main>
@@ -42,12 +43,14 @@
 <script>
 import MyInput from '@/components/UI/MyInput.vue'
 import {useAuthForm} from '../use/auth.form'
+import MyLoader from '@/components/UI/MyLoader.vue'
 
 import '@/assets/forms/form.scss'
 
 export default {
     components: {
-        MyInput
+        MyInput,
+        MyLoader
     },
     setup() {
         return {
@@ -64,7 +67,15 @@ export default {
    &__container {}
    // .login__body
    &__body {
-      margin: 100px 0;
+    height: 100vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+   }
+   // .login__loader
+   &__loader {
+      margin-top: 30px;
+      align-self: center;
    }
 }
 </style>

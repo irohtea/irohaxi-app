@@ -1,15 +1,15 @@
 <template>
-    <div class="slider-bar__track">
-        <div class="slider-bar__album-tracks">
-            <div class="track__title">
-                <h2 class="track__subtitle">Tracks</h2>
-                <div class="track__buttons" v-if="ourTrack.length > 5">
-                    <button class="track__prev" @click="prev">
+    <div class="slider-bar-tracks tracks">
+        <div class="tracks__body">
+            <div class="tracks__title">
+                <h2 class="tracks__subtitle">Tracks</h2>
+                <div class="tracks__buttons" v-if="ourTrack.length > 5">
+                    <button class="tracks__prev" @click="prev">
                         <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#fff" d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
                         </svg>
                     </button>
-                    <button class="track__next" @click="next">
+                    <button class="tracks__next" @click="next">
                         <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#fff" d="M338.752 104.704a64 64 0 0 0 0 90.496l316.8 316.8-316.8 316.8a64 64 0 0 0 90.496 90.496l362.048-362.048a64 64 0 0 0 0-90.496L429.248 104.704a64 64 0 0 0-90.496 0z"/>
                         </svg>
@@ -18,18 +18,33 @@
             </div>
             <Carousel :settings="settings" :breakpoints="breakpoints" ref="myCarousel">
                 <Slide v-for="track in ourTrack" :key="track">
-                    <div class="track" @click="$store.dispatch('player/addUserATrackToPlayList', track)">
+                    <div class="track" :class="[
+                        {playing: $store.state.player.playlist.length > 0 
+                        && $store.state.player.currentTrack.id === track.id
+                        && $store.state.player.isPlaying },
+
+                        {paused: $store.state.player.playlist.length > 0 
+                        && $store.state.player.currentTrack.id === track.id
+                        && !$store.state.player.isPlaying} 
+                    ]">
                         <div class="track__body">
                             <div class="track__img">
                                 <img :src="track.song_poster" alt="Song Poster">
-                                <div class="track__controls">X</div>
+                                <my-controls>
+                                <template #play>
+                                    <play-button @click="$store.dispatch('player/addTrackToPlaylist', {track})" />
+                                </template>
+                                <template #pause>
+                                    <pause-button @click="$store.dispatch('player/setPause', false)" />
+                                </template>
+                                </my-controls>
                             </div>
                             <div class="track__info">
                                 <div class="track__name">
-                                    {{ track.name }}
+                                {{ track.name }}
                                 </div>
                                 <div class="track__author">
-                                    {{ track.track_author }}
+                                {{ track.track_author }}
                                 </div>
                             </div>
                         </div>
@@ -42,10 +57,13 @@
 
 <script>
 import {ref} from 'vue'
-
-import 'vue3-carousel/dist/carousel.css'
+import MyControls from '@/components/MyControls.vue'
+import PlayButton from '@/components/UI/Controls/PlayButton.vue'
+import PauseButton from '@/components/UI/Controls/PauseButton.vue'
 
 import { Carousel, Slide } from 'vue3-carousel'
+import 'vue3-carousel/dist/carousel.css'
+
 export default {
     props: {
         ourTrack: {
@@ -54,8 +72,11 @@ export default {
         }
     },
     components: {
+        MyControls,
+        PlayButton,
+        PauseButton,
         Carousel,
-        Slide
+        Slide,
     },
     setup() {
         const myCarousel = ref()

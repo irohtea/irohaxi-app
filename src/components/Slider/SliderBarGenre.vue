@@ -5,16 +5,16 @@
                 <div class="genre__subtitle">
                     <h2>Genres</h2>
                     <router-link to="/all-genres">
-                        <button @click="getAllGenresOfAlbumsAndTracks" class="genre__botton-more">More..</button>
+                        <button @click="getAllGenresOfAlbumsAndTracks" class="genre__button-more">More..</button>
                     </router-link>
                 </div>
                 <div class="genre__button" v-if="ourGenres.length > 5">
-                    <button class="genre__botton-prev" @click="prev">
+                    <button class="genre__button-prev" @click="prev">
                         <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#fff" d="M685.248 104.704a64 64 0 0 1 0 90.496L368.448 512l316.8 316.8a64 64 0 0 1-90.496 90.496L232.704 557.248a64 64 0 0 1 0-90.496l362.048-362.048a64 64 0 0 1 90.496 0z"/>
                         </svg>
                     </button>
-                    <button class="genre__botton-next" @click="next">
+                    <button class="genre__button-next" @click="next">
                         <svg width="10px" height="10px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#fff" d="M338.752 104.704a64 64 0 0 0 0 90.496l316.8 316.8-316.8 316.8a64 64 0 0 0 90.496 90.496l362.048-362.048a64 64 0 0 0 0-90.496L429.248 104.704a64 64 0 0 0-90.496 0z"/>
                         </svg>
@@ -55,16 +55,12 @@ export default {
         
         const ourGenres = ref([])
         const myCarousel = ref(null)
-
-
         const ourTracks = ref([])
         const ourAlbums = ref([])
-
         const settings = {
             itemsToScroll: 5,
             snapAlign: 'start',
         }
-
         const breakpoints = {
             320: {
                 itemsToShow: 1,
@@ -87,44 +83,44 @@ export default {
         const  getAllGenresOfAlbumsAndTracks = () => {
             store.state.genre.tracks = []
             store.state.genre.albums = []
-
-            for(let item of ourTracks.value) {
-                store.commit('genre/currentGenreTrack', item)
+            for(let itemProxy of store.state.genre.getFiltredTracks) {
+                for(let itemArr of itemProxy) {
+                    store.commit('genre/currentGenreTrack', itemArr)
+                }
             }
-
-            for(let item of ourAlbums.value) {
-                store.commit('genre/currentGenreAlbum', item)
+            for(let itemProxy of store.state.genre.getFiltredAlbums) {
+                for(let itemArr of itemProxy)
+                store.commit('genre/currentGenreAlbum', itemArr)
             }
         }
-
         const filter = (genre) => {
             store.state.genre.tracks = []
             store.state.genre.albums = []
-
-            for(let item of ourTracks.value) {
-                for(let itemOfGenre of item.genre) {
-                    if(itemOfGenre.name === genre) {
-                        store.commit('genre/currentGenreTrack', item)
+            for(let itemProxy of store.state.genre.getFiltredTracks) {
+                for(let itemArr of itemProxy) {
+                    for(let itemCurrentArr of itemArr.genre) {
+                        if(itemCurrentArr.name === genre) {
+                            store.commit('genre/currentGenreTrack', itemArr)
+                        }
                     }
                 }
             }
-
-            for(let item of ourAlbums.value) {
-                for(let itemOfGenre of item.genre) {
-                    if(itemOfGenre.name === genre) {
-                        store.commit('genre/currentGenreAlbum', item)
+            for(let itemProxy of store.state.genre.getFiltredAlbums) {
+                for(let itemArr of itemProxy) {
+                    for(let itemCurrentArr of itemArr.genre) {
+                        if(itemCurrentArr.name === genre) {
+                            store.commit('genre/currentGenreAlbum', itemArr)
+                        }
                     }
                 }
             }
         }
-
         const next = () => {
             myCarousel.value.next()
         }
         const prev = () => {
             myCarousel.value.prev()
         }
-
         onMounted( async () => {
             const config = {
                 headers: {
@@ -137,23 +133,6 @@ export default {
                         ourGenres.value = response.data
                     })
             }catch(error) {
-                console.log(error);
-            }
-            try {
-                await axios.get('https://irohaxi.site/api/v1/tracks/', config)
-                    .then(response => {
-                        ourTracks.value = response.data
-
-                    })
-            }catch(error) {
-                console.log(error);
-            }
-            try {
-                await axios.get(`https://irohaxi.site/api/v1/albums/`, config)
-                    .then(response => {
-                        ourAlbums.value = response.data
-                    })
-            } catch (error) {
                 console.log(error);
             }
         })

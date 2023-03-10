@@ -315,6 +315,10 @@ export default {
       svg {
          width: 30px;
          height: 30px;
+         @media (max-width: 460px){
+              width: 20px;
+              height: 20px;
+         }
          path {
             fill: $white;
          }
