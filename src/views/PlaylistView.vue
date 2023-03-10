@@ -135,7 +135,6 @@ import axios from 'axios'
        // .playlist__container
        &__wrapper {
          min-height: 100vh;
-         opacity: 0;
          transition: all 0.4s ease 0s;
        }
        // .playlist__container
