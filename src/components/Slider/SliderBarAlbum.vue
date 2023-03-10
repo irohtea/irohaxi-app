@@ -80,16 +80,6 @@ export default {
         MyControls
     },
     setup() {
-        // const store = useStore()
-        // const playingState = computed(() => {
-        //     return store.state.player.playlist.length > 0 
-        //     && store.state.player.albumId === album.id
-        //     && store.state.player.isPlaying ? 'playing' : 
-
-        //     store.state.player.playlist.length > 0 
-        //     && store.state.player.albumId === album.id
-        //     && !store.state.player.isPlaying ? 'paused' : ''
-        // })
 
         const myCarousel = ref(null)
 
@@ -134,7 +124,6 @@ export default {
 
 
         return {
-            // playingState,
             settings,
             breakpoints,
             next,

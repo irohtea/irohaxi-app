@@ -51,6 +51,8 @@
 import {ref, computed} from 'vue'
 import {useStore} from 'vuex'
 export default {
+    components: {
+    },
     setup() {
         const store = useStore()
         const avatar = ref([])
@@ -70,9 +72,6 @@ export default {
             isLoader,
             getData
         }
-    },
-    components: {
-        // Loader
     }
 }
 </script>

@@ -38,15 +38,16 @@
             height: 40px;
             min-width: 40px;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.446);
-            background-color: #000;
+            border: 1px solid $grey;
+            background-color: #111127;
             color: $white;
             white-space: nowrap;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background-color 0.3s ease 0s;
             &:hover {
-                background-color: rgba(44, 44, 44, 0.793);
+                background-color: #202039;
             }
             svg {
                 width: 16px;

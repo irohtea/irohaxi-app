@@ -15,8 +15,11 @@
 import MyHeader from '@/components/MyHeader.vue';
 import PlayerExtended from '@/components/PlayerExtended.vue';
 import MyPlayer from '@/components/MyPlayer.vue';
-import { computed }from 'vue'
+
+import {ref, computed, onMounted }from 'vue'
+import { useStore } from 'vuex'
 import { useRoute } from 'vue-router';
+
 export default {
   components: {
     MyHeader,
@@ -25,11 +28,19 @@ export default {
   },
   setup() {
     const route = useRoute()
+    const store = useStore()
+    const isTokenActive = ref(localStorage.getItem('jwt_token'))
     const hideHeader = computed(() => {
       return route.meta.header != false
     })
+    onMounted( async () => {
+        if(isTokenActive.value) {
+          store.state.auth.myData = await store.dispatch('auth/toUser')
+        }
+    })
     return {
-      hideHeader
+      isTokenActive,
+      hideHeader,
     }
   }
 }

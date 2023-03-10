@@ -5,7 +5,7 @@
             <img :src="track.song_poster" alt="Song Poster">
             <my-controls>
                <template #play>
-                  <play-button @click="$store.dispatch('player/addUserTrackToPlayList', {track})" />
+                  <play-button @click="$store.dispatch('player/addTrackToPlaylist', {track})" />
                </template>
                <template #pause>
                   <pause-button @click="$store.dispatch('player/setPause', false)" />

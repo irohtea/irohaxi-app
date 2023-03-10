@@ -4,7 +4,9 @@
          <div class="header__body">
             <div class="header__logo">
                <router-link to="/">
-                  <img src="@/assets/img/logo.png" alt="Logo">
+                  <svg width="438" height="438" viewBox="0 0 438 438" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.949219 387.081C0.949219 399.617 11.1262 409.797 23.6622 409.797C34.6552 409.797 43.8292 401.987 45.9232 391.624H46.3762C46.3762 381.633 54.5572 373.452 64.5492 373.452C74.5382 373.452 82.7192 381.633 82.7192 391.624V400.711C82.7192 420.789 98.9832 437.051 119.061 437.051H155.401C175.48 437.051 191.744 420.789 191.744 400.711V264.427C191.744 244.348 175.48 228.086 155.401 228.086H119.061C98.9822 228.086 82.7192 244.348 82.7192 264.427V273.513C82.7192 283.504 74.5382 291.685 64.5492 291.685C54.5572 291.685 46.3762 283.504 46.3762 273.513V219C46.3762 123.691 123.692 46.3752 219.001 46.3752C314.31 46.3752 391.624 123.691 391.624 219V273.513C391.624 283.504 383.444 291.685 373.452 291.685C363.465 291.685 355.284 283.504 355.284 273.513V264.427C355.284 244.348 339.017 228.086 318.938 228.086H282.598C262.52 228.086 246.257 244.348 246.257 264.427V400.711C246.257 420.789 262.52 437.051 282.598 437.051H318.938C339.017 437.051 355.284 420.789 355.284 400.711V391.624C355.284 381.633 363.465 373.452 373.452 373.452C383.444 373.452 391.624 381.633 391.624 391.624H392.075C394.161 401.987 403.346 409.797 414.34 409.797C426.876 409.797 437.051 399.617 437.051 387.081V219C437.051 98.5292 339.473 0.949219 219 0.949219C98.5292 0.949219 0.949219 98.5292 0.949219 219V387.081Z" fill="#010101"/>
+                  </svg>
                </router-link>
             </div>
             <nav class="header__nav nav">
@@ -48,7 +50,7 @@
                   <div class="nav__user user-dropdown" @mouseenter="openDropdown" @mouseleave="closeDropdown">
                      <button class="user-dropdown__button" >
                         <div class="user-dropdown__icon">
-                           <img :src="user.avatar" alt="" v-if="isTokenActive">
+                           <img :src="getData.avatar" alt="" v-if="isTokenActive">
                            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="!isTokenActive">
                               <path d="M22 24C28.6 24 34 18.6 34 12C34 5.4 28.6 0 22 0C15.4 0 10 5.4 10 12C10 18.6 15.4 24 22 24ZM22 2C27.5 2 32 6.5 32 12C32 17.5 27.5 22 22 22C16.5 22 12 17.5 12 12C12 6.5 16.5 2 22 2Z" fill="black"/>
                               <path d="M31 26H13C5.8 26 0 31.8 0 39V44H2V39C2 32.9 6.9 28 13 28H31C37.1 28 42 32.9 42 39V44H44V39C44 31.8 38.2 26 31 26Z" fill="black"/>
@@ -106,7 +108,7 @@
 </template>
 <script>
 //========================================================================================================================================================
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { onClickOutside } from '@vueuse/core'
 
@@ -117,7 +119,7 @@ export default {
       const user = ref({})
       const store = useStore()
       const isTokenActive = ref(localStorage.getItem('jwt_token'))
-      
+      const getData = computed(() => store.state.auth.myData)
       // sidebar functional
       const isDropdowned = ref(false)
 
@@ -146,13 +148,14 @@ export default {
       })
      
       return {
+         getData,
          user,
          isTokenActive,
          isDropdowned,
          openDropdown,
          closeDropdown,
          isDrowerOpen,
-         drawer
+         drawer,
       }
    }
 }
@@ -181,16 +184,28 @@ a {
          align-items: center;
          justify-content: space-between;
          gap: 30px;
+         color: $blue;
       }
 		// .header__logo
 		&__logo {
          position: relative;
          z-index: 100;
          flex: 1 1 0%;
+         
          img {
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+         }
+         svg {
             height: 30px;
             width: 30px;
-            object-fit: cover;
+            path {
+               fill: $blue;
+            }
+         }
+         span {
+            color: #007bee;
          }
       }
 		// .header__nav
