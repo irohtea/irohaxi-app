@@ -7,7 +7,13 @@
 
 <style lang="scss" scoped>
 svg {
+   &:hover {
+      path {
+         fill: $light;
+      }
+   }
    path {
+      transition: fill 0.3s ease 0s;
       fill: $white;
    }
 }

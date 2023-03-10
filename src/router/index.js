@@ -22,19 +22,12 @@ const routes = [
     }
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView'),
-    meta: {
-      auth: false
-    }
-  },
-  {
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterView'),
     meta: {
-      auth: false
+      auth: false,
+      header: false,
     }
   },
   {
@@ -42,21 +35,17 @@ const routes = [
     name: 'login',
     component: () => import('../views/LoginView'),
     meta: {
-      auth: false
-    }
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: () => import('../views/UserView'),
-    meta: {
-      auth: true
+      auth: false,
+      header: false,
     }
   },
   {
     path: '/library',
     name: 'library',
-    component: () => import('../views/LibraryView')
+    component: () => import('../views/LibraryView'),
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/settings',
@@ -87,17 +76,26 @@ const routes = [
   {
     path: '/upload-track',
     name: 'upload-track',
-    component: () => import('../views/UploadTrackView')
+    component: () => import('../views/UploadTrackView'),
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/upload-album',
     name: 'upload-album',
-    component: () => import('../views/UploadAlbumView')
+    component: () => import('../views/UploadAlbumView'),
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/upload-playlist',
     name: 'upload-playlist',
-    component: () => import('../views/UploadPlaylistView')
+    component: () => import('../views/UploadPlaylistView'),
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/album/:id',
@@ -113,6 +111,9 @@ const routes = [
     path: '/all-genres',
     name: 'alltracks',
     component: () => import('..//components/TracksAndAlbums/СomplexOfGenres.vue'),
+    meta: {
+      auth: false
+    }
   },
 ]
 

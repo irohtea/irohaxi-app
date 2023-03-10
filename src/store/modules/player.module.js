@@ -56,11 +56,11 @@ export default ({
     actions: {
         addAlbumToPlayList({ commit }, details) {
           const { track } = details
-
-          commit('ADD_ALBUM', track)
-          commit('ALBUM_ID', details.id)
-          commit('SET_PLAYING', true)
-          commit('SET_INDEX', 0)
+            commit('ADD_ALBUM', track)
+            commit('ALBUM_ID', details.id)
+            commit('SET_PLAYING', true)
+            commit('SET_INDEX', 0)
+         
         },
         async addUserTrackToPlayList({ commit }, details) {
           const { track } = details
@@ -84,6 +84,38 @@ export default ({
             console.log(error);
           }
           
+          commit('ADD_TRACKS', sortedPlaylist)
+          commit('SET_PLAYING', true)
+          commit('SET_INDEX', 0)
+
+        },
+        async addTrackToPlaylist({ commit }, details) {
+          const { track } = details
+          let sortedPlaylist = []
+          const config = {
+            headers: {
+               'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')
+            }
+          }
+          try {
+            await axios.get(`https://irohaxi.site/api/v1/tracks/`, config)
+              .then(response => {
+                sortedPlaylist = [...response.data].filter(item => {
+                  if(item.id != track.id) {
+                    for( let itemGenres of item.genre) {
+                      for (let trackGenres of track.genre) {
+                        if(itemGenres.name === trackGenres.name) {
+                          return item
+                        }
+                      }
+                    }
+                  }
+                })
+                sortedPlaylist.unshift(track)
+              })
+          } catch (error) {
+            console.log(error);
+          }
           commit('ADD_TRACKS', sortedPlaylist)
           commit('SET_PLAYING', true)
           commit('SET_INDEX', 0)

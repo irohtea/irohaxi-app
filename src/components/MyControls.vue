@@ -29,6 +29,7 @@
       background: linear-gradient(180deg, rgba(25, 24, 38, 0.250) 60%, rgba(74, 111, 181, 0.183));
       opacity: 1;
    }
+
    // .controls__more
    &__more {
       pointer-events: all;
@@ -63,10 +64,10 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-
       svg {
          width: 30px;
          height: 30px;
+       
          path {
             fill: $white;
          }
@@ -109,6 +110,7 @@
          display: none;
       }
    }
+
 }
 
 </style>

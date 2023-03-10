@@ -9,18 +9,6 @@
       </div>
    </transition>
 </template>
-
-<script>
-export default {
-  
-   setup () {
-      
-
-      return {}
-   }
-}
-</script>
-
 <style lang="scss" scoped>
 
 .modal-menu {

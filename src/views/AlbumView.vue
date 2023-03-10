@@ -1,5 +1,5 @@
 <template>
-   <main class="album" :style="background">
+   <main class="album" >
       <div class="album__wrapper" :style="background">
          <div class="album__container">
             <div class="album__body">
@@ -96,6 +96,7 @@ svg {
    background: #0d0d13;
       // .album__container
       &__wrapper {
+         min-height: 100vh;
          opacity: 0;
          transition: all 0.4s ease 0s;
       }
@@ -103,7 +104,7 @@ svg {
 		&__container {}
 		// .album__body
 		&__body {
-         padding: 40px 0px 320px 0px;
+         padding: 100px 0px 320px 0px;
       }
 		// .album__info
 		&__info {}
@@ -119,6 +120,7 @@ svg {
    gap: 20px;
    @media (max-width: 375px){
       flex-direction: column;
+      align-items: flex-start;
    }
 		// .album-info__left
 		&__left {
@@ -142,18 +144,14 @@ svg {
             object-fit: cover;
             border-radius: 15px;
          }
-      
       }
-      
 		// .album-info__right
 		&__right {
          flex: 1 0 50%;
          @media (max-width: 768px){
             margin-top: 20px;
          }
-         @media (max-width: 375px){
-           justify-content:center;align-items: center;
-         }
+       
       }
       // .album-info__name
       &__name {
@@ -212,6 +210,9 @@ svg {
    flex-wrap: wrap;
    column-gap: 30px;
    row-gap: 10px;
+   @media (max-width: 375px){
+      justify-content: center;
+   }
 		// .album-actions__play
 		&__play {}
 }

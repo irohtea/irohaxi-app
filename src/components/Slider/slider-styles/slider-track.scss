@@ -1,174 +1,183 @@
-.slider-bar {
-	display: flex;
-	width: 100%;
-	padding-left: 0 !important;
-	// .slider-bar__track
-
-	&__track {
-	}
-
-	// .slider-bar__album-tracks
-
-	&__album-tracks {
-		width: 100%;
-	}
+.slider-bar-tracks {
+}
+.tracks {
+		// .tracks__body
+		&__body {}
+		// .tracks__title
+		&__title {
+			display: flex;
+			justify-content: space-between;
+			margin: 0 10px 20px 10px;
+		}
+		// .tracks__subtitle
+		&__subtitle {
+			display: flex;
+			justify-content: space-between;
+			font-size: 30px;
+		}
+		// .tracks__buttons
+		&__buttons {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			max-width: 100%;
+			gap: 16px;
+			@media (max-width: 420px) {
+				 display: flex;
+				 gap: 6px;
+			}
+			button {
+				 display: inline-block;
+				 height: 40px;
+				 min-width: 40px;
+				 border-radius: 50%;
+				 border: 1px solid $grey;
+				 background-color: #111127;
+				 color: $white;
+				 white-space: nowrap;
+				 display: flex;
+				 justify-content: center;
+				 align-items: center;
+				 transition: background-color 0.3s ease 0s;
+				 &:hover {
+					 background-color: #202039;
+				 }
+				 svg {
+					  width: 16px;
+					  @media (max-width: 420px) {
+							width: 12px;
+					  }
+				 }
+				 @media (max-width: 420px) {
+					  height: 30px;
+					  min-width: 30px;
+				 }
+			}
+		}
+		// .tracks__prev
+		&__prev {}
+		// .tracks__next
+		&__next {}
 }
 .track {
-	display: flex;
-	max-width: 100%;
-	transition: all 0.3s ease 0s;
-	cursor: pointer;
-	border-bottom: 1px solid $grey;
-	border-bottom: 2px solid rgba(255, 255, 255, 0.09);
-	&:last-child {
-		border-bottom: none;
-	}
-	&:hover{
-		background-color: rgba(255, 255, 255, 0.09);              
-	}
-	// .track__title
+   position: relative;
+   margin: 0 auto;
+   width: 100%;
+   display: flex;
+   &.playing,
+   &.paused  {
+   
+      .track__body {
+         border-radius: 10px;
+         background: rgba(24, 36, 59, 0.704);
+      }
+   }
+   // // .track__body
+   &__body {
+      position: relative;
+      display: flex;
+      flex: 1 1 100%;
+      align-items: center;
+      gap: 10px;
+      border-radius: 10px;
+      &:hover {
+		background-color: rgba(255, 255, 255, 0.09);
+         .controls {
+            opacity: 1;
+         }
+         .track__img {
+         }
+         .controls__more {
+         }
+         .controls__play {
+         }
+      }
+   }
+   // .track__img
+   &__img {
+      position: relative;
+      z-index: 5;
+      width: 80px;
+      height: 80px;
+      @media (max-width: 460px){
+         width:  70px;
+         height: 70px;
+      }
+      img {
+         width: 80px;
+         height: 80px;
+         object-fit: cover;
+         border-radius: 10px;
+         transition: all 0.3s ease 0s;
+         @media (max-width: 460px){
+            width:  70px;
+            height: 70px;
+         }
+      }
+   }
+   // .track__info
+   &__info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      margin-top: 10px;
+      flex: 1 1 100%;
+      font-size: 14px;
+   }
+   // .track__name
+   &__name {
+      font-weight: 700;
+      color: #fff;
+   }
+   // .track__controls
+   &__controls {
+   }
+   // .track__author
+   &__author {
 
-	&__title {
-        display: flex;
-        justify-content: space-between;
-        margin: 0 10px 20px 10px;
-    }
-
-	// .track__subtitle
-
-	&__subtitle {
-        display: flex;
-        justify-content: space-between;
-        font-size: 30px;
-        
-    }
-
-	// .track__buttons
-
-	&__buttons {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        max-width: 100%;
-        gap: 16px;
-        @media (max-width: 420px) {
-            display: flex;
-            gap: 6px;
-        }
-        button {
-            display: inline-block;
-            height: 40px;
-            min-width: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.446);
-            background-color: #000;
-            color: $white;
-            white-space: nowrap;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-			&:hover {
-                background-color: rgba(44, 44, 44, 0.793);
-            }
-            svg {
-                width: 16px;
-                @media (max-width: 420px) {
-                    width: 12px;
-                }
-            }
-            @media (max-width: 420px) {
-                height: 30px;
-                min-width: 30px;
-            }
-        } 
-    }
-
-	// .track__prev
-
-	&__prev {
-	}
-
-	// .track__next
-
-	&__next {
-	}
-
-	// .track__body
-
-	&__body {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		gap: 10px;
-		padding: 10px;
-		@media (max-width: 375px) {
-			padding: 10px 0 0 0;
-			gap: 8px;
-		}
-	}
-
-	// .track__img
-
-	&__img {
-		position: relative;
-		display: flex;
-		align-items: center;
-		width: 80px;
-		height: 80px;
-		img {
-			width: 80px;
-			height: 80px;
-			object-fit: cover;
-			border-radius: 0px;
-		}
-	}
-
-	// .track__controls
-
-	&__controls {
-		display: none;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translateX(-50%);
-	}
-
-	// .track__info
-
-	&__info {
-		display: flex;
-		flex-direction: column;
-		text-align: start;
-		width: 100%;
-		gap: 5px;
-		margin-top: 10px;
-		@media  (max-width: 375px) {
-			font-size: 14px;
-		}
-	}
-
-	// .track__name
-
-	&__name {
-		font-weight: 700;
-		color: #fff;
-		@media  (max-width: 375px) {
-			font-size: 12px;
-		}
-	}
-
-	// .track__author
-
-	&__author {
-		white-space: nowrap;
-		@media (max-width: 425px){
-			white-space: normal; 
-		}
-	}
+   }
+   // .track__more
+   &__more {
+      pointer-events: all;
+      padding: 10px;
+      border-radius: 50%;
+      transition: 0.2s ease 0s;
+      &:active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      &.active {
+         background: rgba(79, 103, 139, 0.718);
+      }
+      svg {
+         width: 20px;
+         height: 20px;
+      }
+   }
 }
-
-.carousel__slide {
-    display: flex;
-    justify-content: flex-start;
+//Controls========================================================================================================================================================
+.controls {
+   // .controls__more
+   &__more {
+      svg {
+         width: 20px;
+         height: 20px;
+         path {
+            fill: $white;
+         }
+      }
+   }
+   // .controls__play
+   &__play,
+   &__pause {
+      svg {
+         width: 20px;
+         height: 20px;
+         @media (max-width: 460px){
+         }
+         path {
+            fill: $white;
+         }
+      }
+   }
 }
